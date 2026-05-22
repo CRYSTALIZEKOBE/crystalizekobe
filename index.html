@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="CRYSTALIZE KOBE — 高精度3Dプリント・リアルタイム3DCG制作。光造形・FDM・SLS対応。神戸拠点・全国対応。">
+<title>CRYSTALIZE KOBE — 3Dプリント・CG制作</title>
+<link rel="icon" href="rogo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+<style>
+:root{
+  --bg:#F2F4FA;--surface:#FFF;--border:#D4D9E8;
+  --ink:#111827;--mid:#6B7280;--sub:#9CA3AF;
+  --accent:#1E40AF;--accent-h:#1B349A;--accent-bg:#EEF2FF;
+  --dark:#080C1A;--dark2:#0D1228;--dark3:#172038;--dark-border:#1E2A45;
+  --max:1120px;--nav-h:64px;--r:8px;
+  --font:'Plus Jakarta Sans',-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1)
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+img,model-viewer{display:block;max-width:100%}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ── Nav ── */
+.site-header{position:sticky;top:0;z-index:200;background:rgba(242,244,250,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--ink)}
+.logo-img{height:36px;width:36px;border-radius:6px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{padding:7px 14px;border-radius:100px;font-size:.875rem;font-weight:500;color:var(--mid);transition:.15s}
+.nav-links a:hover,.nav-links a.active{background:var(--surface);color:var(--ink)}
+.nav-links .btn-nav{background:var(--accent);color:#fff;padding:7px 18px;border-radius:100px;font-weight:600;transition:.15s}
+.nav-links .btn-nav:hover{background:var(--accent-h)}
+.nav-toggle{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none;cursor:pointer}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;transition:transform .2s,opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:12px 24px;border-radius:var(--r);font-family:var(--font);font-size:.9rem;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff;border:1.5px solid var(--accent)}
+.btn-primary:hover{background:var(--accent-h);border-color:var(--accent-h)}
+.btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--ink)}
+.label{display:inline-block;font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.section-head{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;letter-spacing:-.025em;line-height:1.2;margin-bottom:14px}
+.section-sub{font-size:.95rem;color:var(--mid);max-width:480px;line-height:1.75}
+
+/* ══════════ HERO ══════════ */
+.hero{
+  padding:72px 0 60px;
+  min-height:calc(100vh - var(--nav-h));
+  display:flex;align-items:center;
+  position:relative;overflow:hidden;
+}
+/* Subtle dot grid on right half */
+.hero::before{
+  content:'';position:absolute;right:0;top:0;bottom:0;width:55%;
+  background-image:radial-gradient(circle,rgba(30,64,175,.1) 1px,transparent 1px);
+  background-size:28px 28px;pointer-events:none;z-index:0;
+}
+.hero-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:52px;align-items:center;position:relative;z-index:1;width:100%;
+}
+
+/* Left */
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--accent-bg);color:var(--accent);
+  font-size:.78rem;font-weight:700;letter-spacing:.05em;
+  padding:6px 16px;border-radius:100px;
+  border:1px solid rgba(30,64,175,.2);margin-bottom:28px;
+}
+.hero-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);display:block;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+.hero h1{font-size:clamp(2.4rem,5vw,4rem);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:22px}
+.hero h1 em{color:var(--accent);font-style:normal}
+.hero-desc{font-size:1rem;color:var(--mid);line-height:1.8;margin-bottom:36px;max-width:400px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+
+/* ── Hero right: model-viewer card ── */
+.hero-right{position:relative}
+.hero-mv-card{
+  position:relative;
+  border-radius:20px;
+  overflow:hidden;
+  border:1px solid rgba(30,64,175,.22);
+  background:var(--dark2);
+  box-shadow:
+    0 32px 80px rgba(8,12,26,.45),
+    0 0 0 1px rgba(30,64,175,.06),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+/* The model-viewer itself */
+.hero-mv-card model-viewer{
+  width:100%;
+  height:480px;
+  display:block;
+  --progress-bar-color:#3B82F6;
+  --progress-mask:transparent;
+}
+/* Poster (shown when GLB not found or loading) */
+.hero-poster{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:16px;height:100%;background:var(--dark2);
+}
+.hero-poster svg{opacity:.2}
+.hero-poster-label{font-size:.78rem;color:#4A5060;letter-spacing:.04em;text-align:center;line-height:1.6}
+.hero-poster-file{
+  font-size:.72rem;font-family:monospace;
+  background:rgba(30,64,175,.18);color:#93C5FD;
+  padding:7px 16px;border-radius:100px;
+  border:1px solid rgba(30,64,175,.3);letter-spacing:.02em;
+}
+/* Hint at bottom of card */
+.hero-mv-hint{
+  position:absolute;bottom:14px;left:0;right:0;
+  text-align:center;font-size:.64rem;
+  color:rgba(255,255,255,.18);letter-spacing:.08em;
+  pointer-events:none;z-index:10;
+}
+/* Floating pills overlay (pointer-events:none = model-viewer still works) */
+.hv-pill{
+  position:absolute;z-index:10;pointer-events:none;
+  background:rgba(8,12,26,.75);backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:100px;padding:7px 13px;
+  font-size:.76rem;font-weight:700;color:#E0E6FF;
+  display:flex;align-items:center;gap:7px;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+.hv-pill-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.hv-pill-1{top:16px;left:14px;animation:hero-float 4s ease-in-out infinite}
+.hv-pill-2{top:16px;right:14px;animation:hero-float 5s ease-in-out infinite .6s}
+.hv-pill-3{bottom:46px;left:14px;animation:hero-float 4.5s ease-in-out infinite 1.2s}
+.hv-pill-4{bottom:46px;right:14px;animation:hero-float 5.2s ease-in-out infinite .3s}
+@keyframes hero-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+/* Spec chips */
+.hv-chip{
+  position:absolute;z-index:10;pointer-events:none;
+  background:rgba(8,12,26,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(30,64,175,.3);
+  border-radius:var(--r);padding:10px 14px;
+  font-size:.72rem;font-weight:600;color:#9CA3AF;
+  box-shadow:0 8px 24px rgba(0,0,0,.3);line-height:1.3;
+}
+.hv-chip strong{font-size:1.05rem;display:block;font-weight:800;color:#93C5FD}
+.hv-chip-1{top:50%;left:14px;transform:translateY(-120%);animation:hero-float 4.8s ease-in-out infinite .8s}
+.hv-chip-2{top:50%;right:14px;transform:translateY(20%);animation:hero-float 5.5s ease-in-out infinite 1.5s}
+
+/* ══════════ STATS BAR ══════════ */
+.stats-bar{background:var(--dark);border-top:1px solid var(--dark-border);border-bottom:1px solid var(--dark-border)}
+.stats-inner{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat-item{padding:30px 24px;border-right:1px solid var(--dark-border);text-align:center;position:relative;transition:background .2s;cursor:default}
+.stat-item:last-child{border-right:none}
+.stat-item:hover{background:rgba(30,64,175,.06)}
+.stat-n{font-size:2.1rem;font-weight:800;color:#F0F0F8;letter-spacing:-.03em;line-height:1;display:block;margin-bottom:6px}
+.stat-n em{font-size:1rem;color:#93C5FD;font-style:normal}
+.stat-l{font-size:.74rem;color:#6B7280;letter-spacing:.04em;display:block}
+.stat-bar-line{position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);transform:scaleX(0);transition:transform .3s var(--ease)}
+.stat-item:hover .stat-bar-line{transform:scaleX(1)}
+
+/* ══════════ GALLERY ══════════ */
+.gallery{background:var(--dark);padding:80px 0}
+.gallery .label{color:#93C5FD}
+.gallery-hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;flex-wrap:wrap;gap:16px}
+.gallery-hd .section-head{color:#F0F0F8;margin-bottom:8px}
+.gallery-hd .section-sub{color:#4A5060}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.mv-card{background:var(--dark2);border-radius:12px;border:1px solid var(--dark-border);overflow:hidden;transition:transform .22s,border-color .22s}
+.mv-card:hover{transform:translateY(-4px);border-color:#2E4070}
+.mv-wrap{position:relative;aspect-ratio:1/1;overflow:hidden}
+.gallery-mv{width:100%;height:100%;--progress-bar-color:#1E40AF;--progress-mask:transparent}
+.mv-poster{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;height:100%;color:#3A4060;font-size:.78rem;letter-spacing:.04em}
+.mv-poster svg{opacity:.28}
+.mv-info{padding:18px 20px;border-top:1px solid var(--dark-border)}
+.mv-tag{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:10px}
+.tag-resin{background:rgba(37,99,235,.18);color:#7DAFFF}
+.tag-fdm{background:rgba(99,102,241,.2);color:#A5B4FC}
+.tag-sls{background:rgba(16,185,129,.15);color:#6EDBB7}
+.mv-info h3{font-size:.95rem;font-weight:600;color:#EAE9E5;margin-bottom:4px}
+.mv-info p{font-size:.78rem;color:#4A5060}
+.gallery-note{margin-top:32px;text-align:center;font-size:.78rem;color:#3A4060}
+
+/* ══════════ PROCESS ══════════ */
+.process{padding:88px 0;background:var(--surface);border-bottom:1px solid var(--border)}
+.process-head{text-align:center;margin-bottom:64px}
+.process-steps{display:grid;grid-template-columns:1fr 44px 1fr 44px 1fr;align-items:center}
+.process-step{
+  background:var(--bg);border-radius:14px;border:1px solid var(--border);
+  padding:32px 24px;text-align:center;position:relative;
+  transition:box-shadow .22s,transform .22s,border-color .22s;
+}
+.process-step:hover{box-shadow:0 8px 28px rgba(30,64,175,.1);transform:translateY(-4px);border-color:#B0C0DF}
+.ps-num{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  width:26px;height:26px;border-radius:50%;
+  background:var(--accent);color:#fff;font-size:.72rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 4px var(--surface);
+}
+.ps-icon{
+  width:58px;height:58px;border-radius:14px;background:var(--accent-bg);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;color:var(--accent);transition:background .2s,color .2s;
+}
+.process-step:hover .ps-icon{background:var(--accent);color:#fff}
+.ps-title{font-size:1rem;font-weight:700;margin-bottom:8px}
+.ps-desc{font-size:.82rem;color:var(--mid);line-height:1.7}
+.ps-tag{display:inline-block;margin-top:12px;font-size:.68rem;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:100px;background:var(--accent-bg);color:var(--accent)}
+.process-arrow{display:flex;align-items:center;justify-content:center;color:var(--border)}
+
+/* ══════════ FEATURES ══════════ */
+.features{padding:80px 0}
+.features-head{margin-bottom:52px}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat{
+  padding:30px 26px;background:var(--surface);border-radius:12px;
+  border:1px solid var(--border);transition:box-shadow .2s,transform .2s,border-color .2s;
+  position:relative;overflow:hidden;
+}
+.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#60A5FA);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.feat:hover{box-shadow:0 8px 28px rgba(30,64,175,.09);transform:translateY(-3px);border-color:#C0CCDE}
+.feat:hover::before{transform:scaleX(1)}
+.feat-icon{width:52px;height:52px;border-radius:12px;background:var(--accent-bg);display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--accent);transition:background .2s,color .2s}
+.feat:hover .feat-icon{background:var(--accent);color:#fff}
+.feat h3{font-size:1.02rem;font-weight:700;margin-bottom:10px}
+.feat p{font-size:.865rem;color:var(--mid);line-height:1.72}
+
+/* ══════════ CTA ══════════ */
+.cta-section{padding:72px 0;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cta-card{padding:40px 36px;border-radius:14px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.cta-card:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,.12)}
+.cta-mat{background:linear-gradient(135deg,#0A1030,#0F1845);color:#fff}
+.cta-est{background:linear-gradient(135deg,var(--accent),#2563EB);color:#fff}
+.cta-card-icon{width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.cta-card h3{font-size:1.25rem;font-weight:700}
+.cta-card p{font-size:.875rem;opacity:.7;max-width:280px;line-height:1.65}
+.btn-white{display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--ink);padding:11px 22px;border-radius:var(--r);font-weight:700;font-size:.875rem;margin-top:10px;width:fit-content;transition:opacity .15s}
+.btn-white:hover{opacity:.88}
+
+/* ══════════ FOOTER ══════════ */
+footer{background:var(--dark);padding:0;color:#9CA3AF}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;padding:52px 0 44px;border-bottom:1px solid rgba(255,255,255,.07)}
+.footer-logo-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.footer-logo-img{height:38px;width:38px;border-radius:7px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.footer-brand-name{font-weight:700;font-size:.95rem;color:#F0F0F8;letter-spacing:.02em}
+.footer-desc{font-size:.82rem;line-height:1.75;margin-bottom:16px;color:#6B7280}
+.footer-address{font-size:.78rem;line-height:1.9;font-style:normal;color:#6B7280}
+.footer-address a{color:#93C5FD;transition:color .15s}
+.footer-address a:hover{color:#BFDBFE}
+.footer-col-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:14px}
+.footer-col-list{display:flex;flex-direction:column;gap:7px}
+.footer-col-list a{font-size:.84rem;color:#9CA3AF;transition:color .15s}
+.footer-col-list a:hover{color:#F0F0F8}
+.footer-col-list .info-item{font-size:.82rem;color:#6B7280}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 0}
+.footer-copy{font-size:.74rem;color:#4B5563}
+.footer-legal{display:flex;gap:18px}
+.footer-legal a{font-size:.74rem;color:#4B5563;transition:color .15s}
+.footer-legal a:hover{color:#9CA3AF}
+
+/* ══════════ RESPONSIVE ══════════ */
+@media(max-width:768px){
+  .nav-toggle{display:flex}
+  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;gap:4px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a,.nav-links .btn-nav{border-radius:6px;padding:11px 14px;width:100%}
+  .hero{min-height:auto;padding:56px 0 48px}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .stats-inner{grid-template-columns:1fr 1fr}
+  .stat-item{border-right:none;border-bottom:1px solid var(--dark-border);padding:22px}
+  .stat-item:nth-child(odd){border-right:1px solid var(--dark-border)}
+  .stat-item:last-child,.stat-item:nth-last-child(2):nth-child(odd){border-bottom:none}
+  .process-steps{grid-template-columns:1fr;gap:28px}
+  .process-arrow{transform:rotate(90deg)}
+  .gallery-grid,.features-grid,.cta-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr;gap:28px}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+}
+@media(min-width:769px) and (max-width:1024px){
+  .gallery-grid,.features-grid{grid-template-columns:1fr 1fr}
+  .process-steps{grid-template-columns:1fr 36px 1fr 36px 1fr}
+  .hero-mv-card model-viewer{height:400px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="logo">
+      <img src="rogo.png" alt="CRYSTALIZE KOBE" class="logo-img">CRYSTALIZE KOBE
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開閉"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">トップ</a></li>
+      <li><a href="materials.html">素材・仕様</a></li>
+      <li><a href="portfolio.html">実績</a></li>
+      <li><a href="shop.html">ショップ</a></li>
+      <li><a href="realtime.html">3DCG</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+      <li><a href="estimate.html" class="btn-nav">見積もり</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+
+      <!-- Left: text -->
+      <div class="hero-left">
+        <div class="hero-badge">3D PRINT &amp; CG SERVICE — KOBE</div>
+        <h1>アイデアを、<br><em>立体</em>に変える。</h1>
+        <p class="hero-desc">
+          光造形・FDM・SLS の3方式に対応。<br>
+          試作品からフィギュア、実用部品、リアルタイム3DCGまで、<br>
+          精密に、迅速に、一貫してお任せください。
+        </p>
+        <div class="hero-ctas">
+          <a href="estimate.html" class="btn btn-primary">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M8 2v11M2 8h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            無料で見積もる
+          </a>
+          <a href="portfolio.html" class="btn btn-outline">制作実績を見る</a>
+        </div>
+      </div>
+
+      <!-- Right: model-viewer -->
+      <div class="hero-right">
+        <div class="hero-mv-card">
+
+          <!-- Floating pills (non-interactive overlay) -->
+          <div class="hv-pill hv-pill-1"><span class="hv-pill-dot" style="background:#60A5FA"></span>光造形</div>
+          <div class="hv-pill hv-pill-2"><span class="hv-pill-dot" style="background:#A5B4FC"></span>FDM</div>
+          <div class="hv-pill hv-pill-3"><span class="hv-pill-dot" style="background:#6EE7B7"></span>SLS</div>
+          <div class="hv-pill hv-pill-4"><span class="hv-pill-dot" style="background:#FDE68A"></span>3DCG</div>
+
+          <!-- Spec chips -->
+          <div class="hv-chip hv-chip-1"><strong>0.05mm</strong>最小積層厚</div>
+          <div class="hv-chip hv-chip-2"><strong>翌日〜</strong>最短納期</div>
+
+          <!--
+            ▼ ここに自分のモデルを設定してください
+              src="models/hero-model.glb" のパスを変更するだけでOKです
+              推奨: 軽量なGLBファイル（5MB以下）
+          -->
+          <model-viewer
+            src="models/hero-model.glb"
+            alt="CRYSTALIZE KOBE フィーチャーモデル"
+            camera-controls
+            touch-action="pan-y"
+            auto-rotate
+            auto-rotate-delay="2000"
+            rotation-per-second="18deg"
+            shadow-intensity="1.2"
+            shadow-softness="0.8"
+            environment-image="neutral"
+            exposure="1.1"
+            loading="eager"
+            ar>
+            <!-- Poster: GLBが未設定 or 読み込み前に表示 -->
+            <div slot="poster" class="hero-poster">
+              <svg width="72" height="72" viewBox="0 0 280 280" fill="none">
+                <path d="M140 34L245 93V193L140 252L35 193V93Z" stroke="#1E3A8A" stroke-width="1.5"/>
+                <path d="M140 58L230 110V200L140 252L50 200V110Z" fill="rgba(30,64,175,0.06)" stroke="#1E40AF" stroke-width="2"/>
+                <line x1="140" y1="110" x2="140" y2="252" stroke="#3B82F6" stroke-width="2.5"/>
+                <line x1="140" y1="165" x2="230" y2="110" stroke="#3B82F6" stroke-width="2.5"/>
+                <line x1="140" y1="165" x2="230" y2="200" stroke="#3B82F6" stroke-width="2.5"/>
+                <circle cx="140" cy="165" r="7" fill="#1E40AF"/>
+                <circle cx="140" cy="165" r="14" fill="rgba(30,64,175,.2)"/>
+                <circle cx="140" cy="58" r="4" fill="#60A5FA"/>
+                <circle cx="230" cy="110" r="4" fill="#60A5FA"/>
+                <circle cx="230" cy="200" r="4" fill="#60A5FA"/>
+                <circle cx="140" cy="252" r="4" fill="#60A5FA"/>
+                <circle cx="50" cy="200" r="4" fill="#60A5FA"/>
+                <circle cx="50" cy="110" r="4" fill="#60A5FA"/>
+              </svg>
+              <span class="hero-poster-label">
+                自分のモデルを表示するには<br>下記ファイルを配置してください
+              </span>
+              <span class="hero-poster-file">models/hero-model.glb</span>
+            </div>
+          </model-viewer>
+
+          <div class="hero-mv-hint">ドラッグで回転 · スクロールでズーム</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ STATS BAR ══════════ -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat-item"><span class="stat-n">3<em>方式</em></span><span class="stat-l">対応プリンター</span><div class="stat-bar-line"></div></div>
+      <div class="stat-item"><span class="stat-n">翌日<em>〜</em></span><span class="stat-l">最短納期</span><div class="stat-bar-line"></div></div>
+      <div class="stat-item"><span class="stat-n">0.05<em>mm〜</em></span><span class="stat-l">最小積層厚</span><div class="stat-bar-line"></div></div>
+      <div class="stat-item"><span class="stat-n">全国<em>対応</em></span><span class="stat-l">配送・納品</span><div class="stat-bar-line"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ GALLERY ══════════ -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="gallery-hd">
+      <div>
+        <span class="label">3D Gallery</span>
+        <h2 class="section-head">出力サンプル</h2>
+        <p class="section-sub">マウスでドラッグして自由に回転・ズームできます。</p>
+      </div>
+      <a href="portfolio.html" style="display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:#93C5FD;transition:opacity .15s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">
+        制作実績をすべて見る
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7h9M7.5 2.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="gallery-grid">
+      <div class="mv-card">
+        <div class="mv-wrap">
+          <model-viewer class="gallery-mv" src="models/figure-sample.glb" alt="光造形サンプル" camera-controls touch-action="pan-y" auto-rotate auto-rotate-delay="1500" rotation-per-second="30deg" shadow-intensity="0.8" environment-image="neutral" loading="lazy" ar>
+            <div slot="poster" class="mv-poster"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg><span>GLBファイルを配置</span></div>
+          </model-viewer>
+        </div>
+        <div class="mv-info"><span class="mv-tag tag-resin">光造形 / Resin</span><h3>精密フィギュアサンプル</h3><p>ELEGOO 高精細レジン / 積層0.05mm</p></div>
+      </div>
+      <div class="mv-card">
+        <div class="mv-wrap">
+          <model-viewer class="gallery-mv" src="models/prototype-part.glb" alt="FDMサンプル" camera-controls touch-action="pan-y" auto-rotate auto-rotate-delay="1500" rotation-per-second="30deg" shadow-intensity="0.8" environment-image="neutral" loading="lazy" ar>
+            <div slot="poster" class="mv-poster"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg><span>GLBファイルを配置</span></div>
+          </model-viewer>
+        </div>
+        <div class="mv-info"><span class="mv-tag tag-fdm">FDM / PLA</span><h3>試作プロトタイプ</h3><p>Bambu Lab / PLA / 積層0.1mm</p></div>
+      </div>
+      <div class="mv-card">
+        <div class="mv-wrap">
+          <model-viewer class="gallery-mv" src="models/durable-part.glb" alt="SLSサンプル" camera-controls touch-action="pan-y" auto-rotate auto-rotate-delay="1500" rotation-per-second="30deg" shadow-intensity="0.8" environment-image="neutral" loading="lazy" ar>
+            <div slot="poster" class="mv-poster"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg><span>GLBファイルを配置</span></div>
+          </model-viewer>
+        </div>
+        <div class="mv-info"><span class="mv-tag tag-sls">SLS / Nylon</span><h3>高耐久実用部品</h3><p>外注SLS / 高耐久ナイロン</p></div>
+      </div>
+    </div>
+    <p class="gallery-note">※ .glb ファイルを <code style="color:#4A6090">models/</code> フォルダに配置してください。AR で実物サイズ確認にも対応。</p>
+  </div>
+</section>
+
+<!-- ══════════ PROCESS ══════════ -->
+<section class="process">
+  <div class="container">
+    <div class="process-head">
+      <span class="label">How it Works</span>
+      <h2 class="section-head">ご依頼の流れ</h2>
+      <p class="section-sub" style="margin:0 auto;text-align:center">データをお送りいただくだけで、方式選定から出力・納品まで一貫してサポートします。</p>
+    </div>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="ps-num">01</div>
+        <div class="ps-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v14M8 12l6 7 6-7"/><path d="M4 23h20"/></svg>
+        </div>
+        <h3 class="ps-title">データを送る</h3>
+        <p class="ps-desc">.stl / .obj / .glb などの3Dデータをメールまたはフォームで送付。データがない場合もご相談ください。</p>
+        <span class="ps-tag">最短5分で受付</span>
+      </div>
+      <div class="process-arrow">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11h14M11 5l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">02</div>
+        <div class="ps-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="20" height="20" rx="3"/><path d="M9 14l3 3 7-7"/></svg>
+        </div>
+        <h3 class="ps-title">方式・素材を選定</h3>
+        <p class="ps-desc">用途・予算・サイズに合わせた最適な方式と素材を提案。見積もり金額もあわせてご案内します。</p>
+        <span class="ps-tag">1〜2営業日以内に回答</span>
+      </div>
+      <div class="process-arrow">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11h14M11 5l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">03</div>
+        <div class="ps-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5l12-6.5L26 8.5v11L14 26 2 19.5v-11z"/><path d="M2 8.5l12 6.5L26 8.5M14 26V15"/></svg>
+        </div>
+        <h3 class="ps-title">出力・納品</h3>
+        <p class="ps-desc">承認後、最短翌日から出力開始。仕上げ処理後、全国配送またはデータ納品でお届けします。</p>
+        <span class="ps-tag">最短翌日〜出力開始</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FEATURES ══════════ -->
+<section class="features">
+  <div class="container">
+    <div class="features-head">
+      <span class="label">Why CRYSTALIZE KOBE</span>
+      <h2 class="section-head">選ばれる理由</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feat">
+        <div class="feat-icon"><svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7.5"/><path d="M17 17L23 23"/></svg></div>
+        <h3>高精度な造形品質</h3>
+        <p>最小積層厚0.05mmの光造形から、強度重視のFDMまで。用途に合わせた最適な出力方式と素材を提案します。</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon"><svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M15 3L6 14h9L11 23l12-13h-9L15 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+        <h3>最短翌日出力</h3>
+        <p>データ受領後、最短翌日から出力開始。Bambu Lab 高速プリンターにより、品質を落とさず従来比3倍のスピードを実現。</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon"><svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5l11-6.5L24 8.5v9L13 24 2 17.5v-9z"/><path d="M2 8.5l11 6.5L24 8.5M13 24V13"/></svg></div>
+        <h3>ワンストップ対応</h3>
+        <p>3Dプリント3方式に加え、リアルタイム3DCG制作も対応。モデリングから出力・納品まで一貫してお任せいただけます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CTA ══════════ -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-grid">
+      <a href="materials.html" class="cta-card cta-mat">
+        <div class="cta-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-5 9 5v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5M12 22V12"/></svg></div>
+        <h3>対応素材・プリンター仕様</h3>
+        <p>ELEGOO・Bambu Lab・SLS（外注）の詳細スペックと素材特性を掲載。</p>
+        <span class="btn-white">仕様を確認する <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+      <a href="estimate.html" class="cta-card cta-est">
+        <div class="cta-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.6" stroke-linecap="round"><path d="M12 2v20M2 12h20"/></svg></div>
+        <h3>無料見積もりシミュレーター</h3>
+        <p>素材・サイズを選ぶだけで概算金額を即時表示。そのままお問い合わせも可能。</p>
+        <span class="btn-white">見積もりを始める <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-wrap"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="footer-logo-img"><span class="footer-brand-name">CRYSTALIZE KOBE</span></div>
+        <p class="footer-desc">3Dプリント・リアルタイム3DCG制作サービス。<br>兵庫県神戸市を拠点に、全国対応いたします。</p>
+        <address class="footer-address">〒650-XXXX 兵庫県神戸市中央区 XX-XX<br>TEL: <a href="tel:078XXXXXXXX">078-XXX-XXXX</a><br>MAIL: <a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></address>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-col-list">
+          <li><a href="index.html">トップ / ギャラリー</a></li>
+          <li><a href="materials.html">対応素材・仕様</a></li>
+          <li><a href="portfolio.html">制作実績</a></li>
+          <li><a href="shop.html">ショップ</a></li>
+          <li><a href="realtime.html">リアルタイム3DCG</a></li>
+          <li><a href="estimate.html">見積もりシミュレーター</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">営業情報</div>
+        <ul class="footer-col-list">
+          <li class="info-item">平日 10:00 〜 18:00</li>
+          <li class="info-item">土日祝 休業</li>
+          <li style="margin-top:8px"><a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></li>
+          <li><a href="tel:078XXXXXXXX">078-XXX-XXXX</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 CRYSTALIZE KOBE. All rights reserved.</p>
+      <nav class="footer-legal"><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+const t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+t.addEventListener('click',()=>{const o=l.classList.toggle('open');t.classList.toggle('open',o)});
+l.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{l.classList.remove('open');t.classList.remove('open')}));
+document.addEventListener('click',e=>{if(!t.contains(e.target)&&!l.contains(e.target)){l.classList.remove('open');t.classList.remove('open')}});
+</script>
+</body>
+</html>

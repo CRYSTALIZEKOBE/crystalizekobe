@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="CRYSTALIZE KOBE ショップ。3Dプリント完成品・デジタルデータ（STL/GLB）の販売。">
+<title>Shop — CRYSTALIZE KOBE</title>
+<link rel="icon" href="rogo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4FA;--surface:#FFF;--border:#D4D9E8;
+  --ink:#111827;--mid:#6B7280;--sub:#9CA3AF;
+  --accent:#1E40AF;--accent-h:#1B349A;--accent-bg:#EEF2FF;
+  --indigo:#6366F1;--indigo-bg:#EEF2FF;
+  --green:#059669;--green-bg:#ECFDF5;
+  --dark:#080C1A;
+  --max:1120px;--nav-h:64px;--r:8px;
+  --font:'Plus Jakarta Sans',-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1)
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+input,button,select,textarea{font-family:var(--font)}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ── Nav ── */
+.site-header{position:sticky;top:0;z-index:200;background:rgba(242,244,250,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--ink)}
+.logo-img{height:36px;width:36px;border-radius:6px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{padding:7px 14px;border-radius:100px;font-size:.875rem;font-weight:500;color:var(--mid);transition:.15s}
+.nav-links a:hover,.nav-links a.active{background:var(--surface);color:var(--ink)}
+.nav-links .btn-nav{background:var(--accent);color:#fff;padding:7px 18px;border-radius:100px;font-weight:600;transition:.15s}
+.nav-links .btn-nav:hover{background:var(--accent-h)}
+.nav-toggle{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none;cursor:pointer}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;transition:transform .2s,opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* ── Page header ── */
+.page-header{padding:52px 0 40px;border-bottom:1px solid var(--border)}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--sub);margin-bottom:20px}
+.breadcrumb a{color:var(--sub);transition:color .15s}
+.breadcrumb a:hover{color:var(--ink)}
+.ph-row{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.label{display:inline-block;font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.page-header h1{font-size:clamp(2rem,4.5vw,3rem);font-weight:700;letter-spacing:-.025em;line-height:1.2;margin-bottom:8px}
+.page-header p{font-size:.9rem;color:var(--mid);max-width:440px;line-height:1.7}
+
+/* ── Payment notice banner ── */
+.pay-notice{
+  margin:28px 0 0;padding:16px 20px;
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  border-left:4px solid var(--accent);
+  display:flex;align-items:flex-start;gap:14px;
+}
+.pay-notice-icon{color:var(--accent);flex-shrink:0;margin-top:1px}
+.pay-notice-title{font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:4px}
+.pay-notice-body{font-size:.78rem;color:var(--mid);line-height:1.65}
+.pay-notice-body a{color:var(--accent);text-decoration:underline}
+.pay-platforms{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.pay-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  background:var(--bg);border:1px solid var(--border);
+  padding:3px 10px;border-radius:100px;color:var(--mid);
+}
+
+/* ── Shop layout ── */
+.shop-section{padding:48px 0 80px}
+.shop-controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px}
+
+/* Category tabs */
+.cat-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.cat-tab{
+  font-size:.82rem;font-weight:600;padding:7px 16px;border-radius:100px;
+  border:1.5px solid var(--border);color:var(--mid);background:var(--surface);
+  cursor:pointer;transition:.15s;
+}
+.cat-tab:hover{border-color:#8BA3D8;color:var(--ink)}
+.cat-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Item count */
+.item-count{font-size:.82rem;color:var(--sub)}
+.item-count span{color:var(--ink);font-weight:600}
+
+/* Products grid */
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+
+/* Product card */
+.product-card{
+  background:var(--surface);border-radius:12px;
+  border:1px solid var(--border);overflow:hidden;
+  transition:box-shadow .22s,transform .22s;
+  display:flex;flex-direction:column;
+}
+.product-card:hover{box-shadow:0 8px 28px rgba(30,64,175,.1);transform:translateY(-3px)}
+
+/* Product image area */
+.product-img{
+  aspect-ratio:4/3;position:relative;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+.product-img-ph{/* placeholder styling by category, applied via class */}
+.product-img.ph-physical{background:linear-gradient(135deg,#EEF2FF 0%,#DBEAFE 100%)}
+.product-img.ph-digital{background:linear-gradient(135deg,#F5F3FF 0%,#EDE9FE 100%)}
+.product-img svg{opacity:.35}
+.product-img-hint{font-size:.72rem;color:var(--sub);letter-spacing:.04em}
+
+/* Badge */
+.product-badge{
+  position:absolute;top:14px;left:14px;
+  font-size:.66rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  padding:4px 10px;border-radius:100px;
+}
+.badge-physical{background:var(--accent-bg);color:var(--accent)}
+.badge-digital{background:#F5F3FF;color:var(--indigo)}
+
+/* Stock indicator */
+.product-stock{
+  position:absolute;top:14px;right:14px;
+  font-size:.66rem;font-weight:600;
+  display:flex;align-items:center;gap:4px;
+  background:var(--green-bg);color:var(--green);
+  padding:3px 8px;border-radius:100px;
+}
+.product-stock::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);display:block}
+
+/* Card body */
+.product-body{padding:20px 20px 0;flex:1;display:flex;flex-direction:column;gap:8px}
+.product-sub{font-size:.72rem;color:var(--sub);letter-spacing:.04em;text-transform:uppercase}
+.product-name{font-size:.98rem;font-weight:700;line-height:1.35;color:var(--ink)}
+.product-desc{font-size:.8rem;color:var(--mid);line-height:1.65;flex:1}
+
+/* File format tags */
+.format-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.format-tag{
+  font-size:.64rem;font-weight:700;letter-spacing:.05em;
+  background:#F5F3FF;color:var(--indigo);
+  border:1px solid #DDD6FE;padding:2px 7px;border-radius:4px;
+}
+
+/* Card footer */
+.product-footer{
+  padding:16px 20px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-top:12px;
+  border-top:1px solid var(--border);
+}
+.product-price{font-size:1.2rem;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1}
+.product-price small{font-size:.7rem;font-weight:400;color:var(--sub);margin-left:3px}
+.add-cart-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--accent);color:#fff;border:none;
+  padding:9px 16px;border-radius:var(--r);
+  font-family:var(--font);font-size:.8rem;font-weight:700;
+  cursor:pointer;transition:.15s;white-space:nowrap;
+}
+.add-cart-btn:hover{background:var(--accent-h)}
+.add-cart-btn.in-cart{background:var(--green);pointer-events:none}
+.digital-btn{background:var(--indigo)}
+.digital-btn:hover{background:#4F46E5}
+
+/* Empty state */
+.empty-state{
+  grid-column:1/-1;text-align:center;
+  padding:80px 24px;color:var(--sub);
+}
+.empty-state svg{margin:0 auto 16px;opacity:.3}
+.empty-state p{font-size:.9rem}
+
+/* ── Cart FAB ── */
+.cart-fab{
+  position:fixed;bottom:28px;right:28px;z-index:300;
+  display:flex;align-items:center;gap:10px;
+  background:var(--accent);color:#fff;border:none;
+  padding:14px 22px;border-radius:50px;
+  font-family:var(--font);font-size:.88rem;font-weight:700;
+  cursor:pointer;transition:.2s;
+  box-shadow:0 4px 20px rgba(30,64,175,.35);
+}
+.cart-fab:hover{background:var(--accent-h);transform:translateY(-2px);box-shadow:0 6px 24px rgba(30,64,175,.4)}
+.cart-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:50%;
+  background:#fff;color:var(--accent);
+  font-size:.72rem;font-weight:800;
+}
+.cart-fab.hidden{transform:translateY(100px);opacity:0;pointer-events:none}
+
+/* ── Cart drawer ── */
+.cart-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:400;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{
+  position:fixed;top:0;right:0;bottom:0;width:380px;max-width:100vw;
+  background:var(--surface);z-index:500;
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .3s var(--ease);
+  box-shadow:-4px 0 32px rgba(0,0,0,.12);
+}
+.cart-drawer.open{transform:translateX(0)}
+.cart-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px;border-bottom:1px solid var(--border);
+}
+.cart-head h3{font-size:1rem;font-weight:700}
+.cart-close{background:none;border:none;cursor:pointer;color:var(--mid);padding:4px;display:flex;align-items:center;border-radius:6px;transition:.15s}
+.cart-close:hover{background:var(--bg);color:var(--ink)}
+.cart-items-wrap{flex:1;overflow-y:auto;padding:16px 24px}
+.cart-empty{text-align:center;padding:48px 0;color:var(--sub)}
+.cart-empty svg{margin:0 auto 12px;opacity:.3}
+.cart-empty p{font-size:.85rem}
+.cart-item{
+  display:flex;gap:14px;padding:14px 0;
+  border-bottom:1px solid var(--border);
+  align-items:flex-start;
+}
+.cart-item:last-child{border-bottom:none}
+.ci-thumb{
+  width:56px;height:56px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.ci-thumb.ph-physical{background:linear-gradient(135deg,#EEF2FF,#DBEAFE)}
+.ci-thumb.ph-digital{background:linear-gradient(135deg,#F5F3FF,#EDE9FE)}
+.ci-info{flex:1;min-width:0}
+.ci-name{font-size:.85rem;font-weight:600;line-height:1.3;margin-bottom:3px}
+.ci-price{font-size:.82rem;color:var(--mid)}
+.ci-controls{display:flex;align-items:center;gap:8px;margin-top:8px}
+.ci-qty-btn{
+  width:26px;height:26px;border-radius:6px;
+  background:var(--bg);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:1rem;color:var(--ink);
+  transition:.15s;
+}
+.ci-qty-btn:hover{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+.ci-qty{font-size:.85rem;font-weight:600;min-width:20px;text-align:center}
+.ci-remove{background:none;border:none;cursor:pointer;color:var(--sub);padding:2px;display:flex;align-items:center;margin-left:auto;transition:color .15s}
+.ci-remove:hover{color:#EF4444}
+.cart-foot{padding:20px 24px;border-top:1px solid var(--border)}
+.cart-subtotal{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.cart-subtotal-label{font-size:.85rem;color:var(--mid)}
+.cart-subtotal-amount{font-size:1.3rem;font-weight:700;letter-spacing:-.02em}
+.cart-checkout-btn{
+  display:block;width:100%;padding:14px;text-align:center;
+  background:var(--accent);color:#fff;border:none;border-radius:var(--r);
+  font-family:var(--font);font-size:.92rem;font-weight:700;cursor:pointer;transition:.15s;
+}
+.cart-checkout-btn:hover{background:var(--accent-h)}
+.cart-note{font-size:.72rem;color:var(--sub);text-align:center;margin-top:10px;line-height:1.6}
+
+/* ── Order modal ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:600;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{
+  background:var(--surface);border-radius:14px;width:100%;max-width:540px;
+  max-height:90vh;overflow-y:auto;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  transform:translateY(20px);transition:transform .25s var(--ease);
+}
+.modal-overlay.open .modal-box{transform:translateY(0)}
+.modal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 26px;border-bottom:1px solid var(--border);
+}
+.modal-head h3{font-size:1.05rem;font-weight:700}
+.modal-close-btn{background:none;border:none;cursor:pointer;color:var(--mid);padding:4px;border-radius:6px;display:flex;align-items:center;transition:.15s}
+.modal-close-btn:hover{background:var(--bg);color:var(--ink)}
+.modal-body{padding:24px 26px}
+.order-summary-box{
+  background:var(--bg);border-radius:var(--r);border:1px solid var(--border);
+  padding:14px 16px;margin-bottom:22px;
+}
+.os-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin-bottom:10px}
+.os-item{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;padding:5px 0;border-bottom:1px solid var(--border)}
+.os-item:last-of-type{border-bottom:none}
+.os-item-name{color:var(--ink)}
+.os-item-price{color:var(--mid);font-weight:600}
+.os-total{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:12px;margin-top:4px;border-top:1px solid var(--border);
+}
+.os-total-label{font-size:.85rem;font-weight:600}
+.os-total-amount{font-size:1.15rem;font-weight:700;color:var(--accent)}
+/* Modal form fields */
+.m-field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.m-field label{font-size:.8rem;font-weight:600}
+.m-req{color:var(--accent);margin-left:3px;font-size:.75rem}
+.m-field input,.m-field textarea{
+  font-family:var(--font);font-size:.9rem;color:var(--ink);
+  background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:10px 14px;outline:none;transition:.15s;width:100%;
+}
+.m-field input:focus,.m-field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(30,64,175,.1);background:var(--surface)}
+.m-field textarea{resize:vertical;min-height:90px;line-height:1.65}
+.m-field-hint{font-size:.73rem;color:var(--sub);margin-top:3px}
+.m-form-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.modal-submit-btn{
+  display:block;width:100%;padding:14px;text-align:center;
+  background:var(--accent);color:#fff;border:none;border-radius:var(--r);
+  font-family:var(--font);font-size:.95rem;font-weight:700;cursor:pointer;transition:.15s;
+  margin-top:20px;
+}
+.modal-submit-btn:hover{background:var(--accent-h)}
+.modal-submit-btn:disabled{opacity:.6;cursor:not-allowed}
+.modal-privacy{font-size:.72rem;color:var(--sub);text-align:center;margin-top:10px;line-height:1.6}
+/* Success state */
+.order-success{display:none;text-align:center;padding:40px 20px}
+.order-success.show{display:block}
+.order-success h4{font-size:1.2rem;font-weight:700;margin:14px 0 8px}
+.order-success p{font-size:.85rem;color:var(--mid);line-height:1.7}
+
+/* ── Footer ── */
+footer{background:var(--dark);padding:0;color:#9CA3AF}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;padding:52px 0 44px;border-bottom:1px solid rgba(255,255,255,.07)}
+.footer-logo-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.footer-logo-img{height:38px;width:38px;border-radius:7px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.footer-brand-name{font-weight:700;font-size:.95rem;color:#F0F0F8;letter-spacing:.02em}
+.footer-desc{font-size:.82rem;line-height:1.75;margin-bottom:16px;color:#6B7280}
+.footer-address{font-size:.78rem;line-height:1.9;font-style:normal;color:#6B7280}
+.footer-address a{color:#93C5FD;transition:color .15s}
+.footer-address a:hover{color:#BFDBFE}
+.footer-col-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:14px}
+.footer-col-list{display:flex;flex-direction:column;gap:7px}
+.footer-col-list a{font-size:.84rem;color:#9CA3AF;transition:color .15s}
+.footer-col-list a:hover{color:#F0F0F8}
+.footer-col-list .info-item{font-size:.82rem;color:#6B7280}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 0}
+.footer-copy{font-size:.74rem;color:#4B5563}
+.footer-legal{display:flex;gap:18px}
+.footer-legal a{font-size:.74rem;color:#4B5563;transition:color .15s}
+.footer-legal a:hover{color:#9CA3AF}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .nav-toggle{display:flex}
+  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;gap:4px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a,.nav-links .btn-nav{border-radius:6px;padding:11px 14px;width:100%}
+  .products-grid{grid-template-columns:1fr}
+  .cart-drawer{width:100%;max-width:100vw}
+  .cart-fab{bottom:16px;right:16px;padding:12px 18px;font-size:.82rem}
+  .m-form-2{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr;gap:28px}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+}
+@media(min-width:769px) and (max-width:1024px){
+  .products-grid{grid-template-columns:1fr 1fr}
+}
+
+/* ── Stripe 連携スタイル ── */
+.checkout-success-banner,.checkout-cancel-banner{
+  position:fixed;top:var(--nav-h);left:0;right:0;z-index:600;
+  padding:14px 20px;box-shadow:0 4px 16px rgba(0,0,0,.2);
+}
+.checkout-success-banner{background:#059669;color:#fff}
+.checkout-cancel-banner{background:#374151;color:#fff}
+.csb-inner{display:flex;align-items:center;gap:14px;max-width:var(--max);margin:0 auto}
+.csb-inner strong{font-size:.9rem;font-weight:700;display:block}
+.csb-inner p{font-size:.78rem;opacity:.8;margin-top:2px}
+.csb-close{background:none;border:none;color:inherit;cursor:pointer;margin-left:auto;font-size:1.3rem;opacity:.7;flex-shrink:0;padding:4px}
+.csb-close:hover{opacity:1}
+.stripe-note{font-size:.72rem;color:var(--sub);text-align:center;margin-top:10px;line-height:1.6;display:flex;align-items:center;justify-content:center;gap:6px}
+.stripe-badge{display:inline-flex;align-items:center;gap:3px;background:#635BFF;color:#fff;font-size:.68rem;font-weight:800;padding:2px 8px;border-radius:4px;letter-spacing:.04em}
+.modal-submit-btn.stripe-btn{background:#635BFF}
+.modal-submit-btn.stripe-btn:hover{background:#4F46E5}
+@keyframes spin-r{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="logo">
+      <img src="rogo.png" alt="CRYSTALIZE KOBE" class="logo-img">CRYSTALIZE KOBE
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開閉"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">トップ</a></li>
+      <li><a href="materials.html">素材・仕様</a></li>
+      <li><a href="shop.html" class="active">ショップ</a></li>
+      <li><a href="realtime.html">3DCG</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+      <li><a href="estimate.html" class="btn-nav">見積もり</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+
+<!-- ── Page header ── -->
+<section class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">トップ</a><span style="opacity:.4">›</span><span>Shop</span></div>
+    <div class="ph-row">
+      <div>
+        <span class="label">Online Shop</span>
+        <h1>ショップ</h1>
+        <p>3Dプリント完成品・デジタルデータ（STL/GLB）を販売しています。</p>
+      </div>
+    </div>
+
+    <!-- Payment notice -->
+    <div class="pay-notice">
+      <div class="pay-notice-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="9" r="7.5"/><path d="M9 5.5v4"/><circle cx="9" cy="13" r=".75" fill="currentColor" stroke="none"/></svg>
+      </div>
+      <div>
+        <div class="pay-notice-title">現在の購入方法について</div>
+        <div class="pay-notice-body">
+          現在はカートから注文フォームでのご依頼受付を行っています。決済方法は個別にご案内します。<br>
+          今後、各プラットフォームへの出店も検討中です：
+          <div class="pay-platforms">
+            <span class="pay-pill">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4.5" stroke="currentColor" stroke-width="1"/></svg>
+              BOOTH（デジタルデータ推奨）
+            </span>
+            <span class="pay-pill">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4.5" stroke="currentColor" stroke-width="1"/></svg>
+              BASE（完成品販売推奨）
+            </span>
+            <span class="pay-pill">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4.5" stroke="currentColor" stroke-width="1"/></svg>
+              STORES
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Shop ── -->
+<section class="shop-section">
+  <div class="container">
+
+    <!-- Controls -->
+    <div class="shop-controls">
+      <div class="cat-tabs">
+        <button class="cat-tab active" data-cat="all">すべて</button>
+        <button class="cat-tab" data-cat="physical">
+          <span style="display:inline-flex;align-items:center;gap:5px">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3.5l5-3 5 3v5l-5 3-5-3v-5z"/><path d="M1 3.5l5 3 5-3M6 11.5V6.5"/></svg>
+            完成品
+          </span>
+        </button>
+        <button class="cat-tab" data-cat="digital">
+          <span style="display:inline-flex;align-items:center;gap:5px">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 1.5v6M3.5 5.5L6 8l2.5-2.5"/><path d="M2 9.5h8"/></svg>
+            デジタルデータ
+          </span>
+        </button>
+      </div>
+      <div class="item-count"><span id="visibleCount">6</span> 件</div>
+    </div>
+
+    <!-- Grid -->
+    <div class="products-grid" id="productsGrid">
+      <!-- Rendered by JS -->
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-wrap"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="footer-logo-img"><span class="footer-brand-name">CRYSTALIZE KOBE</span></div>
+        <p class="footer-desc">3Dプリント・リアルタイム3DCG制作サービス。<br>兵庫県神戸市を拠点に、全国対応いたします。</p>
+        <address class="footer-address">〒650-XXXX 兵庫県神戸市中央区 XX-XX<br>TEL: <a href="tel:078XXXXXXXX">078-XXX-XXXX</a><br>MAIL: <a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></address>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-col-list">
+          <li><a href="index.html">トップ / ギャラリー</a></li>
+          <li><a href="materials.html">対応素材・仕様</a></li>
+          <li><a href="portfolio.html">制作実績</a></li><li><a href="shop.html">ショップ</a></li>
+          <li><a href="realtime.html">リアルタイム3DCG</a></li>
+          <li><a href="estimate.html">見積もりシミュレーター</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">営業情報</div>
+        <ul class="footer-col-list">
+          <li class="info-item">平日 10:00 〜 18:00</li>
+          <li class="info-item">土日祝 休業</li>
+          <li style="margin-top:8px"><a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></li>
+          <li><a href="tel:078XXXXXXXX">078-XXX-XXXX</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 CRYSTALIZE KOBE. All rights reserved.</p>
+      <nav class="footer-legal"><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a></nav>
+    </div>
+  </div>
+</footer>
+
+<!-- ── Cart FAB ── -->
+<button class="cart-fab hidden" id="cartFab" aria-label="カートを開く">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2h2l2.6 9.4a1 1 0 001 .6h7.8"/><path d="M5.5 5.5h11l-1.5 5.5H7"/><circle cx="7.5" cy="15" r="1.2"/><circle cx="13.5" cy="15" r="1.2"/></svg>
+  カート
+  <span class="cart-badge" id="cartBadge">0</span>
+</button>
+
+<!-- ── Cart drawer ── -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-drawer" id="cartDrawer" role="dialog" aria-label="ショッピングカート">
+  <div class="cart-head">
+    <h3>カート</h3>
+    <button class="cart-close" id="cartClose" aria-label="カートを閉じる">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="cart-items-wrap" id="cartItemsWrap">
+    <div class="cart-empty" id="cartEmpty">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h5l7 25.2a3 3 0 003 1.8h20.7"/><path d="M14 14h29.5L40 29.5H19"/><circle cx="20" cy="40" r="3.2"/><circle cx="36" cy="40" r="3.2"/></svg>
+      <p>カートに商品がありません</p>
+    </div>
+    <div id="cartItemsList"></div>
+  </div>
+  <div class="cart-foot" id="cartFoot" style="display:none">
+    <div class="cart-subtotal">
+      <span class="cart-subtotal-label">小計（税込）</span>
+      <span class="cart-subtotal-amount" id="cartTotal">¥0</span>
+    </div>
+    <button class="cart-checkout-btn" id="cartCheckoutBtn">
+      注文する・お問い合わせ
+    </button>
+    <p class="cart-note">決済方法は確認後にご案内します。<br>送料は別途発生する場合があります。</p>
+  </div>
+</div>
+
+<!-- ── Order modal ── -->
+<div class="modal-overlay" id="orderModal" role="dialog" aria-label="注文フォーム">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>注文内容確認・お問い合わせ</h3>
+      <button class="modal-close-btn" id="modalClose" aria-label="閉じる">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Cart summary -->
+      <div class="order-summary-box">
+        <div class="os-title">ご注文内容</div>
+        <div id="orderSummaryItems"></div>
+        <div class="os-total">
+          <span class="os-total-label">合計（税込）</span>
+          <span class="os-total-amount" id="orderTotalAmount">¥0</span>
+        </div>
+      </div>
+
+      <!-- Order form -->
+      <form id="orderForm" novalidate>
+        <div class="m-form-2">
+          <div class="m-field">
+            <label for="o-name">お名前 <span class="m-req">*</span></label>
+            <input type="text" id="o-name" name="name" placeholder="山田 太郎" required autocomplete="name">
+          </div>
+          <div class="m-field">
+            <label for="o-email">メールアドレス <span class="m-req">*</span></label>
+            <input type="email" id="o-email" name="email" placeholder="taro@example.com" required autocomplete="email">
+          </div>
+        </div>
+        <div class="m-field">
+          <label for="o-address">お届け先住所（完成品の場合）</label>
+          <input type="text" id="o-address" name="address" placeholder="〒000-0000 ○○県○○市...（デジタルデータのみの場合は不要）" autocomplete="street-address">
+        </div>
+        <div class="m-field">
+          <label for="o-message">その他ご要望・ご質問</label>
+          <textarea id="o-message" name="message" rows="3" placeholder="カラー指定・納期のご要望など、ご自由にご記入ください。"></textarea>
+          <span class="m-field-hint">デジタルデータはメールでのダウンロードリンク送付を予定しています。</span>
+        </div>
+
+        <!-- Hidden: cart data -->
+        <input type="hidden" id="o-cart-data" name="cart_data">
+
+        <button type="submit" class="modal-submit-btn stripe-btn" id="orderSubmitBtn">
+          <svg width="16" height="14" viewBox="0 0 32 26" fill="none"><rect x="1" y="1" width="30" height="24" rx="3" stroke="rgba(255,255,255,.5)" stroke-width="2"/><path d="M1 8h30" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/></svg>
+          カードで決済する
+        </button>
+        <div class="stripe-note">
+          安全な決済は <span class="stripe-badge">Stripe</span> が処理します
+        </div>
+      </form>
+
+      <!-- Success -->
+      <div class="order-success" id="orderSuccess">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="24" stroke="#10B981" stroke-width="2"/><path d="M15 26l8 8 14-16" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>ご注文ありがとうございます</h4>
+        <p>確認メールをお送りします。<br>決済方法・発送については1〜2営業日以内にご連絡いたします。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ JAVASCRIPT ═══════════ -->
+<script>
+/* ── Nav toggle ── */
+(function(){
+  const toggle=document.getElementById('navToggle'),links=document.getElementById('navLinks');
+  toggle.addEventListener('click',()=>{const o=links.classList.toggle('open');toggle.classList.toggle('open',o)});
+  links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');toggle.classList.remove('open')}));
+  document.addEventListener('click',e=>{if(!toggle.contains(e.target)&&!links.contains(e.target)){links.classList.remove('open');toggle.classList.remove('open')}});
+})();
+
+/* ════════════════════════════════════
+   PRODUCT DATA
+   ここに実際の商品を追加・編集してください
+   ════════════════════════════════════ */
+const PRODUCTS = [
+  {
+    id: 1,
+    name: 'ミニチュアキャラクターフィギュア',
+    cat: 'physical',
+    sub: '光造形 / 高精細レジン',
+    price: 4800,
+    desc: '高精細レジン出力済み完成品。高さ約12cm。表面サンドペーパー仕上げ。塗装なし・素材色での出荷になります。',
+    formats: [],
+    stock: true,
+    // image: 'images/product-01.jpg'  ← 実際の商品画像パスを指定
+  },
+  {
+    id: 2,
+    name: '建築ミニチュアモデル A4台座付き',
+    cat: 'physical',
+    sub: 'FDM / PLA',
+    price: 6500,
+    desc: 'FDM・PLA素材。A4サイズ台座込みで高さ約20cm。インテリア・展示・プレゼント用途向け。',
+    formats: [],
+    stock: true,
+    // image: 'images/product-02.jpg'
+  },
+  {
+    id: 3,
+    name: '素材サンプルセット（3方式）',
+    cat: 'physical',
+    sub: '光造形 / FDM / SLS',
+    price: 1200,
+    desc: '光造形レジン・PLA・ナイロンの質感が確認できる小型サンプルキット。本発注前の素材確認に最適です。',
+    formats: [],
+    stock: true,
+    // image: 'images/product-03.jpg'
+  },
+  {
+    id: 4,
+    name: 'キャラクターベースメッシュ',
+    cat: 'digital',
+    sub: 'デジタルデータ',
+    price: 1500,
+    desc: 'Tポーズ汎用キャラクターベース。3Dプリント・ゲームエンジン両対応。ZBrushカスタマイズ想定のトポロジー設計。',
+    formats: ['STL', 'GLB', 'FBX'],
+    stock: true,
+    // image: 'images/product-04.jpg'
+  },
+  {
+    id: 5,
+    name: 'キーホルダーSTLテンプレート 5種セット',
+    cat: 'digital',
+    sub: 'デジタルデータ',
+    price: 500,
+    desc: 'ロゴ・テキストを差し替えてそのまま印刷できるキーホルダー用STLテンプレート5種。FDM・光造形どちらにも対応。',
+    formats: ['STL'],
+    stock: true,
+    // image: 'images/product-05.jpg'
+  },
+  {
+    id: 6,
+    name: 'サイバーパンク建物アセットセット',
+    cat: 'digital',
+    sub: 'デジタルデータ',
+    price: 3200,
+    desc: 'Unity / Unreal Engine 5 対応のモジュラー背景セット。PBRテクスチャ（BaseColor/Normal/MetalRough）付き。',
+    formats: ['GLB', 'FBX'],
+    stock: true,
+    // image: 'images/product-06.jpg'
+  },
+];
+
+/* ════════════════════════════════════
+   CART STATE
+   ════════════════════════════════════ */
+let cart = [];   // [{id, qty}]
+
+/* ── Helpers ── */
+const fmtPrice = n => '¥' + n.toLocaleString('ja-JP');
+const getProduct = id => PRODUCTS.find(p => p.id === id);
+const cartTotal = () => cart.reduce((s, item) => s + getProduct(item.id).price * item.qty, 0);
+const cartCount = () => cart.reduce((s, item) => s + item.qty, 0);
+
+/* ── SVG icons ── */
+const iconPhysical = `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5l12-7 12 7v11l-12 7-12-7v-11z"/><path d="M2 8.5l12 7 12-7M14 26.5V15.5"/></svg>`;
+const iconDigital = `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v14M8 12l6 7 6-7"/><path d="M5 23h18"/></svg>`;
+
+/* ════════════════════════════════════
+   RENDER PRODUCTS
+   ════════════════════════════════════ */
+function renderProducts(catFilter) {
+  const grid = document.getElementById('productsGrid');
+  const filtered = catFilter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.cat === catFilter);
+  document.getElementById('visibleCount').textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><rect x="8" y="8" width="32" height="32" rx="4"/><path d="M16 24h16M24 16v16"/></svg><p>この条件の商品はありません</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => {
+    const inCart = cart.find(c => c.id === p.id);
+    const isDigital = p.cat === 'digital';
+    const imgClass = isDigital ? 'ph-digital' : 'ph-physical';
+    const imgContent = p.image
+      ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">`
+      : `${isDigital ? iconDigital : iconPhysical}<span class="product-img-hint">商品画像を配置</span>`;
+
+    return `
+    <div class="product-card" data-id="${p.id}" data-cat="${p.cat}">
+      <div class="product-img ${imgClass}">
+        ${imgContent}
+        <span class="product-badge ${isDigital ? 'badge-digital' : 'badge-physical'}">${isDigital ? 'デジタル' : '完成品'}</span>
+        ${p.stock ? '<span class="product-stock">在庫あり</span>' : ''}
+      </div>
+      <div class="product-body">
+        <div class="product-sub">${p.sub}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc}</div>
+        ${p.formats.length ? `<div class="format-tags">${p.formats.map(f => `<span class="format-tag">${f}</span>`).join('')}</div>` : ''}
+      </div>
+      <div class="product-footer">
+        <div class="product-price">${fmtPrice(p.price)}<small>（税込）</small></div>
+        <button class="add-cart-btn ${isDigital ? 'digital-btn' : ''} ${inCart ? 'in-cart' : ''}"
+          data-id="${p.id}" onclick="addToCart(${p.id})">
+          ${inCart
+            ? `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> 追加済み`
+            : `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5h2l1.8 6.3a.75.75 0 00.75.45h5.85"/><path d="M4 4h8.25L11.25 8H6"/><circle cx="6" cy="11" r="1"/><circle cx="10.5" cy="11" r="1"/></svg> カートに追加`}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ════════════════════════════════════
+   CART OPERATIONS
+   ════════════════════════════════════ */
+window.addToCart = function(id) {
+  const existing = cart.find(c => c.id === id);
+  if (existing) { existing.qty++; }
+  else { cart.push({ id, qty: 1 }); }
+  updateCartUI();
+  openCart();
+  renderProducts(currentCat);
+};
+
+window.removeFromCart = function(id) {
+  cart = cart.filter(c => c.id !== id);
+  updateCartUI();
+  renderProducts(currentCat);
+};
+
+window.updateQty = function(id, delta) {
+  const item = cart.find(c => c.id === id);
+  if (!item) return;
+  item.qty = Math.max(1, item.qty + delta);
+  updateCartUI();
+};
+
+function updateCartUI() {
+  const count = cartCount();
+  const total = cartTotal();
+  const fab   = document.getElementById('cartFab');
+  const badge = document.getElementById('cartBadge');
+  const empty = document.getElementById('cartEmpty');
+  const list  = document.getElementById('cartItemsList');
+  const foot  = document.getElementById('cartFoot');
+  const totEl = document.getElementById('cartTotal');
+
+  badge.textContent = count;
+  fab.classList.toggle('hidden', count === 0);
+  empty.style.display = count === 0 ? '' : 'none';
+  foot.style.display  = count === 0 ? 'none' : '';
+  totEl.textContent   = fmtPrice(total);
+
+  list.innerHTML = cart.map(item => {
+    const p = getProduct(item.id);
+    const isDigital = p.cat === 'digital';
+    return `
+    <div class="cart-item">
+      <div class="ci-thumb ${isDigital ? 'ph-digital' : 'ph-physical'}" style="color:${isDigital ? '#6366F1' : '#1E40AF'}">
+        ${isDigital ? iconDigital : iconPhysical}
+      </div>
+      <div class="ci-info">
+        <div class="ci-name">${p.name}</div>
+        <div class="ci-price">${fmtPrice(p.price)} × ${item.qty} = ${fmtPrice(p.price * item.qty)}</div>
+        <div class="ci-controls">
+          <button class="ci-qty-btn" onclick="updateQty(${p.id},-1)" aria-label="減らす">−</button>
+          <span class="ci-qty">${item.qty}</span>
+          <button class="ci-qty-btn" onclick="updateQty(${p.id},1)" aria-label="増やす">＋</button>
+        </div>
+      </div>
+      <button class="ci-remove" onclick="removeFromCart(${p.id})" aria-label="削除">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>`;
+  }).join('');
+}
+
+/* ── Open / close cart ── */
+function openCart() {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('cartFab').addEventListener('click', openCart);
+document.getElementById('cartClose').addEventListener('click', closeCart);
+document.getElementById('cartOverlay').addEventListener('click', closeCart);
+
+/* ── Checkout → open order modal ── */
+document.getElementById('cartCheckoutBtn').addEventListener('click', () => {
+  closeCart();
+  openOrderModal();
+});
+
+/* ════════════════════════════════════
+   ORDER MODAL
+   ════════════════════════════════════ */
+function openOrderModal() {
+  const modal    = document.getElementById('orderModal');
+  const summary  = document.getElementById('orderSummaryItems');
+  const totalEl  = document.getElementById('orderTotalAmount');
+  const cartData = document.getElementById('o-cart-data');
+  const form     = document.getElementById('orderForm');
+  const success  = document.getElementById('orderSuccess');
+
+  // Reset
+  form.style.display = '';
+  success.classList.remove('show');
+  document.getElementById('orderSubmitBtn').disabled = false;
+  document.getElementById('orderSubmitBtn').textContent = '送信する';
+
+  // Build summary
+  summary.innerHTML = cart.map(item => {
+    const p = getProduct(item.id);
+    return `<div class="os-item"><span class="os-item-name">${p.name} × ${item.qty}</span><span class="os-item-price">${fmtPrice(p.price * item.qty)}</span></div>`;
+  }).join('');
+  totalEl.textContent = fmtPrice(cartTotal());
+
+  // Store cart as text for form field
+  const cartText = cart.map(item => {
+    const p = getProduct(item.id);
+    return `${p.name}（${p.sub}） × ${item.qty}  ${fmtPrice(p.price * item.qty)}`;
+  }).join('\n') + `\n合計: ${fmtPrice(cartTotal())}`;
+  cartData.value = cartText;
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOrderModal() {
+  document.getElementById('orderModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modalClose').addEventListener('click', closeOrderModal);
+document.getElementById('orderModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('orderModal')) closeOrderModal();
+});
+
+/* ── Order submit (Stripe Checkout) ── */
+document.getElementById('orderForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const name  = document.getElementById('o-name').value.trim();
+  const email = document.getElementById('o-email').value.trim();
+  if (!name)  { alert('お名前を入力してください。'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('正しいメールアドレスを入力してください。'); return; }
+
+  const btn = document.getElementById('orderSubmitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:inline-block;animation:spin-r .8s linear infinite">⟳</span> 決済ページへ移動中...';
+
+  const hasPhysical = cart.some(item => getProduct(item.id).cat === 'physical');
+  const stripeItems = cart.map(item => {
+    const p = getProduct(item.id);
+    return { name: p.name, sub: p.sub, price: p.price, qty: item.qty };
+  });
+
+  try {
+    const res = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: stripeItems, hasPhysical, customerEmail: email }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'セッションの作成に失敗しました');
+    }
+    const { url } = await res.json();
+    window.location.href = url; /* → Stripe Checkout へリダイレクト */
+  } catch (err) {
+    console.error('Stripe error:', err);
+    alert('エラーが発生しました。\n' + err.message);
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="16" height="14" viewBox="0 0 32 26" fill="none"><rect x="1" y="1" width="30" height="24" rx="3" stroke="rgba(255,255,255,.5)" stroke-width="2"/><path d="M1 8h30" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/></svg> カードで決済する';
+  }
+});
+
+function showSuccess() {
+  document.getElementById('orderForm').style.display = 'none';
+  document.getElementById('orderSuccess').classList.add('show');
+  // Clear cart after successful order
+  cart = [];
+  updateCartUI();
+  renderProducts(currentCat);
+}
+
+/* ════════════════════════════════════
+   CATEGORY FILTER
+   ════════════════════════════════════ */
+let currentCat = 'all';
+
+document.querySelectorAll('.cat-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentCat = tab.dataset.cat;
+    renderProducts(currentCat);
+  });
+});
+
+/* ── Initial render ── */
+renderProducts('all');
+updateCartUI();
+
+/* ── ESC to close modals ── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeCart();
+    closeOrderModal();
+  }
+});
+
+/* ════════════════════════════════════
+   Stripe リダイレクト結果の処理
+   成功: ?checkout=success  キャンセル: ?checkout=cancel
+   ════════════════════════════════════ */
+(function handleStripeRedirect() {
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get('checkout');
+  if (!status) return;
+
+  /* URL をクリーンに（リロードなし） */
+  window.history.replaceState({}, '', window.location.pathname);
+
+  function makeBanner(cls, html) {
+    const el = document.createElement('div');
+    el.className = cls;
+    el.innerHTML = html;
+    el.querySelector('.csb-close').addEventListener('click', () => el.remove());
+    document.body.prepend(el);
+    setTimeout(() => el.remove(), 8000); /* 8秒後に自動消去 */
+  }
+
+  if (status === 'success') {
+    /* カートをリセット */
+    cart = [];
+    updateCartUI();
+    renderProducts(currentCat);
+
+    makeBanner('checkout-success-banner',
+      '<div class="csb-inner">' +
+        '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" stroke="#fff" stroke-width="1.5"/><path d="M6 11l3.5 3.5 6.5-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+        '<div><strong>ご購入ありがとうございます！</strong>' +
+        '<p>Stripeから確認メールが届きます。デジタルデータは確認後にお送りします。</p></div>' +
+        '<button class="csb-close" aria-label="閉じる">×</button>' +
+      '</div>');
+
+  } else if (status === 'cancel') {
+    makeBanner('checkout-cancel-banner',
+      '<div class="csb-inner">' +
+        '<span>決済をキャンセルしました。カートの内容は保持されています。</span>' +
+        '<button class="csb-close" aria-label="閉じる">×</button>' +
+      '</div>');
+  }
+})();
+</script>
+</body>
+</html>

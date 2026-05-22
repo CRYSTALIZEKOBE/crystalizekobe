@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="CRYSTALIZE KOBE リアルタイム3DCG制作。Unity・Unreal Engine・WebGL・AR/VR向けゲームレディアセット制作。">
+<title>リアルタイム3DCG制作 — CRYSTALIZE KOBE</title>
+<link rel="icon" href="rogo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4FA;--surface:#FFF;--border:#D4D9E8;
+  --ink:#111827;--mid:#6B7280;--sub:#9CA3AF;
+  --accent:#1E40AF;--accent-h:#1B349A;--accent-bg:#EEF2FF;
+  --dark:#080C1A;--dark2:#0D1228;--dark3:#172038;--dark-border:#1E2A45;
+  --rt:#6366F1;--rt-h:#4F46E5;--rt-bg:#EEF2FF;--rt-glow:rgba(99,102,241,.2);
+  --max:1120px;--nav-h:64px;--r:8px;
+  --font:'Plus Jakarta Sans',-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1)
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+.site-header{position:sticky;top:0;z-index:100;background:rgba(242,244,250,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--ink)}
+.logo-img{height:36px;width:36px;border-radius:6px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{padding:7px 14px;border-radius:100px;font-size:.875rem;font-weight:500;color:var(--mid);transition:.15s}
+.nav-links a:hover,.nav-links a.active{background:var(--surface);color:var(--ink)}
+.nav-links .btn-nav{background:var(--accent);color:#fff;padding:7px 18px;border-radius:100px;font-weight:600;transition:.15s}
+.nav-links .btn-nav:hover{background:var(--accent-h)}
+.nav-toggle{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none;cursor:pointer}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;transition:transform .2s,opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+.label-rt{display:inline-block;font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rt);margin-bottom:10px}
+.label-lt{display:inline-block;font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:10px}
+.section-head{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;letter-spacing:-.025em;line-height:1.2;margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;border-radius:var(--r);font-family:var(--font);font-size:.9rem;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap}
+.btn-rt{background:var(--rt);color:#fff;border:1.5px solid var(--rt)}
+.btn-rt:hover{background:var(--rt-h);border-color:var(--rt-h)}
+.btn-outline-w{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.3)}
+.btn-outline-w:hover{border-color:#fff}
+
+/* Hero */
+.rt-hero{background:var(--dark);padding:72px 0 64px;position:relative;overflow:hidden}
+.rt-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(99,102,241,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.06) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.rt-hero::after{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,.15) 0%,transparent 70%);top:-200px;right:-100px;pointer-events:none}
+.hero-breadcrumb{display:flex;align-items:center;gap:8px;font-size:.78rem;color:#555770;margin-bottom:28px}
+.hero-breadcrumb a{color:#555770;transition:color .15s}
+.hero-breadcrumb a:hover{color:#9BA0C0}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rt);background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.25);padding:5px 14px;border-radius:100px;margin-bottom:20px}
+.hero-eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--rt);display:block}
+.rt-hero h1{font-size:clamp(2.4rem,5.5vw,4rem);font-weight:700;letter-spacing:-.03em;line-height:1.12;color:#F0F0F8;margin-bottom:20px}
+.rt-hero h1 em{background:linear-gradient(135deg,#A5B4FC,#6366F1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-style:normal}
+.rt-hero p{font-size:1.05rem;color:#7A7D96;max-width:520px;line-height:1.75;margin-bottom:36px}
+.btn-group{display:flex;gap:12px;flex-wrap:wrap}
+.platform-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:48px;padding-top:36px;border-top:1px solid var(--dark-border)}
+.platform-label{font-size:.72rem;color:#555770;letter-spacing:.08em;text-transform:uppercase;margin-right:4px}
+.platform-badge{display:inline-flex;align-items:center;gap:6px;background:var(--dark3);border:1px solid var(--dark-border);padding:5px 12px;border-radius:6px;font-size:.78rem;font-weight:600;color:#B0B3CC;transition:border-color .15s}
+.platform-badge:hover{border-color:rgba(99,102,241,.5)}
+.platform-dot{width:7px;height:7px;border-radius:50%}
+
+/* Services */
+.services-section{padding:80px 0}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+.svc-card{background:var(--surface);border-radius:12px;border:1px solid var(--border);padding:26px 24px;transition:box-shadow .2s,transform .2s;position:relative;overflow:hidden}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--rt),#A5B4FC);opacity:0;transition:opacity .2s}
+.svc-card:hover{box-shadow:0 6px 24px rgba(99,102,241,.1);transform:translateY(-2px)}
+.svc-card:hover::before{opacity:1}
+.svc-icon{width:44px;height:44px;border-radius:10px;background:var(--rt-bg);display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:var(--rt)}
+.svc-card h3{font-size:1rem;font-weight:700;margin-bottom:8px}
+.svc-card p{font-size:.85rem;color:var(--mid);line-height:1.7;margin-bottom:14px}
+.svc-tags{display:flex;gap:6px;flex-wrap:wrap}
+.svc-tag{font-size:.68rem;font-weight:600;letter-spacing:.04em;padding:3px 8px;border-radius:4px;background:var(--rt-bg);color:var(--rt)}
+.new-badge{position:absolute;top:16px;right:16px;font-size:.64rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--rt);color:#fff;padding:2px 8px;border-radius:4px}
+
+/* Spec section */
+.spec-section{background:var(--dark);padding:80px 0}
+.spec-section .section-head{color:#F0F0F8}
+.spec-layout{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:52px}
+.spec-box{background:var(--dark2);border:1px solid var(--dark-border);border-radius:12px;overflow:hidden}
+.spec-box-head{padding:16px 22px;border-bottom:1px solid var(--dark-border);display:flex;align-items:center;gap:10px}
+.spec-box-dot{width:9px;height:9px;border-radius:50%}
+.spec-box-title{font-size:.78rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#8B8FA8}
+.spec-row{display:flex;align-items:baseline;justify-content:space-between;padding:12px 22px;border-bottom:1px solid var(--dark-border);gap:16px}
+.spec-row:last-child{border-bottom:none}
+.spec-key{font-size:.8rem;color:#6A6D88;flex-shrink:0;width:40%}
+.spec-val{font-size:.875rem;color:#D0D2E0;font-weight:500;text-align:right;line-height:1.45}
+.spec-val strong{color:#F0F0F8;font-weight:700}
+.spec-val .hi{color:#A5B4FC}
+.spec-val .gr{color:#6EE7B7}
+
+/* Workflow */
+.workflow-section{padding:80px 0;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:52px;position:relative}
+.steps::before{content:'';position:absolute;top:28px;left:calc(100%/8);right:calc(100%/8);height:2px;background:linear-gradient(90deg,var(--rt-bg),var(--rt),var(--rt-bg));z-index:0}
+.step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 12px;position:relative;z-index:1}
+.step-num{width:56px;height:56px;border-radius:50%;background:var(--surface);border:2px solid var(--rt);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:var(--rt);margin-bottom:18px;box-shadow:0 0 0 6px var(--surface);transition:.2s}
+.step:hover .step-num{background:var(--rt);color:#fff}
+.step h4{font-size:.9rem;font-weight:700;margin-bottom:6px}
+.step p{font-size:.78rem;color:var(--mid);line-height:1.6}
+
+/* Compare */
+.compare-section{padding:72px 0}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px}
+.compare-card{border-radius:12px;padding:32px 28px;border:1px solid var(--border)}
+.compare-card-rt{background:linear-gradient(135deg,var(--dark2) 0%,var(--dark) 100%);border-color:var(--dark-border)}
+.compare-card-print{background:var(--bg)}
+.compare-title{display:flex;align-items:center;gap:10px;font-size:1rem;font-weight:700;margin-bottom:6px}
+.compare-title-rt{color:#F0F0F8}
+.compare-title-print{color:var(--ink)}
+.compare-sub{font-size:.82rem;margin-bottom:24px}
+.compare-sub-rt{color:#6A6D88}
+.compare-sub-print{color:var(--mid)}
+.compare-list{display:flex;flex-direction:column;gap:10px}
+.compare-item{display:flex;align-items:center;gap:10px;font-size:.85rem}
+.compare-item-rt{color:#B0B3CC}
+.compare-item-print{color:var(--mid)}
+.ci-icon{width:22px;height:22px;border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.ci-rt{background:rgba(99,102,241,.2);color:var(--rt)}
+.ci-print{background:var(--accent-bg);color:var(--accent)}
+.compare-cta{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;margin-top:22px;padding-top:20px;border-top:1px solid;cursor:pointer;transition:opacity .15s}
+.compare-cta:hover{opacity:.7}
+.compare-cta-rt{color:#A5B4FC;border-color:var(--dark-border)}
+.compare-cta-print{color:var(--accent);border-color:var(--border)}
+.combo-pitch{margin-top:20px;background:linear-gradient(135deg,rgba(99,102,241,.07),rgba(30,64,175,.07));border:1px solid var(--border);border-radius:12px;padding:28px 32px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.combo-pitch-icon{flex-shrink:0;color:var(--rt)}
+.combo-pitch h3{font-size:1rem;font-weight:700;margin-bottom:4px}
+.combo-pitch p{font-size:.85rem;color:var(--mid);max-width:500px;line-height:1.65}
+
+/* Pricing */
+.pricing-section{padding:72px 0;background:var(--surface);border-top:1px solid var(--border)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+.price-card{border-radius:12px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .2s}
+.price-card:hover{box-shadow:0 6px 24px rgba(30,64,175,.08)}
+.price-card-head{padding:22px 22px 18px}
+.price-card-featured .price-card-head{background:var(--rt);color:#fff}
+.price-card-label{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin-bottom:6px}
+.price-card-name{font-size:1.05rem;font-weight:700;margin-bottom:12px}
+.price-card-price{font-size:1.8rem;font-weight:700;letter-spacing:-.03em;line-height:1}
+.price-card-price sup{font-size:1rem}
+.price-card-price span{font-size:.8rem;font-weight:400;opacity:.7}
+.price-card-body{padding:18px 22px}
+.price-card-featured .price-card-body{border:1px solid rgba(99,102,241,.3);border-top:none;border-radius:0 0 12px 12px}
+.price-item{display:flex;align-items:center;gap:8px;font-size:.83rem;color:var(--mid);padding:5px 0}
+.price-check{flex-shrink:0;color:var(--rt)}
+.price-card-footer{padding:16px 22px;border-top:1px solid var(--border)}
+.price-note{font-size:.72rem;color:var(--sub);line-height:1.5}
+.price-btn{display:block;width:100%;padding:11px;text-align:center;border-radius:var(--r);font-family:var(--font);font-size:.88rem;font-weight:700;cursor:pointer;transition:.15s;margin-top:14px}
+.btn-rt-full{background:var(--rt);color:#fff;border:none}
+.btn-rt-full:hover{background:var(--rt-h)}
+.btn-outline-rt{background:transparent;color:var(--rt);border:1.5px solid var(--rt);border-radius:var(--r);padding:10px;width:100%;font-family:var(--font);font-size:.88rem;font-weight:700;cursor:pointer;transition:.15s;margin-top:14px;display:block;text-align:center}
+.btn-outline-rt:hover{background:var(--rt-bg)}
+
+/* CTA bottom */
+.rt-cta{background:var(--dark);padding:80px 0;text-align:center;position:relative;overflow:hidden}
+.rt-cta::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(99,102,241,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.05) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.rt-cta::after{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,.12) 0%,transparent 65%);bottom:-200px;left:50%;transform:translateX(-50%);pointer-events:none}
+.rt-cta-inner{position:relative;z-index:1}
+.rt-cta h2{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;letter-spacing:-.025em;color:#F0F0F8;margin-bottom:14px}
+.rt-cta p{font-size:1rem;color:#6A6D88;max-width:440px;margin:0 auto 32px;line-height:1.7}
+
+/* Footer */
+footer{background:var(--dark);padding:0;color:#9CA3AF}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;padding:52px 0 44px;border-bottom:1px solid rgba(255,255,255,.07)}
+.footer-logo-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.footer-logo-img{height:38px;width:38px;border-radius:7px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.footer-brand-name{font-weight:700;font-size:.95rem;color:#F0F0F8;letter-spacing:.02em}
+.footer-desc{font-size:.82rem;line-height:1.75;margin-bottom:16px;color:#6B7280}
+.footer-address{font-size:.78rem;line-height:1.9;font-style:normal;color:#6B7280}
+.footer-address a{color:#93C5FD;transition:color .15s}
+.footer-address a:hover{color:#BFDBFE}
+.footer-col-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:14px}
+.footer-col-list{display:flex;flex-direction:column;gap:7px}
+.footer-col-list a{font-size:.84rem;color:#9CA3AF;transition:color .15s}
+.footer-col-list a:hover{color:#F0F0F8}
+.footer-col-list .info-item{font-size:.82rem;color:#6B7280}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 0}
+.footer-copy{font-size:.74rem;color:#4B5563}
+.footer-legal{display:flex;gap:18px}
+.footer-legal a{font-size:.74rem;color:#4B5563;transition:color .15s}
+.footer-legal a:hover{color:#9CA3AF}
+
+@media(max-width:768px){
+  .nav-toggle{display:flex}
+  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;gap:4px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a,.nav-links .btn-nav{border-radius:6px;padding:11px 14px;width:100%}
+  .services-grid{grid-template-columns:1fr}
+  .spec-layout{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr;gap:28px}
+  .steps::before{display:none}
+  .compare-grid,.pricing-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr;gap:28px}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+}
+@media(min-width:769px) and (max-width:1024px){
+  .services-grid{grid-template-columns:1fr 1fr}
+  .pricing-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="logo"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="logo-img">CRYSTALIZE KOBE</a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開閉"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">トップ</a></li>
+      <li><a href="materials.html">素材・仕様</a></li>
+      <li><a href="portfolio.html">実績</a></li>
+      <li><a href="shop.html">ショップ</a></li>
+      <li><a href="realtime.html" class="active">3DCG</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+      <li><a href="estimate.html" class="btn-nav">見積もり</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<section class="rt-hero">
+  <div class="container">
+    <div class="hero-breadcrumb"><a href="index.html">トップ</a><span style="opacity:.4">›</span><span>リアルタイム3DCG制作</span></div>
+    <div class="hero-eyebrow">Real-time 3D CG Service</div>
+    <h1>ゲームエンジン向け<br><em>リアルタイム3DCG</em>を制作します</h1>
+    <p>Unity・Unreal Engine・WebGL・AR/VR に最適化したゲームレディアセットを一貫制作。<br>モデリングからPBRテクスチャ・リグ・納品まで対応します。</p>
+    <div class="btn-group">
+      <a href="contact.html" class="btn btn-rt">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M1.5 7.5L13.5 1.5L7.5 13.5L6 8.5L1.5 7.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        制作を相談する
+      </a>
+      <a href="#services" class="btn btn-outline-w">サービス内容を見る</a>
+    </div>
+    <div class="platform-row">
+      <span class="platform-label">対応エンジン・環境</span>
+      <span class="platform-badge"><span class="platform-dot" style="background:#54D3BF"></span>Unity</span>
+      <span class="platform-badge"><span class="platform-dot" style="background:#2AA4F3"></span>Unreal Engine 5</span>
+      <span class="platform-badge"><span class="platform-dot" style="background:#478CBF"></span>Godot</span>
+      <span class="platform-badge"><span class="platform-dot" style="background:#F0DB4F"></span>WebGL / Three.js</span>
+      <span class="platform-badge"><span class="platform-dot" style="background:#A5B4FC"></span>AR / VR</span>
+    </div>
+  </div>
+</section>
+
+<section class="services-section" id="services">
+  <div class="container">
+    <span class="label-rt">Services</span>
+    <h2 class="section-head">制作できるもの</h2>
+    <p style="font-size:.95rem;color:var(--mid);max-width:500px;line-height:1.75">ゲーム・アプリ・XRコンテンツに必要な3Dアセットをトータルに制作します。</p>
+    <div class="services-grid">
+
+      <div class="svc-card">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="7" r="4"/><path d="M3 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <h3>キャラクターモデル</h3>
+        <p>ゲームレディなキャラクターモデルを制作。ヒューマノイドリグ対応・アニメーション可。トゥーンシェーダー / PBRどちらにも対応。</p>
+        <div class="svc-tags"><span class="svc-tag">リグ対応</span><span class="svc-tag">LOD生成</span><span class="svc-tag">トゥーン可</span></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="10" height="14"/><rect x="11" y="11" width="10" height="10"/><path d="M4 21V10M7 21V10M14 21V14M17 21V14"/></svg>
+        </div>
+        <h3>背景・環境アセット</h3>
+        <p>建物・地形・小道具などのモジュラーセット制作。ライトマップUV対応・UE5 の Nanite / Lumen 想定のハイポリ対応も可。</p>
+        <div class="svc-tags"><span class="svc-tag">モジュラー</span><span class="svc-tag">ライトマップUV</span><span class="svc-tag">UE5対応</span></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="3.5"/><path d="M11 2.5V5M11 17v2.5M2.5 11H5M17 11h2.5M5.2 5.2l1.8 1.8M15 15l1.8 1.8M5.2 16.8l1.8-1.8M15 7l1.8-1.8"/></svg>
+        </div>
+        <h3>プロップ・メカ系アセット</h3>
+        <p>武器・乗り物・機械パーツなど。可動部のボーン分割・アニメーション設定にも対応。リアル系・スタイライズどちらも制作可能。</p>
+        <div class="svc-tags"><span class="svc-tag">可動部対応</span><span class="svc-tag">PBRテクスチャ</span></div>
+      </div>
+
+      <div class="svc-card">
+        <span class="new-badge">NEW</span>
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="12" height="18" rx="2"/><circle cx="11" cy="17" r=".8" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <h3>AR / VR向けアセット</h3>
+        <p>ARKit・ARCore・Meta Quest 向けにポリゴン数・テクスチャサイズを最適化。ドローコールを意識したマテリアル設計も対応。</p>
+        <div class="svc-tags"><span class="svc-tag">軽量最適化</span><span class="svc-tag">USDZ対応</span><span class="svc-tag">Quest対応</span></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3l9 6.5-9 9.5-9-9.5L11 3z"/><path d="M2 9.5h18"/></svg>
+        </div>
+        <h3>テクスチャ・マテリアル制作</h3>
+        <p>PBR テクスチャセット（BaseColor / Normal / MetalRough / AO / Emissive）をゼロから作成。既存モデルへの貼り直しにも対応。</p>
+        <div class="svc-tags"><span class="svc-tag">Substance対応</span><span class="svc-tag">4K対応</span><span class="svc-tag">アトラス化</span></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a7 7 0 017-7c2.5 0 4.7 1.2 6 3l2-2"/><path d="M18 11a7 7 0 01-7 7c-2.5 0-4.7-1.2-6-3l-2 2"/><path d="M19 5v3h-3M3 17v-3h3"/></svg>
+        </div>
+        <h3>モデル変換・最適化</h3>
+        <p>既存の高ポリゴンモデルをゲームエンジン向けにリトポロジー・LOD生成・UV再展開。3Dスキャンデータのクリーンアップにも対応。</p>
+        <div class="svc-tags"><span class="svc-tag">リトポロジー</span><span class="svc-tag">LOD×3</span><span class="svc-tag">スキャン整形</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="spec-section">
+  <div class="container">
+    <span class="label-lt">Technical Specs</span>
+    <h2 class="section-head">技術仕様・対応フォーマット</h2>
+    <p style="font-size:.95rem;color:#6A6D88;max-width:480px;line-height:1.75;margin-top:12px">ご要件に合わせて柔軟に対応します。不明な点はお気軽にご相談ください。</p>
+    <div class="spec-layout">
+      <div class="spec-box">
+        <div class="spec-box-head"><div class="spec-box-dot" style="background:var(--rt)"></div><span class="spec-box-title">出力・納品フォーマット</span></div>
+        <div class="spec-row"><span class="spec-key">主な納品形式</span><span class="spec-val"><strong class="hi">FBX / GLB / glTF</strong></span></div>
+        <div class="spec-row"><span class="spec-key">その他対応形式</span><span class="spec-val">OBJ / USDZ / USD / ABC</span></div>
+        <div class="spec-row"><span class="spec-key">テクスチャ形式</span><span class="spec-val">PNG / EXR / TGA / WebP</span></div>
+        <div class="spec-row"><span class="spec-key">テクスチャ解像度</span><span class="spec-val">512 〜 <strong>4096px</strong>（用途別）</span></div>
+        <div class="spec-row"><span class="spec-key">Unityパッケージ</span><span class="spec-val">.unitypackage 形式での納品可</span></div>
+        <div class="spec-row"><span class="spec-key">ソースファイル</span><span class="spec-val">.blend / .ma / .max（オプション）</span></div>
+      </div>
+      <div class="spec-box">
+        <div class="spec-box-head"><div class="spec-box-dot" style="background:#10B981"></div><span class="spec-box-title">ポリゴン・テクスチャ仕様</span></div>
+        <div class="spec-row"><span class="spec-key">ポリゴン数（目安）</span><span class="spec-val">キャラ: <strong class="hi">500〜20,000</strong> tri</span></div>
+        <div class="spec-row"><span class="spec-key">LOD段数</span><span class="spec-val">最大 <strong class="gr">LOD0〜3</strong> まで対応</span></div>
+        <div class="spec-row"><span class="spec-key">リグ方式</span><span class="spec-val">ヒューマノイド / カスタム / 物理ボーン</span></div>
+        <div class="spec-row"><span class="spec-key">PBRチャンネル</span><span class="spec-val">BaseColor / Normal / MetalRough / AO / Emissive</span></div>
+        <div class="spec-row"><span class="spec-key">シェーダー</span><span class="spec-val">PBR / トゥーン / カスタムシェーダー</span></div>
+        <div class="spec-row"><span class="spec-key">Unity向け</span><span class="spec-val">URP / HDRP / Built-in 対応</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="workflow-section">
+  <div class="container">
+    <span class="label-rt">Workflow</span>
+    <h2 class="section-head">制作の流れ</h2>
+    <p style="font-size:.95rem;color:var(--mid);max-width:480px;line-height:1.75">ヒアリングから納品まで、全工程を一貫してサポートします。</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h4>ヒアリング</h4><p>用途・エンジン・ポリゴン数・スタイルなどの要件を確認します</p></div>
+      <div class="step"><div class="step-num">2</div><h4>モデリング</h4><p>リファレンスをもとに3Dモデルを制作。中間確認で方向性を合わせます</p></div>
+      <div class="step"><div class="step-num">3</div><h4>テクスチャ / リグ</h4><p>UV展開・PBRテクスチャ作成。必要に応じてリグ・ウェイト設定を行います</p></div>
+      <div class="step"><div class="step-num">4</div><h4>納品・確認</h4><p>指定フォーマットで書き出し。エンジン上での動作確認サポートも可</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="compare-section">
+  <div class="container">
+    <span class="label-rt">Service Lineup</span>
+    <h2 class="section-head">2つのサービスから選ぶ</h2>
+    <p style="font-size:.95rem;color:var(--mid);max-width:480px;line-height:1.75">用途に合わせてサービスを選択、または組み合わせてご利用ください。</p>
+    <div class="compare-grid">
+      <div class="compare-card compare-card-rt">
+        <div class="compare-title compare-title-rt">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="1" width="16" height="16" rx="3" stroke="#A5B4FC" stroke-width="1.5"/><path d="M5 9l3 3 5-5" stroke="#A5B4FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          リアルタイム3DCG制作
+        </div>
+        <p class="compare-sub compare-sub-rt">ゲームエンジン・アプリ・XR向けのデジタルアセット</p>
+        <div class="compare-list">
+          <div class="compare-item compare-item-rt"><div class="ci-icon ci-rt"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1" y="2" width="11" height="8" rx="1"/><path d="M4 13h5M6.5 10v3"/></svg></div>ゲーム・アプリに組み込む3Dモデル</div>
+          <div class="compare-item compare-item-rt"><div class="ci-icon ci-rt"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="1.5" width="7" height="10" rx="1"/><circle cx="6.5" cy="9.5" r=".5" fill="currentColor" stroke="none"/></svg></div>AR/VR コンテンツ向けアセット</div>
+          <div class="compare-item compare-item-rt"><div class="ci-icon ci-rt"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6.5" r="5.5"/><path d="M1 6.5h11M6.5 1c-2 2-3 3.5-3 5.5s1 3.5 3 5.5M6.5 1c2 2 3 3.5 3 5.5s-1 3.5-3 5.5"/></svg></div>WebGL・Three.js 向け軽量モデル</div>
+          <div class="compare-item compare-item-rt"><div class="ci-icon ci-rt"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 2l5.5 4-5.5 5.5L1 6l5.5-4z"/><path d="M1 6h11"/></svg></div>PBRテクスチャ・マテリアル制作</div>
+          <div class="compare-item compare-item-rt"><div class="ci-icon ci-rt"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5a4 4 0 014-4c1.5 0 2.8.8 3.5 2"/><path d="M10.5 6.5a4 4 0 01-4 4c-1.5 0-2.8-.8-3.5-2"/><path d="M11 4v2.5h-2.5M2 9v-2.5h2.5"/></svg></div>既存モデルのリトポロジー・最適化</div>
+        </div>
+        <a href="contact.html" class="compare-cta compare-cta-rt">3DCG制作を相談する →</a>
+      </div>
+      <div class="compare-card compare-card-print">
+        <div class="compare-title compare-title-print">
+          <svg width="18" height="18" viewBox="0 0 22 22" fill="none"><path d="M11 2L20 7V15L11 20L2 15V7L11 2Z" stroke="#1E40AF" stroke-width="1.6" stroke-linejoin="round"/><path d="M11 2V11M20 7L11 11M2 7L11 11" stroke="#1E40AF" stroke-width="1.4" stroke-linecap="round"/></svg>
+          3Dプリントサービス
+        </div>
+        <p class="compare-sub compare-sub-print">デジタルデータを実物に出力する造形サービス</p>
+        <div class="compare-list">
+          <div class="compare-item compare-item-print"><div class="ci-icon ci-print"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="5.5" cy="5.5" r="4"/><path d="M8.5 8.5L12 12"/></svg></div>光造形（レジン）— 高精細フィギュア</div>
+          <div class="compare-item compare-item-print"><div class="ci-icon ci-print"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="2.5"/><path d="M6.5 1v2M6.5 10v2M1 6.5h2M10 6.5h2M3 3l1.5 1.5M8.5 8.5L10 10M3 10l1.5-1.5M8.5 4.5L10 3"/></svg></div>FDM（PLA/ABS）— 実用部品・大型</div>
+          <div class="compare-item compare-item-print"><div class="ci-icon ci-print"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 1.5L11 4.5V8.5L6.5 11.5L2 8.5V4.5L6.5 1.5Z"/></svg></div>SLS（ナイロン）— 高耐久・外注対応</div>
+          <div class="compare-item compare-item-print"><div class="ci-icon ci-print"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4l5.5-2.5L12 4v5L6.5 11.5 1 9V4z"/><path d="M1 4l5.5 2.5 5.5-2.5M6.5 11.5V6.5"/></svg></div>全国配送・最短翌日出力</div>
+          <div class="compare-item compare-item-print"><div class="ci-icon ci-print"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1.5" y="1.5" width="10" height="10" rx="1"/><path d="M4.5 4.5h4M4.5 6.5h4M4.5 8.5h2"/></svg></div>最大250mm角まで対応</div>
+        </div>
+        <a href="materials.html" class="compare-cta compare-cta-print">プリントの素材・仕様を見る →</a>
+      </div>
+    </div>
+    <div class="combo-pitch">
+      <div class="combo-pitch-icon">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 31h8M15 23h6M18 5a11 11 0 0111 11c0 4.3-2.4 8-6 10.2H12c-3.6-2.2-6-5.9-6-10.2A11 11 0 0118 5z"/></svg>
+      </div>
+      <div>
+        <h3>モデリング → 出力のワンストップも可能</h3>
+        <p>3DCG制作と3Dプリントを組み合わせることで、<strong>「デジタルモデルの制作」から「実物の出力・納品」</strong>まで一貫してご依頼いただけます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-section">
+  <div class="container">
+    <span class="label-rt">Pricing Guide</span>
+    <h2 class="section-head">料金の目安</h2>
+    <p style="font-size:.95rem;color:var(--mid);max-width:480px;line-height:1.75">内容・クオリティ・納期により変動します。正確な金額はお見積もりにてご案内します。</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-card-head"><div class="price-card-label">Small Assets</div><div class="price-card-name">小型アセット</div><div class="price-card-price"><sup>¥</sup>15,000<span> 〜</span></div></div>
+        <div class="price-card-body">
+          <div class="price-item"><span class="price-check"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>小道具・アイテム・建物パーツ</div>
+          <div class="price-item"><span class="price-check"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>PBRテクスチャ込み</div>
+          <div class="price-item"><span class="price-check"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>LOD なし〜LOD×1</div>
+          <div class="price-item"><span class="price-check"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>修正1回込み</div>
+        </div>
+        <div class="price-card-footer"><p class="price-note">シンプルな形状のプロップ・背景小物などに適したプランです。</p><a href="contact.html" class="btn-outline-rt">相談・見積もり依頼</a></div>
+      </div>
+      <div class="price-card price-card-featured">
+        <div class="price-card-head"><div class="price-card-label">Character</div><div class="price-card-name">キャラクターモデル</div><div class="price-card-price"><sup>¥</sup>45,000<span> 〜</span></div></div>
+        <div class="price-card-body">
+          <div class="price-item"><span class="price-check" style="color:#C7D2FE"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>フルキャラクターモデル</div>
+          <div class="price-item"><span class="price-check" style="color:#C7D2FE"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>PBRテクスチャ（4チャンネル）</div>
+          <div class="price-item"><span class="price-check" style="color:#C7D2FE"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>ヒューマノイドリグ対応</div>
+          <div class="price-item"><span class="price-check" style="color:#C7D2FE"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>LOD×2 生成込み</div>
+          <div class="price-item"><span class="price-check" style="color:#C7D2FE"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unity / UE5 動作確認</div>
+          <div class="price-item"><span class="price-check" style="color:#C7D2FE"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>修正2回込み</div>
+        </div>
+        <div class="price-card-footer"><p class="price-note">リグあり・アニメーション対応が必要な場合は別途見積もり。</p><a href="contact.html" class="price-btn btn-rt-full">制作を依頼する</a></div>
+      </div>
+      <div class="price-card">
+        <div class="price-card-head"><div class="price-card-label">Environment / Set</div><div class="price-card-name">環境・セットアセット</div><div class="price-card-price"><sup>¥</sup>60,000<span> 〜</span></div></div>
+        <div class="price-card-body">
+          <div class="price-item"><span class="price-check"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>モジュラー背景セット</div>
+          <div class="price-item"><span class="price-check"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>ライトマップUV対応</div>
+          <div class="price-item"><span class="price-check"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>LOD×3 対応</div>
+          <div class="price-item"><span class="price-check"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>修正2回込み</div>
+        </div>
+        <div class="price-card-footer"><p class="price-note">規模・点数によって変動します。まずはご相談ください。</p><a href="contact.html" class="btn-outline-rt">相談・見積もり依頼</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rt-cta">
+  <div class="container">
+    <div class="rt-cta-inner">
+      <h2>まずはお気軽にご相談を</h2>
+      <p>用途・エンジン・予算・納期など、どんな段階のご相談でも歓迎します。</p>
+      <div class="btn-group" style="justify-content:center">
+        <a href="contact.html" class="btn btn-rt">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M1.5 7.5L13.5 1.5L7.5 13.5L6 8.5L1.5 7.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          制作を相談する・見積もり依頼
+        </a>
+        <a href="index.html" class="btn btn-outline-w">3Dプリントも見る</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-wrap"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="footer-logo-img"><span class="footer-brand-name">CRYSTALIZE KOBE</span></div>
+        <p class="footer-desc">3Dプリント・リアルタイム3DCG制作サービス。<br>兵庫県神戸市を拠点に、全国対応いたします。</p>
+        <address class="footer-address">〒650-XXXX 兵庫県神戸市中央区 XX-XX<br>TEL: <a href="tel:078XXXXXXXX">078-XXX-XXXX</a><br>MAIL: <a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></address>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-col-list">
+          <li><a href="index.html">トップ / ギャラリー</a></li><li><a href="materials.html">対応素材・仕様</a></li>
+          <li><a href="realtime.html">リアルタイム3DCG</a></li><li><a href="portfolio.html">制作実績</a></li><li><a href="shop.html">ショップ</a></li><li><a href="estimate.html">見積もりシミュレーター</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">営業情報</div>
+        <ul class="footer-col-list">
+          <li class="info-item">平日 10:00 〜 18:00</li><li class="info-item">土日祝 休業</li>
+          <li style="margin-top:8px"><a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></li>
+          <li><a href="tel:078XXXXXXXX">078-XXX-XXXX</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 CRYSTALIZE KOBE. All rights reserved.</p>
+      <nav class="footer-legal"><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+const toggle=document.getElementById('navToggle'),links=document.getElementById('navLinks');
+toggle.addEventListener('click',()=>{const o=links.classList.toggle('open');toggle.classList.toggle('open',o)});
+links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');toggle.classList.remove('open')}));
+document.addEventListener('click',e=>{if(!toggle.contains(e.target)&&!links.contains(e.target)){links.classList.remove('open');toggle.classList.remove('open')}});
+</script>
+</body>
+</html>

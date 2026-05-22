@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="CRYSTALIZE KOBE へのお問い合わせ。見積もり依頼・サンプル確認・一般的なご質問など、お気軽にどうぞ。">
+<title>Contact — CRYSTALIZE KOBE</title>
+<link rel="icon" href="rogo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4FA;--surface:#FFF;--border:#D4D9E8;
+  --ink:#111827;--mid:#6B7280;--sub:#9CA3AF;
+  --accent:#1E40AF;--accent-h:#1B349A;--accent-bg:#EEF2FF;
+  --dark:#080C1A;
+  --max:1120px;--nav-h:64px;--r:8px;
+  --font:'Plus Jakarta Sans',-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1)
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+input,button,select,textarea{font-family:var(--font)}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+.site-header{position:sticky;top:0;z-index:100;background:rgba(242,244,250,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--ink)}
+.logo-img{height:36px;width:36px;border-radius:6px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{padding:7px 14px;border-radius:100px;font-size:.875rem;font-weight:500;color:var(--mid);transition:.15s}
+.nav-links a:hover,.nav-links a.active{background:var(--surface);color:var(--ink)}
+.nav-links .btn-nav{background:var(--accent);color:#fff;padding:7px 18px;border-radius:100px;font-weight:600;transition:.15s}
+.nav-links .btn-nav:hover{background:var(--accent-h)}
+.nav-toggle{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none;cursor:pointer}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;transition:transform .2s,opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+.label{display:inline-block;font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.page-header{padding:64px 0 52px;border-bottom:1px solid var(--border)}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--sub);margin-bottom:20px}
+.breadcrumb a{color:var(--sub);transition:color .15s}
+.breadcrumb a:hover{color:var(--ink)}
+.page-header h1{font-size:clamp(2rem,4.5vw,3rem);font-weight:700;letter-spacing:-.025em;line-height:1.2;margin-bottom:12px}
+.page-header p{font-size:.95rem;color:var(--mid);max-width:480px;line-height:1.75}
+
+.contact-section{padding:64px 0}
+.contact-layout{display:grid;grid-template-columns:1fr 320px;gap:36px;align-items:start}
+
+/* Form */
+.form-card{background:var(--surface);border-radius:12px;border:1px solid var(--border);padding:36px 40px;box-shadow:0 2px 16px rgba(30,64,175,.05)}
+.form-card h2{font-size:1.3rem;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.form-card>p{font-size:.875rem;color:var(--mid);margin-bottom:28px;line-height:1.65}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.field:last-of-type{margin-bottom:0}
+.field label{font-size:.8rem;font-weight:600}
+.req{color:var(--accent);margin-left:3px;font-size:.75rem}
+.field input,.field textarea,.field select{font-family:var(--font);font-size:.9rem;color:var(--ink);background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);padding:10px 14px;outline:none;transition:.15s;width:100%;-webkit-appearance:none;appearance:none}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(30,64,175,.1);background:var(--surface)}
+.field textarea{resize:vertical;min-height:130px;line-height:1.65}
+.field-hint{font-size:.74rem;color:var(--sub);margin-top:3px;line-height:1.5}
+.select-wrap{position:relative}
+.select-wrap::after{content:"";pointer-events:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);border:5px solid transparent;border-top-color:var(--mid);margin-top:3px}
+.select-wrap select{padding-right:36px}
+.field-error{font-size:.74rem;color:var(--accent);margin-top:3px;display:none}
+.field.has-error input,.field.has-error textarea,.field.has-error select{border-color:var(--accent)}
+.field.has-error .field-error{display:block}
+.file-input-custom{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--bg);border:1.5px dashed var(--border);border-radius:var(--r);cursor:pointer;transition:border-color .15s;position:relative}
+.file-input-custom:hover{border-color:#8BA3D8}
+.file-input-custom.dragover{border-color:var(--accent);background:var(--accent-bg)}
+.file-input-custom input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.file-meta{display:flex;flex-direction:column;gap:2px}
+.file-main{font-size:.85rem;font-weight:500}
+.file-sub{font-size:.74rem;color:var(--sub)}
+.file-list{margin-top:8px;display:flex;flex-direction:column;gap:4px}
+.file-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 10px;background:var(--accent-bg);border-radius:6px;font-size:.78rem}
+.file-item-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.file-item-size{color:var(--mid);flex-shrink:0}
+.file-remove{background:none;border:none;color:var(--sub);cursor:pointer;font-size:1rem;line-height:1;padding:0 2px;transition:color .15s}
+.file-remove:hover{color:var(--accent)}
+.checkbox-row{display:flex;align-items:flex-start;gap:10px;margin-top:6px}
+.checkbox-row input[type=checkbox]{width:16px;height:16px;margin-top:3px;flex-shrink:0;cursor:pointer;accent-color:var(--accent)}
+.checkbox-row label{font-size:.82rem;color:var(--mid);cursor:pointer;line-height:1.55}
+.checkbox-row label a{color:var(--accent);text-decoration:underline}
+.form-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.char-count{font-size:.74rem;color:var(--sub)}
+.char-count span{color:var(--ink);font-weight:600}
+.submit-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;border-radius:var(--r);background:var(--accent);color:#fff;border:none;font-family:var(--font);font-size:.92rem;font-weight:700;cursor:pointer;transition:.15s;white-space:nowrap}
+.submit-btn:hover{background:var(--accent-h)}
+.submit-btn:disabled{opacity:.55;cursor:not-allowed}
+.success-state{display:none;text-align:center;padding:64px 24px}
+.success-state.show{display:block}
+.success-state h3{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin-bottom:10px;margin-top:16px}
+.success-state p{font-size:.9rem;color:var(--mid);line-height:1.7;max-width:380px;margin:0 auto}
+.back-link{display:inline-flex;align-items:center;gap:6px;margin-top:24px;color:var(--accent);font-weight:600;font-size:.9rem;transition:.15s}
+.back-link:hover{opacity:.75}
+
+/* Sidebar */
+.info-sidebar{position:sticky;top:calc(var(--nav-h) + 20px);display:flex;flex-direction:column;gap:16px}
+.info-card{background:var(--surface);border-radius:12px;border:1px solid var(--border);padding:22px}
+.info-card-title{font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--sub);margin-bottom:16px}
+.info-row{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
+.info-row:last-child{margin-bottom:0}
+.info-icon{width:34px;height:34px;border-radius:8px;flex-shrink:0;background:var(--accent-bg);display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.info-row-label{font-size:.72rem;color:var(--sub);margin-bottom:2px}
+.info-row-val{font-size:.875rem;font-weight:600;line-height:1.45}
+.info-row-sub{font-size:.76rem;color:var(--mid);margin-top:2px;line-height:1.5}
+.status-row{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:var(--r);background:var(--bg);margin-top:4px}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-green{background:#10B981;box-shadow:0 0 0 3px rgba(16,185,129,.2)}
+.status-text{font-size:.8rem;font-weight:500}
+.status-sub{font-size:.72rem;color:var(--sub);margin-left:auto}
+.type-list{display:flex;flex-direction:column;gap:8px}
+.type-item{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;background:var(--bg)}
+.type-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.type-label{font-size:.82rem;font-weight:500}
+
+/* FAQ */
+.faq-section{padding:0 0 80px;border-top:1px solid var(--border)}
+.faq-inner{max-width:720px;margin:56px auto 0}
+.faq-inner h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+.faq-inner>p{font-size:.9rem;color:var(--mid);margin-bottom:32px}
+.faq-list{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item:last-child{border-bottom:none}
+.faq-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:18px 20px;background:var(--surface);border:none;cursor:pointer;text-align:left;font-family:var(--font);transition:.15s;gap:16px}
+.faq-btn:hover{background:var(--bg)}
+.faq-q{font-size:.9rem;font-weight:600;line-height:1.4;flex:1}
+.faq-q-prefix{color:var(--accent);margin-right:8px;font-weight:700}
+.faq-chevron{flex-shrink:0;width:20px;height:20px;color:var(--sub);transition:transform .25s var(--ease)}
+.faq-btn[aria-expanded=true] .faq-chevron{transform:rotate(180deg)}
+.faq-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s var(--ease)}
+.faq-body.open{grid-template-rows:1fr}
+.faq-body-inner{overflow:hidden}
+.faq-a{padding:0 20px 18px;font-size:.875rem;color:var(--mid);line-height:1.75;border-top:1px solid var(--border);padding-top:14px}
+.faq-a a{color:var(--accent);text-decoration:underline}
+
+/* Footer */
+footer{background:var(--dark);padding:0;color:#9CA3AF}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;padding:52px 0 44px;border-bottom:1px solid rgba(255,255,255,.07)}
+.footer-logo-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.footer-logo-img{height:38px;width:38px;border-radius:7px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.footer-brand-name{font-weight:700;font-size:.95rem;color:#F0F0F8;letter-spacing:.02em}
+.footer-desc{font-size:.82rem;line-height:1.75;margin-bottom:16px;color:#6B7280}
+.footer-address{font-size:.78rem;line-height:1.9;font-style:normal;color:#6B7280}
+.footer-address a{color:#93C5FD;transition:color .15s}
+.footer-address a:hover{color:#BFDBFE}
+.footer-col-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:14px}
+.footer-col-list{display:flex;flex-direction:column;gap:7px}
+.footer-col-list a{font-size:.84rem;color:#9CA3AF;transition:color .15s}
+.footer-col-list a:hover{color:#F0F0F8}
+.footer-col-list .info-item{font-size:.82rem;color:#6B7280}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 0}
+.footer-copy{font-size:.74rem;color:#4B5563}
+.footer-legal{display:flex;gap:18px}
+.footer-legal a{font-size:.74rem;color:#4B5563;transition:color .15s}
+.footer-legal a:hover{color:#9CA3AF}
+
+@media(max-width:768px){
+  .nav-toggle{display:flex}
+  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;gap:4px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a,.nav-links .btn-nav{border-radius:6px;padding:11px 14px;width:100%}
+  .contact-layout{grid-template-columns:1fr}
+  .info-sidebar{position:static}
+  .form-card{padding:24px 20px}
+  .form-grid-2{grid-template-columns:1fr}
+  .form-actions{flex-direction:column;align-items:stretch}
+  .submit-btn{width:100%;justify-content:center}
+  .footer-top{grid-template-columns:1fr;gap:28px}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="logo"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="logo-img">CRYSTALIZE KOBE</a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開閉"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">トップ</a></li>
+      <li><a href="materials.html">素材・仕様</a></li>
+      <li><a href="portfolio.html">実績</a></li>
+      <li><a href="shop.html">ショップ</a></li>
+      <li><a href="realtime.html">3DCG</a></li>
+      <li><a href="contact.html" class="active">お問い合わせ</a></li>
+      <li><a href="estimate.html" class="btn-nav">見積もり</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<section class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">トップ</a><span style="opacity:.4">›</span><span>Contact</span></div>
+    <span class="label">Contact Us</span>
+    <h1>お問い合わせ</h1>
+    <p>ご質問・見積もり依頼・サンプルのご確認など、<br>お気軽にご連絡ください。通常 1〜2 営業日以内にご返答します。</p>
+  </div>
+</section>
+
+<section class="contact-section">
+  <div class="container">
+    <div class="contact-layout">
+
+      <div>
+        <div class="form-card" id="formCard">
+          <h2>お問い合わせフォーム</h2>
+          <p>以下のフォームに必要事項をご記入のうえ送信してください。</p>
+          <form id="contactForm" novalidate>
+            <div class="form-grid-2">
+              <div class="field"><label for="f-name">お名前 <span class="req">*</span></label><input type="text" id="f-name" name="name" placeholder="山田 太郎" autocomplete="name" required><span class="field-error">お名前を入力してください</span></div>
+              <div class="field"><label for="f-email">メールアドレス <span class="req">*</span></label><input type="email" id="f-email" name="email" placeholder="taro@example.com" autocomplete="email" required><span class="field-error">正しいメールアドレスを入力してください</span></div>
+            </div>
+            <div class="form-grid-2">
+              <div class="field"><label for="f-company">会社名・団体名</label><input type="text" id="f-company" name="company" placeholder="（任意）"></div>
+              <div class="field"><label for="f-phone">電話番号</label><input type="tel" id="f-phone" name="phone" placeholder="（任意）"></div>
+            </div>
+            <div class="field">
+              <label for="f-type">お問い合わせの種類 <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select id="f-type" name="inquiry_type" required>
+                  <option value="" disabled selected>選択してください</option>
+                  <option value="estimate">見積もり依頼</option>
+                  <option value="order">注文・発注について</option>
+                  <option value="sample">サンプル・品質確認</option>
+                  <option value="material">素材・仕様に関するご質問</option>
+                  <option value="realtime">リアルタイム3DCG制作について</option>
+                  <option value="data">データ形式・入稿について</option>
+                  <option value="delivery">納期・配送について</option>
+                  <option value="other">その他</option>
+                </select>
+              </div>
+              <span class="field-error">種類を選択してください</span>
+            </div>
+            <div class="field">
+              <label for="f-message">お問い合わせ内容 <span class="req">*</span></label>
+              <textarea id="f-message" name="message" rows="6" placeholder="ご依頼の詳細・形状や仕上げのご希望・納期のご希望などをできるだけ具体的にご記入ください。" required maxlength="2000"></textarea>
+              <div class="field-error">内容を入力してください</div>
+              <div class="field-hint" style="text-align:right"><span id="charCount">0</span> / 2,000 文字</div>
+            </div>
+            <div class="field">
+              <label>添付ファイル（任意）</label>
+              <div class="file-input-custom" id="fileDropArea">
+                <span style="color:var(--accent);flex-shrink:0">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.5l-7 7a4.5 4.5 0 01-6.4-6.4l8-8a3 3 0 014.2 4.2L7 14.5a1.5 1.5 0 01-2.1-2.1L11 6"/></svg>
+                </span>
+                <div class="file-meta">
+                  <span class="file-main">クリックまたはドラッグ＆ドロップでファイルを追加</span>
+                  <span class="file-sub">.glb / .stl / .fbx / .obj / .3mf / .zip 対応</span>
+                </div>
+                <input type="file" id="f-file" name="attachment" accept=".glb,.stl,.fbx,.obj,.3mf,.zip,.pdf,.png,.jpg,.jpeg" multiple>
+              </div>
+              <div class="file-list" id="fileList"></div>
+              <span class="field-hint">⚠️ 1ファイルあたり上限 50MB。50MB を超える場合は WeTransfer 等の共有リンクをメッセージ欄にご記入ください。</span>
+            </div>
+            <div class="checkbox-row">
+              <input type="checkbox" id="f-privacy" name="privacy" required>
+              <label for="f-privacy"><a href="#" tabindex="-1">プライバシーポリシー</a>に同意のうえ送信します。送信いただいた情報はお問い合わせ対応のみに使用します。</label>
+            </div>
+            <div class="form-actions">
+              <div class="char-count">メッセージ: <span id="charDisplay">0</span>文字</div>
+              <button class="submit-btn" id="submitBtn" type="submit">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M1.5 7.5L13.5 1.5L7.5 13.5L6 8.5L1.5 7.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                送信する
+              </button>
+            </div>
+          </form>
+          <div class="success-state" id="successState">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="24" stroke="#10B981" stroke-width="2"/><path d="M15 26l8 8 14-16" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>お問い合わせを受け付けました</h3>
+            <p>ご入力のメールアドレス宛に確認メールをお送りします。<br>通常 1〜2 営業日以内にご返答いたします。</p>
+            <a href="index.html" class="back-link">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3L5 7l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              トップページへ戻る
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <aside class="info-sidebar">
+        <div class="info-card">
+          <div class="info-card-title">受付状況</div>
+          <div class="status-row">
+            <div class="status-dot dot-green"></div>
+            <span class="status-text">受付中</span>
+            <span class="status-sub">通常1〜2営業日で返答</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title">連絡先情報</div>
+          <div class="info-row">
+            <div class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5"/><path d="M1.5 5.5l6.5 4 6.5-4"/></svg>
+            </div>
+            <div>
+              <div class="info-row-label">メール</div>
+              <div class="info-row-val">info@crystalize-kobe.jp</div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 5v3l2 1.5"/></svg>
+            </div>
+            <div>
+              <div class="info-row-label">営業時間</div>
+              <div class="info-row-val">平日 10:00 〜 18:00</div>
+              <div class="info-row-sub">土日祝はお休みです</div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 15s-6-5.5-6-9a6 6 0 0112 0c0 3.5-6 9-6 9z"/><circle cx="8" cy="6.5" r="2"/></svg>
+            </div>
+            <div>
+              <div class="info-row-label">所在地</div>
+              <div class="info-row-val">兵庫県神戸市</div>
+              <div class="info-row-sub">全国対応（郵送・データ納品）</div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="9" r="5.5"/><path d="M8 6.5v2.5l1.5 1"/><path d="M6.5 1.5h3"/></svg>
+            </div>
+            <div>
+              <div class="info-row-label">最短納期</div>
+              <div class="info-row-val">データ受領翌日〜</div>
+              <div class="info-row-sub">形状・方式により変動します</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title">よくあるお問い合わせ</div>
+          <div class="type-list">
+            <div class="type-item"><div class="type-dot" style="background:#1E40AF"></div><span class="type-label">見積もり依頼</span></div>
+            <div class="type-item"><div class="type-dot" style="background:#0E7490"></div><span class="type-label">素材・仕様の相談</span></div>
+            <div class="type-item"><div class="type-dot" style="background:#059669"></div><span class="type-label">サンプル・品質確認</span></div>
+            <div class="type-item"><div class="type-dot" style="background:#6366F1"></div><span class="type-label">3DCG制作について</span></div>
+            <div class="type-item"><div class="type-dot" style="background:#9CA3AF"></div><span class="type-label">データ形式・入稿方法</span></div>
+          </div>
+        </div>
+
+        <a href="estimate.html" style="display:block;background:var(--accent);color:#fff;padding:16px 20px;border-radius:10px;font-weight:600;font-size:.875rem;line-height:1.5;transition:background .15s" onmouseover="this.style.background='#1B349A'" onmouseout="this.style.background='#1E40AF'">
+          費用が気になる方は<br>
+          <span style="font-weight:700">シミュレーターで概算確認 →</span>
+        </a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-inner">
+      <span class="label">FAQ</span>
+      <h2>よくあるご質問</h2>
+      <p>お問い合わせ前にご確認ください。解決しない場合はフォームからどうぞ。</p>
+      <div class="faq-list" id="faqList">
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false" data-target="faq-1">
+            <span class="faq-q"><span class="faq-q-prefix">Q.</span>対応しているデータ形式は何ですか？</span>
+            <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-body" id="faq-1"><div class="faq-body-inner"><div class="faq-a"><strong>.stl / .obj / .glb / .gltf / .fbx / .3mf</strong> に対応しています。推奨は <strong>.stl</strong>（スライサー直接入稿）または <strong>.glb</strong>（3Dビューア確認用）です。その他形式（.step / .iges 等）については別途ご相談ください。</div></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false" data-target="faq-2">
+            <span class="faq-q"><span class="faq-q-prefix">Q.</span>最小の造形サイズ・細さはどれくらいですか？</span>
+            <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-body" id="faq-2"><div class="faq-body-inner"><div class="faq-a"><strong>光造形（レジン）</strong>：XY解像度 0.035mm、最小肉厚 0.3mm 推奨。<br><strong>FDM（PLA/ABS）</strong>：最小積層 0.1mm。細いピン形状などは 1mm 以上推奨。<br>SLS は最小肉厚 0.7mm 推奨です。</div></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false" data-target="faq-3">
+            <span class="faq-q"><span class="faq-q-prefix">Q.</span>納期はどのくらいかかりますか？</span>
+            <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-body" id="faq-3"><div class="faq-body-inner"><div class="faq-a">データ受領・確認後、<strong>光造形・FDM は最短翌日〜3営業日</strong>目安。<strong>SLS（外注）</strong>は 7〜14 営業日程度。急ぎの場合は「特急対応希望」とご明記ください。</div></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false" data-target="faq-4">
+            <span class="faq-q"><span class="faq-q-prefix">Q.</span>データに問題がある場合はどうなりますか？</span>
+            <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-body" id="faq-4"><div class="faq-body-inner"><div class="faq-a">受領後にデータチェックを行い、問題（非多様体メッシュ・薄肉・穴あきなど）が見つかった場合はメールでご連絡します。簡単な修正は無償対応できる場合があります（要相談）。</div></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false" data-target="faq-5">
+            <span class="faq-q"><span class="faq-q-prefix">Q.</span>仕上げ・後処理は対応していますか？</span>
+            <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-body" id="faq-5"><div class="faq-body-inner"><div class="faq-a">サポート除去・洗浄・UV硬化は料金に含まれます。オプションで表面研磨・サーフェイサー・単色塗装も対応可（別途見積もり）。詳細はお問い合わせください。</div></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false" data-target="faq-6">
+            <span class="faq-q"><span class="faq-q-prefix">Q.</span>リアルタイム3DCG制作も依頼できますか？</span>
+            <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-body" id="faq-6"><div class="faq-body-inner"><div class="faq-a">はい。Unity・Unreal Engine・WebGL・AR/VR 向けのゲームレディ3Dアセット制作も承っております。<a href="realtime.html">3DCG制作サービスページ</a>をご覧ください。3Dプリントとのワンストップ対応も可能です。</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-wrap"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="footer-logo-img"><span class="footer-brand-name">CRYSTALIZE KOBE</span></div>
+        <p class="footer-desc">3Dプリント・リアルタイム3DCG制作サービス。<br>兵庫県神戸市を拠点に、全国対応いたします。</p>
+        <address class="footer-address">〒650-XXXX 兵庫県神戸市中央区 XX-XX<br>TEL: <a href="tel:078XXXXXXXX">078-XXX-XXXX</a><br>MAIL: <a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></address>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-col-list">
+          <li><a href="index.html">トップ / ギャラリー</a></li><li><a href="materials.html">対応素材・仕様</a></li>
+          <li><a href="realtime.html">リアルタイム3DCG</a></li><li><a href="portfolio.html">制作実績</a></li><li><a href="shop.html">ショップ</a></li><li><a href="estimate.html">見積もりシミュレーター</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">営業情報</div>
+        <ul class="footer-col-list">
+          <li class="info-item">平日 10:00 〜 18:00</li><li class="info-item">土日祝 休業</li>
+          <li style="margin-top:8px"><a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></li>
+          <li><a href="tel:078XXXXXXXX">078-XXX-XXXX</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 CRYSTALIZE KOBE. All rights reserved.</p>
+      <nav class="footer-legal"><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+const toggle=document.getElementById('navToggle'),links=document.getElementById('navLinks');
+toggle.addEventListener('click',()=>{const o=links.classList.toggle('open');toggle.classList.toggle('open',o)});
+links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');toggle.classList.remove('open')}));
+document.addEventListener('click',e=>{if(!toggle.contains(e.target)&&!links.contains(e.target)){links.classList.remove('open');toggle.classList.remove('open')}});
+
+document.getElementById('f-message').addEventListener('input',function(){
+  document.getElementById('charDisplay').textContent=this.value.length;
+});
+
+(function(){
+  const input=document.getElementById('f-file'),dropArea=document.getElementById('fileDropArea'),listEl=document.getElementById('fileList');
+  let files=[];
+  function fmt(b){return b<1024*1024?(b/1024).toFixed(0)+'KB':(b/1024/1024).toFixed(1)+'MB'}
+  function renderList(){
+    listEl.innerHTML='';
+    files.forEach((f,i)=>{
+      const el=document.createElement('div');el.className='file-item';
+      el.innerHTML=`<span class="file-item-name" title="${f.name}">&#128196; ${f.name}</span><span class="file-item-size">${fmt(f.size)}</span><button class="file-remove" type="button" data-i="${i}" aria-label="削除">&#215;</button>`;
+      listEl.appendChild(el);
+    });
+    listEl.querySelectorAll('.file-remove').forEach(btn=>btn.addEventListener('click',()=>{files.splice(+btn.dataset.i,1);renderList()}));
+  }
+  function addFiles(nf){
+    Array.from(nf).forEach(f=>{
+      if(f.size>50*1024*1024){alert(`「${f.name}」は50MBを超えています。`);return;}
+      if(!files.find(ex=>ex.name===f.name&&ex.size===f.size))files.push(f);
+    });renderList();
+  }
+  input.addEventListener('change',()=>addFiles(input.files));
+  ['dragover','dragenter'].forEach(ev=>dropArea.addEventListener(ev,e=>{e.preventDefault();dropArea.classList.add('dragover')}));
+  ['dragleave','drop'].forEach(ev=>dropArea.addEventListener(ev,e=>{e.preventDefault();dropArea.classList.remove('dragover')}));
+  dropArea.addEventListener('drop',e=>addFiles(e.dataTransfer.files));
+})();
+
+document.getElementById('contactForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  let ok=true;
+  this.querySelectorAll('.has-error').forEach(el=>el.classList.remove('has-error'));
+  const n=document.getElementById('f-name'),em=document.getElementById('f-email'),tp=document.getElementById('f-type'),msg=document.getElementById('f-message'),priv=document.getElementById('f-privacy');
+  if(!n.value.trim()){n.closest('.field').classList.add('has-error');ok=false;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())){em.closest('.field').classList.add('has-error');ok=false;}
+  if(!tp.value){tp.closest('.field').classList.add('has-error');ok=false;}
+  if(!msg.value.trim()){msg.closest('.field').classList.add('has-error');ok=false;}
+  if(!priv.checked){alert('プライバシーポリシーへの同意をご確認ください。');ok=false;}
+  if(!ok){const f=document.querySelector('.has-error input,.has-error textarea,.has-error select');if(f)f.scrollIntoView({behavior:'smooth',block:'center'});return;}
+  const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='送信中...';
+  /* ▼ 本番: fetch('https://formspree.io/f/YOUR_ID',{method:'POST',body:new FormData(this)}) */
+  setTimeout(()=>{
+    document.getElementById('contactForm').style.display='none';
+    document.getElementById('successState').classList.add('show');
+    document.querySelector('#formCard h2').textContent='ありがとうございます';
+    document.querySelector('#formCard>p').style.display='none';
+  },800);
+});
+
+document.getElementById('faqList').addEventListener('click',function(e){
+  const btn=e.target.closest('.faq-btn');if(!btn)return;
+  const expanded=btn.getAttribute('aria-expanded')==='true';
+  const body=document.getElementById(btn.dataset.target);
+  this.querySelectorAll('.faq-btn[aria-expanded=true]').forEach(b=>{
+    if(b!==btn){b.setAttribute('aria-expanded','false');document.getElementById(b.dataset.target).classList.remove('open');}
+  });
+  btn.setAttribute('aria-expanded',String(!expanded));
+  body.classList.toggle('open',!expanded);
+});
+</script>
+</body>
+</html>

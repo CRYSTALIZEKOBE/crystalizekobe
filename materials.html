@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="CRYSTALIZE KOBE 対応素材・プリンター仕様。光造形(ELEGOO)・FDM(Bambu Lab)・SLS 粉末焼結に対応。">
+<title>Materials — CRYSTALIZE KOBE</title>
+<link rel="icon" href="rogo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4FA;--surface:#FFF;--border:#D4D9E8;
+  --ink:#111827;--mid:#6B7280;--sub:#9CA3AF;
+  --accent:#1E40AF;--accent-h:#1B349A;--accent-bg:#EEF2FF;
+  --blue:#1E40AF;--blue-bg:#EEF2FF;
+  --teal:#0E7490;--teal-bg:#ECFEFF;
+  --green:#0D7A52;--green-bg:#ECFDF5;
+  --dark:#080C1A;
+  --max:1120px;--nav-h:64px;--r:8px;
+  --font:'Plus Jakarta Sans',-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1)
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+.site-header{position:sticky;top:0;z-index:100;background:rgba(242,244,250,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--ink)}
+.logo-img{height:36px;width:36px;border-radius:6px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{padding:7px 14px;border-radius:100px;font-size:.875rem;font-weight:500;color:var(--mid);transition:.15s}
+.nav-links a:hover,.nav-links a.active{background:var(--surface);color:var(--ink)}
+.nav-links .btn-nav{background:var(--accent);color:#fff;padding:7px 18px;border-radius:100px;font-weight:600;transition:.15s}
+.nav-links .btn-nav:hover{background:var(--accent-h)}
+.nav-toggle{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none;cursor:pointer}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;transition:transform .2s,opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+.label{display:inline-block;font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:12px 24px;border-radius:var(--r);font-family:var(--font);font-size:.9rem;font-weight:600;cursor:pointer;transition:.15s}
+.btn-primary{background:var(--accent);color:#fff;border:1.5px solid var(--accent)}
+.btn-primary:hover{background:var(--accent-h);border-color:var(--accent-h)}
+
+.page-header{padding:64px 0 52px;border-bottom:1px solid var(--border)}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--sub);margin-bottom:20px}
+.breadcrumb a{color:var(--sub);transition:color .15s}
+.breadcrumb a:hover{color:var(--ink)}
+.page-header h1{font-size:clamp(2rem,4.5vw,3rem);font-weight:700;letter-spacing:-.025em;line-height:1.2;margin-bottom:12px}
+.page-header p{font-size:.95rem;color:var(--mid);max-width:500px;line-height:1.75}
+
+.printers{padding:64px 0}
+.printer-section{margin-bottom:44px}
+.printer-section:last-child{margin-bottom:0}
+.printer-card{background:var(--surface);border-radius:12px;border:1px solid var(--border);overflow:hidden;box-shadow:0 1px 4px rgba(30,64,175,.04)}
+.card-bar{height:4px}
+.bar-resin{background:linear-gradient(90deg,#1E40AF,#60A5FA)}
+.bar-fdm{background:linear-gradient(90deg,#0E7490,#22D3EE)}
+.bar-sls{background:linear-gradient(90deg,#059669,#34D399)}
+.card-inner{display:grid;grid-template-columns:280px 1fr}
+.card-left{padding:32px 28px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:16px}
+.printer-type-badge{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:100px;width:fit-content}
+.badge-resin{background:var(--blue-bg);color:var(--blue)}
+.badge-fdm{background:var(--teal-bg);color:var(--teal)}
+.badge-sls{background:var(--green-bg);color:var(--green)}
+.printer-name{font-size:1.1rem;font-weight:700;line-height:1.3;margin-top:4px}
+.printer-maker{font-size:.82rem;color:var(--mid);margin-top:2px}
+.build-vol{margin-top:8px;padding:16px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border)}
+.build-vol-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin-bottom:8px}
+.build-vol-size{font-size:1.1rem;font-weight:700;letter-spacing:-.01em}
+.build-vol-sub{font-size:.75rem;color:var(--mid);margin-top:3px}
+.status-badge{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:600;padding:5px 12px;border-radius:100px;width:fit-content;margin-top:auto}
+.status-active{background:#ECFDF5;color:#065F46}
+.status-active::before{content:"";width:6px;height:6px;border-radius:50%;background:#10B981;display:block}
+.status-planned{background:#F5F3FF;color:#5B21B6}
+.status-planned::before{content:"";width:6px;height:6px;border-radius:50%;background:#7C3AED;display:block}
+.card-right{padding:32px}
+.specs-title{font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sub);margin-bottom:20px}
+.spec-table{width:100%;border-collapse:collapse}
+.spec-table tr{border-bottom:1px solid var(--border)}
+.spec-table tr:last-child{border-bottom:none}
+.spec-table th{text-align:left;font-size:.78rem;font-weight:600;color:var(--mid);padding:11px 16px 11px 0;width:38%;vertical-align:top;white-space:nowrap}
+.spec-table td{font-size:.875rem;color:var(--ink);padding:11px 0;vertical-align:top;line-height:1.55}
+.spec-highlight{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:4px;margin-left:8px;white-space:nowrap}
+.hi-blue{background:var(--blue-bg);color:var(--blue)}
+.hi-accent{background:var(--accent-bg);color:var(--accent)}
+.hi-green{background:var(--green-bg);color:var(--green)}
+.mat-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.mat-tag{display:inline-block;font-size:.75rem;font-weight:500;padding:3px 10px;border-radius:100px;border:1px solid var(--border);color:var(--mid)}
+.use-cases{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.use-case{display:inline-block;font-size:.75rem;background:var(--bg);border:1px solid var(--border);padding:4px 12px;border-radius:100px;color:var(--mid)}
+
+.comparison{padding:64px 0;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.comparison h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+.comparison p{font-size:.9rem;color:var(--mid);margin-bottom:36px}
+.comp-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.comp-table{width:100%;min-width:620px;border-collapse:collapse;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.comp-table th,.comp-table td{padding:13px 18px;text-align:left;font-size:.865rem;border-bottom:1px solid var(--border)}
+.comp-table th{background:var(--bg);font-weight:700;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--mid)}
+.comp-table tr:last-child td{border-bottom:none}
+.comp-table tr:hover td{background:rgba(30,64,175,.02)}
+.comp-table td:first-child{font-weight:600}
+.comp-check{color:#10B981;font-weight:700}
+.comp-mid{color:var(--mid)}
+.comp-star{color:var(--accent);font-weight:700}
+
+.page-cta{padding:64px 0;text-align:center}
+.page-cta h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;letter-spacing:-.02em;margin-bottom:12px}
+.page-cta p{font-size:.95rem;color:var(--mid);margin-bottom:28px}
+
+/* Footer (shared) */
+footer{background:var(--dark);padding:0;color:#9CA3AF}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;padding:52px 0 44px;border-bottom:1px solid rgba(255,255,255,.07)}
+.footer-logo-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.footer-logo-img{height:38px;width:38px;border-radius:7px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.footer-brand-name{font-weight:700;font-size:.95rem;color:#F0F0F8;letter-spacing:.02em}
+.footer-desc{font-size:.82rem;line-height:1.75;margin-bottom:16px;color:#6B7280}
+.footer-address{font-size:.78rem;line-height:1.9;font-style:normal;color:#6B7280}
+.footer-address a{color:#93C5FD;transition:color .15s}
+.footer-address a:hover{color:#BFDBFE}
+.footer-col-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:14px}
+.footer-col-list{display:flex;flex-direction:column;gap:7px}
+.footer-col-list a{font-size:.84rem;color:#9CA3AF;transition:color .15s}
+.footer-col-list a:hover{color:#F0F0F8}
+.footer-col-list .info-item{font-size:.82rem;color:#6B7280}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 0}
+.footer-copy{font-size:.74rem;color:#4B5563}
+.footer-legal{display:flex;gap:18px}
+.footer-legal a{font-size:.74rem;color:#4B5563;transition:color .15s}
+.footer-legal a:hover{color:#9CA3AF}
+
+@media(max-width:768px){
+  .nav-toggle{display:flex}
+  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;gap:4px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a,.nav-links .btn-nav{border-radius:6px;padding:11px 14px;width:100%}
+  .card-inner{grid-template-columns:1fr}
+  .card-left{border-right:none;border-bottom:1px solid var(--border);padding-bottom:24px}
+  .card-right{padding:24px}
+  .footer-top{grid-template-columns:1fr;gap:28px}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="logo"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="logo-img">CRYSTALIZE KOBE</a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開閉"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">トップ</a></li>
+      <li><a href="materials.html" class="active">素材・仕様</a></li>
+      <li><a href="portfolio.html">実績</a></li>
+      <li><a href="shop.html">ショップ</a></li>
+      <li><a href="realtime.html">3DCG</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+      <li><a href="estimate.html" class="btn-nav">見積もり</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<section class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">トップ</a><span style="opacity:.4">›</span><span>Materials</span></div>
+    <span class="label">Printers &amp; Materials</span>
+    <h1>対応素材・プリンター仕様</h1>
+    <p>3種類のプリンター方式で、精度・強度・サイズのあらゆるニーズに対応します。</p>
+  </div>
+</section>
+
+<section class="printers">
+  <div class="container">
+
+    <div class="printer-section">
+      <div class="printer-card">
+        <div class="card-bar bar-resin"></div>
+        <div class="card-inner">
+          <div class="card-left">
+            <span class="printer-type-badge badge-resin">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.3"/><path d="M6 3.5v2.5l1.5 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              光造形 (MSLA)
+            </span>
+            <div><div class="printer-name">ELEGOO<br>高精細光造形プリンター</div><div class="printer-maker">ELEGOO Inc.</div></div>
+            <div class="build-vol">
+              <div class="build-vol-label">最大造形サイズ</div>
+              <div class="build-vol-size">W130 × D80 × H160 <span style="font-size:.7rem;font-weight:400;color:var(--mid)">mm</span></div>
+              <div class="build-vol-sub">約 1.66L の造形空間</div>
+            </div>
+            <span class="status-badge status-active">稼働中</span>
+          </div>
+          <div class="card-right">
+            <div class="specs-title">仕様・対応素材</div>
+            <table class="spec-table">
+              <tr><th>対応素材</th><td><div class="mat-tags"><span class="mat-tag">高精細レジン</span><span class="mat-tag">水洗いレジン</span><span class="mat-tag">ABS-Likeレジン</span></div></td></tr>
+              <tr><th>最小積層厚</th><td><strong>0.05 mm</strong><span class="spec-highlight hi-blue">高精細</span></td></tr>
+              <tr><th>XY 解像度</th><td>0.035 mm（モノクロLCD）</td></tr>
+              <tr><th>表面品質</th><td>非常に滑らか。細部の再現に優れる</td></tr>
+              <tr><th>後処理</th><td>洗浄（IPA or 水洗い）・UV二次硬化</td></tr>
+              <tr><th>得意な用途</th><td><div class="use-cases"><span class="use-case">フィギュア・ガレージキット</span><span class="use-case">アクセサリー・宝飾</span><span class="use-case">精密プロトタイプ</span></div></td></tr>
+              <tr><th>強度・耐熱</th><td>中程度（硬質）。高熱・衝撃には不向き</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="printer-section">
+      <div class="printer-card">
+        <div class="card-bar bar-fdm"></div>
+        <div class="card-inner">
+          <div class="card-left">
+            <span class="printer-type-badge badge-fdm">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              熱溶解積層 (FDM)
+            </span>
+            <div><div class="printer-name">Bambu Lab<br>高速・高精度積層プリンター</div><div class="printer-maker">Bambu Lab Co., Ltd.</div></div>
+            <div class="build-vol">
+              <div class="build-vol-label">最大造形サイズ</div>
+              <div class="build-vol-size">W250 × D250 × H250 <span style="font-size:.7rem;font-weight:400;color:var(--mid)">mm</span></div>
+              <div class="build-vol-sub">約 15.6L の造形空間</div>
+            </div>
+            <span class="status-badge status-active">稼働中</span>
+          </div>
+          <div class="card-right">
+            <div class="specs-title">仕様・対応素材</div>
+            <table class="spec-table">
+              <tr><th>対応素材</th><td><div class="mat-tags"><span class="mat-tag">PLA</span><span class="mat-tag">PLA+</span><span class="mat-tag">ABS</span><span class="mat-tag">PETG</span><span class="mat-tag">TPU</span></div></td></tr>
+              <tr><th>最小積層厚</th><td><strong>0.05 〜 0.35 mm</strong>（用途に応じて選択）</td></tr>
+              <tr><th>出力速度</th><td>最大 <strong>500 mm/s</strong><span class="spec-highlight hi-accent">高速</span></td></tr>
+              <tr><th>ノズル温度</th><td>最大 300℃ / ヒートベッド 最大 110℃</td></tr>
+              <tr><th>表面品質</th><td>積層跡あり（後研磨で改善可）</td></tr>
+              <tr><th>得意な用途</th><td><div class="use-cases"><span class="use-case">大型モデル・筐体</span><span class="use-case">実用部品・治具</span><span class="use-case">建築モデル</span></div></td></tr>
+              <tr><th>強度・耐熱</th><td>高い（ABS: 耐熱性あり / PLA: 汎用）</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="printer-section">
+      <div class="printer-card">
+        <div class="card-bar bar-sls"></div>
+        <div class="card-inner">
+          <div class="card-left">
+            <span class="printer-type-badge badge-sls">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1.5L10.5 4.5V7.5L6 10.5L1.5 7.5V4.5L6 1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              粉末焼結 (SLS)
+            </span>
+            <div><div class="printer-name">SLS 粉末焼結<br>プリンター（外注対応）</div><div class="printer-maker">外部パートナー工場</div></div>
+            <div class="build-vol">
+              <div class="build-vol-label">最大造形サイズ</div>
+              <div class="build-vol-size">W200 × D200 × H150 <span style="font-size:.7rem;font-weight:400;color:var(--mid)">mm</span></div>
+              <div class="build-vol-sub">約 6.0L の造形空間</div>
+            </div>
+            <span class="status-badge status-planned">外注対応</span>
+          </div>
+          <div class="card-right">
+            <div class="specs-title">仕様・対応素材</div>
+            <table class="spec-table">
+              <tr><th>対応素材</th><td><div class="mat-tags"><span class="mat-tag">PA12（ナイロン）</span><span class="mat-tag">PA12-GF（ガラス繊維入り）</span></div></td></tr>
+              <tr><th>最小積層厚</th><td><strong>0.1 mm</strong></td></tr>
+              <tr><th>サポート材</th><td>不要（サポートレス造形）<span class="spec-highlight hi-green">メリット</span></td></tr>
+              <tr><th>表面品質</th><td>マット調・やや粗い（後処理で改善可）</td></tr>
+              <tr><th>得意な用途</th><td><div class="use-cases"><span class="use-case">高耐久実用部品</span><span class="use-case">複雑形状・アンダーカット</span><span class="use-case">可動機構</span></div></td></tr>
+              <tr><th>強度・耐熱</th><td><strong>最高レベル</strong>（PA12: 耐衝撃・耐薬品性に優れる）</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="comparison">
+  <div class="container">
+    <span class="label">Quick Comparison</span>
+    <h2>方式別 特徴比較</h2>
+    <p>用途に最適な方式をお選びください。迷ったら見積もりページでご相談いただけます。</p>
+    <div class="comp-table-wrap">
+      <table class="comp-table">
+        <thead><tr><th>比較項目</th><th>光造形（レジン）</th><th>FDM（PLA/ABS）</th><th>SLS（ナイロン）</th></tr></thead>
+        <tbody>
+          <tr><td>精細度</td><td><span class="comp-star">★★★★★</span></td><td><span class="comp-mid">★★★☆☆</span></td><td><span class="comp-mid">★★★★☆</span></td></tr>
+          <tr><td>強度</td><td><span class="comp-mid">★★☆☆☆</span></td><td><span class="comp-mid">★★★☆☆</span></td><td><span class="comp-star">★★★★★</span></td></tr>
+          <tr><td>最大サイズ</td><td>130×80×160mm</td><td><span class="comp-check">250×250×250mm</span></td><td>200×200×150mm</td></tr>
+          <tr><td>表面品質</td><td><span class="comp-check">非常に滑らか</span></td><td>積層跡あり</td><td>やや粗い</td></tr>
+          <tr><td>サポート材</td><td>必要</td><td>必要</td><td><span class="comp-check">不要</span></td></tr>
+          <tr><td>耐熱性</td><td>低め</td><td>ABS: 中 / PLA: 低</td><td><span class="comp-check">高い</span></td></tr>
+          <tr><td>参考単価目安</td><td>× 1.5</td><td>× 1.0（基準）</td><td>× 2.0</td></tr>
+          <tr><td>対応状況</td><td><span class="comp-check">✓ 自社設備</span></td><td><span class="comp-check">✓ 自社設備</span></td><td>外注対応</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="page-cta">
+  <div class="container">
+    <h2>素材・仕様が決まったら</h2>
+    <p>シミュレーターで概算金額をすぐに確認できます。そのままお問い合わせも可能です。</p>
+    <a href="estimate.html" class="btn btn-primary">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M8 2v11M2 8h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      無料で見積もりシミュレーション
+    </a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-wrap"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="footer-logo-img"><span class="footer-brand-name">CRYSTALIZE KOBE</span></div>
+        <p class="footer-desc">3Dプリント・リアルタイム3DCG制作サービス。<br>兵庫県神戸市を拠点に、全国対応いたします。</p>
+        <address class="footer-address">〒650-XXXX 兵庫県神戸市中央区 XX-XX<br>TEL: <a href="tel:078XXXXXXXX">078-XXX-XXXX</a><br>MAIL: <a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></address>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-col-list">
+          <li><a href="index.html">トップ / ギャラリー</a></li>
+          <li><a href="materials.html">対応素材・仕様</a></li>
+          <li><a href="realtime.html">リアルタイム3DCG</a></li>
+          <li><a href="estimate.html">見積もりシミュレーター</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">営業情報</div>
+        <ul class="footer-col-list">
+          <li class="info-item">平日 10:00 〜 18:00</li>
+          <li class="info-item">土日祝 休業</li>
+          <li style="margin-top:8px"><a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></li>
+          <li><a href="tel:078XXXXXXXX">078-XXX-XXXX</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 CRYSTALIZE KOBE. All rights reserved.</p>
+      <nav class="footer-legal"><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+const toggle=document.getElementById('navToggle'),links=document.getElementById('navLinks');
+toggle.addEventListener('click',()=>{const o=links.classList.toggle('open');toggle.classList.toggle('open',o)});
+links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');toggle.classList.remove('open')}));
+document.addEventListener('click',e=>{if(!toggle.contains(e.target)&&!links.contains(e.target)){links.classList.remove('open');toggle.classList.remove('open')}});
+</script>
+</body>
+</html>

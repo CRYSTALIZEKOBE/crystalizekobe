@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="CRYSTALIZE KOBE 制作実績・ポートフォリオ。3Dプリント完成品・リアルタイム3DCG・試作品など。">
+<title>Portfolio — CRYSTALIZE KOBE</title>
+<link rel="icon" href="rogo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+<style>
+:root{
+  --bg:#F2F4FA;--surface:#FFF;--border:#D4D9E8;
+  --ink:#111827;--mid:#6B7280;--sub:#9CA3AF;
+  --accent:#1E40AF;--accent-h:#1B349A;--accent-bg:#EEF2FF;
+  --indigo:#6366F1;--indigo-bg:#F5F3FF;
+  --green:#059669;--green-bg:#ECFDF5;
+  --dark:#080C1A;
+  --max:1120px;--nav-h:64px;--r:8px;
+  --font:'Plus Jakarta Sans',-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1)
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ── Nav ── */
+.site-header{position:sticky;top:0;z-index:200;background:rgba(242,244,250,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--ink)}
+.logo-img{height:36px;width:36px;border-radius:6px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{padding:7px 14px;border-radius:100px;font-size:.875rem;font-weight:500;color:var(--mid);transition:.15s}
+.nav-links a:hover,.nav-links a.active{background:var(--surface);color:var(--ink)}
+.nav-links .btn-nav{background:var(--accent);color:#fff;padding:7px 18px;border-radius:100px;font-weight:600;transition:.15s}
+.nav-links .btn-nav:hover{background:var(--accent-h)}
+.nav-toggle{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none;cursor:pointer}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;transition:transform .2s,opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* ── Page header ── */
+.page-header{padding:56px 0 44px;border-bottom:1px solid var(--border)}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--sub);margin-bottom:20px}
+.breadcrumb a{color:var(--sub);transition:color .15s}
+.breadcrumb a:hover{color:var(--ink)}
+.label{display:inline-block;font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.page-header h1{font-size:clamp(2rem,4.5vw,3rem);font-weight:700;letter-spacing:-.025em;line-height:1.2;margin-bottom:10px}
+.page-header p{font-size:.95rem;color:var(--mid);max-width:480px;line-height:1.75}
+
+/* ── Portfolio section ── */
+.portfolio-section{padding:48px 0 80px}
+.controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:14px}
+.cat-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.cat-tab{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.82rem;font-weight:600;padding:7px 16px;border-radius:100px;
+  border:1.5px solid var(--border);color:var(--mid);background:var(--surface);
+  cursor:pointer;transition:.15s;
+}
+.cat-tab:hover{border-color:#8BA3D8;color:var(--ink)}
+.cat-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.work-count{font-size:.82rem;color:var(--sub)}
+.work-count span{color:var(--ink);font-weight:600}
+
+/* ── Works grid ── */
+.works-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+
+/* ── Work card ── */
+.work-card{
+  background:var(--surface);border-radius:12px;border:1px solid var(--border);
+  overflow:hidden;cursor:pointer;
+  transition:box-shadow .22s var(--ease),transform .22s var(--ease);
+  display:flex;flex-direction:column;
+}
+.work-card:hover{box-shadow:0 10px 36px rgba(30,64,175,.12);transform:translateY(-4px)}
+
+.work-thumb{
+  position:relative;aspect-ratio:4/3;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid var(--border);
+}
+.work-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s var(--ease)}
+.work-card:hover .work-thumb img{transform:scale(1.04)}
+.work-thumb-ph{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;
+}
+.wt-print{background:linear-gradient(135deg,#EEF2FF,#DBEAFE)}
+.wt-cg{background:linear-gradient(135deg,#F5F3FF,#EDE9FE)}
+.wt-proto{background:linear-gradient(135deg,#ECFDF5,#D1FAE5)}
+.work-thumb-ph svg{opacity:.28}
+.work-thumb-ph span{font-size:.72rem;color:var(--sub);letter-spacing:.04em}
+
+/* Hover overlay */
+.work-overlay{
+  position:absolute;inset:0;
+  background:rgba(30,64,175,.78);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .22s;
+}
+.work-card:hover .work-overlay{opacity:1}
+.work-overlay-label{
+  display:flex;align-items:center;gap:8px;
+  font-size:.85rem;font-weight:700;color:#fff;letter-spacing:.04em;
+}
+
+/* Category badge */
+.work-badge{
+  position:absolute;top:14px;left:14px;
+  font-size:.66rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  padding:4px 10px;border-radius:100px;
+}
+.wb-print {background:var(--accent-bg);color:var(--accent)}
+.wb-cg    {background:var(--indigo-bg);color:var(--indigo)}
+.wb-proto {background:var(--green-bg); color:var(--green)}
+
+/* Card body */
+.work-body{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column;gap:6px}
+.work-sub{font-size:.72rem;color:var(--sub);letter-spacing:.04em;text-transform:uppercase}
+.work-title{font-size:.98rem;font-weight:700;line-height:1.35;color:var(--ink)}
+.work-desc{font-size:.8rem;color:var(--mid);line-height:1.65;flex:1}
+.work-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.work-tag{
+  font-size:.65rem;font-weight:600;letter-spacing:.04em;
+  padding:2px 8px;border-radius:4px;border:1px solid var(--border);color:var(--mid);
+}
+
+/* ═══ DETAIL MODAL ═══════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(8,12,26,.7);z-index:500;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s var(--ease);
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+
+.detail-box{
+  background:var(--surface);border-radius:16px;
+  width:100%;max-width:960px;max-height:92vh;
+  overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 32px 80px rgba(0,0,0,.3);
+  transform:translateY(24px) scale(.98);
+  transition:transform .3s var(--ease);
+}
+.modal-overlay.open .detail-box{transform:translateY(0) scale(1)}
+
+/* Detail header bar */
+.detail-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 24px;border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.detail-bar-left{display:flex;align-items:center;gap:12px}
+.detail-bar-badge{
+  font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  padding:4px 10px;border-radius:100px;
+}
+.detail-bar-title{font-size:.92rem;font-weight:700;color:var(--ink)}
+.detail-close{
+  background:none;border:none;cursor:pointer;color:var(--mid);
+  padding:6px;border-radius:8px;display:flex;align-items:center;
+  transition:.15s;
+}
+.detail-close:hover{background:var(--bg);color:var(--ink)}
+
+/* Detail content (scrollable) */
+.detail-content{
+  display:grid;grid-template-columns:1fr 360px;
+  flex:1;overflow:hidden;
+}
+
+/* Left: media */
+.detail-media{
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  overflow-y:auto;
+}
+.detail-viewer-wrap{
+  position:relative;background:#0D1228;
+  flex-shrink:0;
+  aspect-ratio:4/3;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.detail-viewer-wrap model-viewer{
+  width:100%;height:100%;
+  --progress-bar-color:#1E40AF;
+  --progress-mask:transparent;
+}
+.detail-viewer-wrap img{width:100%;height:100%;object-fit:cover}
+.detail-viewer-placeholder{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;height:100%;color:#3A4060;font-size:.78rem;letter-spacing:.04em;
+}
+.detail-viewer-placeholder svg{opacity:.25}
+
+/* Image gallery strip */
+.detail-gallery{
+  display:flex;gap:8px;padding:14px;overflow-x:auto;
+  border-top:1px solid var(--border);flex-shrink:0;
+  scrollbar-width:thin;
+}
+.detail-gallery::-webkit-scrollbar{height:4px}
+.detail-gallery::-webkit-scrollbar-track{background:var(--bg)}
+.detail-gallery::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.gallery-thumb{
+  width:72px;height:54px;border-radius:6px;
+  border:2px solid transparent;overflow:hidden;
+  flex-shrink:0;cursor:pointer;transition:border-color .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+.gallery-thumb.active{border-color:var(--accent)}
+.gallery-thumb img{width:100%;height:100%;object-fit:cover}
+.gallery-thumb-ph{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.6rem;color:var(--sub);
+}
+.gallery-thumb-ph.wt-print{background:linear-gradient(135deg,#EEF2FF,#DBEAFE)}
+.gallery-thumb-ph.wt-cg{background:linear-gradient(135deg,#F5F3FF,#EDE9FE)}
+.gallery-thumb-ph.wt-proto{background:linear-gradient(135deg,#ECFDF5,#D1FAE5)}
+
+/* Right: info panel */
+.detail-info{
+  overflow-y:auto;padding:28px 26px;
+  display:flex;flex-direction:column;gap:22px;
+}
+.detail-title{font-size:1.35rem;font-weight:700;letter-spacing:-.02em;line-height:1.25}
+.detail-summary{font-size:.88rem;color:var(--mid);line-height:1.75}
+
+/* Spec table */
+.detail-specs{}
+.spec-head{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-bottom:12px}
+.spec-rows{}
+.spec-row{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:.82rem}
+.spec-row:last-child{border-bottom:none}
+.spec-key{color:var(--sub);flex-shrink:0;width:84px}
+.spec-val{color:var(--ink);font-weight:500;line-height:1.45}
+
+/* Description */
+.detail-desc-text{font-size:.84rem;color:var(--mid);line-height:1.8}
+
+/* Tags */
+.detail-tags{display:flex;gap:6px;flex-wrap:wrap}
+.detail-tag{
+  font-size:.7rem;font-weight:600;letter-spacing:.04em;
+  padding:4px 10px;border-radius:100px;
+  border:1px solid var(--border);color:var(--mid);
+}
+
+/* CTA */
+.detail-cta{display:flex;flex-direction:column;gap:10px;padding-top:4px;border-top:1px solid var(--border);margin-top:auto}
+.detail-cta-note{font-size:.75rem;color:var(--sub);line-height:1.5}
+.btn-cta{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:12px 20px;border-radius:var(--r);
+  font-family:var(--font);font-size:.88rem;font-weight:700;
+  cursor:pointer;transition:.15s;border:none;text-align:center;
+}
+.btn-cta-primary{background:var(--accent);color:#fff}
+.btn-cta-primary:hover{background:var(--accent-h)}
+.btn-cta-outline{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+.btn-cta-outline:hover{border-color:var(--ink)}
+
+/* Prev/Next navigation */
+.detail-nav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 24px;border-top:1px solid var(--border);
+  flex-shrink:0;
+}
+.detail-nav-btn{
+  display:flex;align-items:center;gap:6px;
+  font-size:.78rem;font-weight:600;color:var(--mid);
+  background:none;border:none;cursor:pointer;padding:6px 10px;border-radius:var(--r);
+  transition:.15s;
+}
+.detail-nav-btn:hover{background:var(--bg);color:var(--ink)}
+.detail-nav-btn:disabled{opacity:.3;pointer-events:none}
+.detail-nav-count{font-size:.78rem;color:var(--sub)}
+
+/* ── Footer ── */
+footer{background:var(--dark);padding:0;color:#9CA3AF}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;padding:52px 0 44px;border-bottom:1px solid rgba(255,255,255,.07)}
+.footer-logo-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.footer-logo-img{height:38px;width:38px;border-radius:7px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.footer-brand-name{font-weight:700;font-size:.95rem;color:#F0F0F8;letter-spacing:.02em}
+.footer-desc{font-size:.82rem;line-height:1.75;margin-bottom:16px;color:#6B7280}
+.footer-address{font-size:.78rem;line-height:1.9;font-style:normal;color:#6B7280}
+.footer-address a{color:#93C5FD;transition:color .15s}
+.footer-address a:hover{color:#BFDBFE}
+.footer-col-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:14px}
+.footer-col-list{display:flex;flex-direction:column;gap:7px}
+.footer-col-list a{font-size:.84rem;color:#9CA3AF;transition:color .15s}
+.footer-col-list a:hover{color:#F0F0F8}
+.footer-col-list .info-item{font-size:.82rem;color:#6B7280}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 0}
+.footer-copy{font-size:.74rem;color:#4B5563}
+.footer-legal{display:flex;gap:18px}
+.footer-legal a{font-size:.74rem;color:#4B5563;transition:color .15s}
+.footer-legal a:hover{color:#9CA3AF}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .nav-toggle{display:flex}
+  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;gap:4px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a,.nav-links .btn-nav{border-radius:6px;padding:11px 14px;width:100%}
+  .works-grid{grid-template-columns:1fr}
+  .detail-content{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .detail-media{border-right:none;border-bottom:1px solid var(--border)}
+  .detail-info{max-height:50vh}
+  .detail-box{max-height:96vh;border-radius:12px}
+  .footer-top{grid-template-columns:1fr;gap:28px}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+}
+@media(min-width:769px) and (max-width:1024px){
+  .works-grid{grid-template-columns:1fr 1fr}
+  .detail-content{grid-template-columns:1fr 300px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="logo">
+      <img src="rogo.png" alt="CRYSTALIZE KOBE" class="logo-img">CRYSTALIZE KOBE
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開閉"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">トップ</a></li>
+      <li><a href="materials.html">素材・仕様</a></li>
+      <li><a href="portfolio.html" class="active">実績</a></li>
+      <li><a href="shop.html">ショップ</a></li>
+      <li><a href="realtime.html">3DCG</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+      <li><a href="estimate.html" class="btn-nav">見積もり</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+
+<!-- ── Page header ── -->
+<section class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">トップ</a><span style="opacity:.4">›</span><span>Portfolio</span></div>
+    <span class="label">Works &amp; Portfolio</span>
+    <h1>制作実績</h1>
+    <p>3Dプリント・リアルタイム3DCG・試作品など、<br>これまでの制作実績をご覧ください。</p>
+  </div>
+</section>
+
+<!-- ── Portfolio ── -->
+<section class="portfolio-section">
+  <div class="container">
+
+    <div class="controls">
+      <div class="cat-tabs">
+        <button class="cat-tab active" data-cat="all">すべて</button>
+        <button class="cat-tab" data-cat="print">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3.5l5-3 5 3v5l-5 3-5-3v-5z"/><path d="M1 3.5l5 3 5-3M6 11.5V6.5"/></svg>
+          3Dプリント
+        </button>
+        <button class="cat-tab" data-cat="cg">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><rect x="1" y="2" width="10" height="7" rx="1"/><path d="M4 11h4M6 9v2"/></svg>
+          リアルタイム3DCG
+        </button>
+        <button class="cat-tab" data-cat="proto">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><path d="M6 1v2M6 9v2M1 6h2M9 6h2"/></svg>
+          試作・プロトタイプ
+        </button>
+      </div>
+      <div class="work-count"><span id="workCount">6</span> 件</div>
+    </div>
+
+    <div class="works-grid" id="worksGrid"><!-- rendered by JS --></div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-wrap"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="footer-logo-img"><span class="footer-brand-name">CRYSTALIZE KOBE</span></div>
+        <p class="footer-desc">3Dプリント・リアルタイム3DCG制作サービス。<br>兵庫県神戸市を拠点に、全国対応いたします。</p>
+        <address class="footer-address">〒650-XXXX 兵庫県神戸市中央区 XX-XX<br>TEL: <a href="tel:078XXXXXXXX">078-XXX-XXXX</a><br>MAIL: <a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></address>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-col-list">
+          <li><a href="index.html">トップ / ギャラリー</a></li>
+          <li><a href="materials.html">対応素材・仕様</a></li>
+          <li><a href="portfolio.html">制作実績</a></li>
+          <li><a href="shop.html">ショップ</a></li>
+          <li><a href="realtime.html">リアルタイム3DCG</a></li>
+          <li><a href="estimate.html">見積もりシミュレーター</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">営業情報</div>
+        <ul class="footer-col-list">
+          <li class="info-item">平日 10:00 〜 18:00</li>
+          <li class="info-item">土日祝 休業</li>
+          <li style="margin-top:8px"><a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></li>
+          <li><a href="tel:078XXXXXXXX">078-XXX-XXXX</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 CRYSTALIZE KOBE. All rights reserved.</p>
+      <nav class="footer-legal"><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a></nav>
+    </div>
+  </div>
+</footer>
+
+<!-- ── Detail Modal ── -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="作品詳細">
+  <div class="detail-box" id="detailBox">
+    <!-- Header bar -->
+    <div class="detail-bar">
+      <div class="detail-bar-left">
+        <span class="detail-bar-badge" id="dBarBadge"></span>
+        <span class="detail-bar-title" id="dBarTitle"></span>
+      </div>
+      <button class="detail-close" id="detailClose" aria-label="閉じる">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div class="detail-content">
+
+      <!-- Left: media -->
+      <div class="detail-media">
+        <div class="detail-viewer-wrap" id="dViewerWrap"><!-- media injected by JS --></div>
+        <div class="detail-gallery" id="dGallery"><!-- thumbs injected by JS --></div>
+      </div>
+
+      <!-- Right: info -->
+      <div class="detail-info" id="dInfo">
+        <div>
+          <h2 class="detail-title" id="dTitle"></h2>
+          <p class="detail-summary" id="dSummary" style="margin-top:10px"></p>
+        </div>
+        <div class="detail-tags" id="dTags"></div>
+        <div class="detail-specs">
+          <div class="spec-head">Technical Specs</div>
+          <div class="spec-rows" id="dSpecs"></div>
+        </div>
+        <div>
+          <div class="spec-head">制作について</div>
+          <p class="detail-desc-text" id="dDesc"></p>
+        </div>
+        <div class="detail-cta">
+          <p class="detail-cta-note">同じような制作をご希望の方はお気軽にご相談ください。</p>
+          <a href="estimate.html" class="btn-cta btn-cta-primary">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            見積もりシミュレーター
+          </a>
+          <a href="contact.html" class="btn-cta btn-cta-outline">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1" y="2.5" width="12" height="8" rx="1.5"/><path d="M1 4.5l6 3.5 6-3.5"/></svg>
+            お問い合わせ・ご依頼
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev/Next -->
+    <div class="detail-nav">
+      <button class="detail-nav-btn" id="dPrev">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L6 8l4 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        前の作品
+      </button>
+      <span class="detail-nav-count" id="dNavCount"></span>
+      <button class="detail-nav-btn" id="dNext">
+        次の作品
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l4 5-4 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ JAVASCRIPT ═══════════ -->
+<script>
+/* ── Nav ── */
+(function(){
+  const t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+  t.addEventListener('click',()=>{const o=l.classList.toggle('open');t.classList.toggle('open',o)});
+  l.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{l.classList.remove('open');t.classList.remove('open')}));
+  document.addEventListener('click',e=>{if(!t.contains(e.target)&&!l.contains(e.target)){l.classList.remove('open');t.classList.remove('open')}});
+})();
+
+/* ══════════════════════════════════════
+   WORKS DATA
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   各作品を追加・編集してください。
+
+   cat:    'print' | 'cg' | 'proto'
+   thumb:  カードのサムネイル画像パス（省略可）
+   glb:    model-viewer で表示するGLBファイル（省略可）
+   images: ギャラリー画像の配列（省略可）
+   specs:  仕様テーブル（キー: 値 の形式）
+   ══════════════════════════════════════ */
+const WORKS = [
+  {
+    id: 1,
+    cat: 'print',
+    title: 'オリジナルキャラクターフィギュア',
+    sub: '光造形 / 高精細レジン',
+    summary: '依頼者様のオリジナルキャラクターを高精細レジンで立体化。原型データからの出力・仕上げまで一貫対応。',
+    desc: 'ZBrushで制作されたデータを受け取り、サポート最適化後に光造形で出力。積層0.05mmによる滑らかな表面と、細部の髪の毛・指先まで忠実に再現しました。洗浄・UV硬化後、表面をサンドペーパーで仕上げています。',
+    tags: ['フィギュア', 'キャラクター', '光造形', 'レジン', '一品制作'],
+    specs: {
+      '方式': '光造形 (MSLA)',
+      '素材': '高精細レジン',
+      'サイズ': 'H125 × W52 × D48 mm',
+      '積層厚': '0.05 mm',
+      '用途': 'ディスプレイ・コレクション',
+      '制作期間': '約3日（データ受領後）',
+      '後処理': 'サンドペーパー仕上げ',
+    },
+    // thumb: 'images/portfolio/01-thumb.jpg',
+    // glb:   'models/portfolio/01.glb',
+    // images: ['images/portfolio/01-a.jpg','images/portfolio/01-b.jpg'],
+  },
+  {
+    id: 2,
+    cat: 'print',
+    title: '建築ミニチュアモデル（住宅）',
+    sub: 'FDM / PLA',
+    summary: '住宅設計事務所様からご依頼。プレゼン用の1/100スケール住宅模型をFDMで制作。',
+    desc: 'ArchiCADから書き出したSTLデータをスライシングし、Bambu Labで高速出力。屋根・外壁・開口部を色分けして印刷し、プレゼンテーション向けに仕上げました。A4台座付きで自立展示が可能です。',
+    tags: ['建築模型', '1/100', 'FDM', 'PLA', 'プレゼン用'],
+    specs: {
+      '方式': 'FDM',
+      '素材': 'PLA（複数色）',
+      'サイズ': 'W250 × D200 × H120 mm',
+      '積層厚': '0.15 mm',
+      'スケール': '1/100',
+      '用途': '建築プレゼンテーション',
+      '制作期間': '約4日',
+    },
+  },
+  {
+    id: 3,
+    cat: 'cg',
+    title: 'ゲームキャラクターアセット（Unity向け）',
+    sub: 'リアルタイム3DCG / Unity URP',
+    summary: 'インディーゲーム開発者様向け。Unity URP対応のトゥーンシェーダーキャラクターを制作。',
+    desc: 'ヒアリング→コンセプト確認→モデリング→テクスチャ→リグ→Unity確認というフローで制作。ポリゴン数は8,200tri（LOD0）に最適化し、LOD1（3,500tri）・LOD2（900tri）も納品。URP対応のトゥーンマテリアルで統一感のある見た目を実現しました。',
+    tags: ['キャラクター', 'Unity', 'URP', 'トゥーン', 'リグ付き', 'LOD対応'],
+    specs: {
+      '用途': 'Unity ゲーム組み込み',
+      'シェーダー': 'URP Toon Shader',
+      'ポリゴン': '8,200 tri (LOD0)',
+      'LOD': 'LOD0〜2',
+      '納品形式': 'FBX + .unitypackage',
+      'テクスチャ': '2048px PBR 4ch',
+      '制作期間': '約10日',
+    },
+  },
+  {
+    id: 4,
+    cat: 'proto',
+    title: '機能試作部品（ドローン筐体）',
+    sub: 'FDM / ABS',
+    summary: '無人機開発スタートアップ様の試作依頼。ABS素材で耐熱性・強度を確保した筐体パーツを複数回試作。',
+    desc: 'STEPファイルを受け取り、FDM・ABS素材で出力。嵌合確認→フィードバック→再設計のサイクルを3回繰り返し、最終仕様を確定しました。アセトン処理による表面仕上げで積層跡を除去し、塗装下地として活用いただきました。',
+    tags: ['試作', 'プロトタイプ', 'ABS', 'FDM', '耐熱', '繰り返し試作'],
+    specs: {
+      '方式': 'FDM',
+      '素材': 'ABS',
+      'サイズ': 'W210 × D140 × H65 mm',
+      '積層厚': '0.2 mm',
+      '後処理': 'アセトン蒸気処理',
+      '用途': '機能試作・嵌合確認',
+      '試作回数': '3回（最終仕様確定まで）',
+    },
+  },
+  {
+    id: 5,
+    cat: 'cg',
+    title: 'AR対応 建物アセットセット',
+    sub: 'リアルタイム3DCG / ARKit・ARCore',
+    summary: 'AR不動産内見アプリ向けの建物外観アセット。iOS・Android両対応でポリゴン数を最適化。',
+    desc: 'ARKit / ARCore 両対応を要件にポリゴン予算を設定。メッシュは5,800tri以内に収め、テクスチャは1枚のアトラスにまとめてドローコールを最小化。法線マップで細部を表現しつつ、実機で60fps以上の動作を確認して納品しました。',
+    tags: ['AR', 'ARKit', 'ARCore', '建物', '最適化', 'アトラステクスチャ'],
+    specs: {
+      '用途': 'AR不動産アプリ',
+      '対応OS': 'iOS / Android',
+      'ポリゴン': '5,800 tri以内',
+      '納品形式': 'USDZ + GLB',
+      'テクスチャ': 'アトラス 1024px',
+      'フレームレート': '実機60fps確認済み',
+      '制作期間': '約7日',
+    },
+  },
+  {
+    id: 6,
+    cat: 'proto',
+    title: '医療補助器具プロトタイプ',
+    sub: '粉末焼結（SLS）/ ナイロン PA12',
+    summary: '医療系スタートアップ様向け。ナイロンSLSによる高耐久・サポートレス複雑形状の試作。',
+    desc: '可動ヒンジを含む複雑形状のため、サポート材不要のSLSを選択。外注SLSパートナーと連携し、PA12ナイロンで出力しました。繰り返し屈曲テストに耐える耐久性と、薬品洗浄への耐性を確認。仕様承認後の少量生産提案まで対応しました。',
+    tags: ['SLS', 'ナイロン', 'PA12', '医療', '試作', '複雑形状'],
+    specs: {
+      '方式': 'SLS（外注対応）',
+      '素材': 'PA12 ナイロン',
+      'サイズ': 'W160 × D80 × H45 mm',
+      '積層厚': '0.1 mm',
+      '後処理': 'ショットブラスト',
+      '用途': '医療補助器具プロトタイプ',
+      '制作期間': '約10日（SLS外注含む）',
+    },
+  },
+];
+
+/* ══════════════════════════════════════
+   CATEGORY CONFIG
+   ══════════════════════════════════════ */
+const CAT = {
+  print: { label: '3Dプリント', badgeClass: 'wb-print', thumbClass: 'wt-print',
+    icon: `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l11-6.5L24 8v10L13 24.5 2 18V8z"/><path d="M2 8l11 6.5L24 8M13 24.5V14.5"/></svg>` },
+  cg:    { label: 'リアルタイム3DCG', badgeClass: 'wb-cg', thumbClass: 'wt-cg',
+    icon: `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><rect x="2" y="4" width="22" height="15" rx="2"/><path d="M9 23h8M13 19v4"/></svg>` },
+  proto: { label: '試作・プロトタイプ', badgeClass: 'wb-proto', thumbClass: 'wt-proto',
+    icon: `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><circle cx="13" cy="13" r="7"/><path d="M13 3v3M13 20v3M3 13h3M20 13h3M5.9 5.9l2.1 2.1M17.9 17.9l2.1 2.1M5.9 20.1l2.1-2.1M17.9 8.1l2.1-2.1"/></svg>` },
+};
+
+/* ══════════════════════════════════════
+   RENDER GRID
+   ══════════════════════════════════════ */
+let currentFilter = 'all';
+
+function renderGrid(filter) {
+  currentFilter = filter;
+  const filtered = filter === 'all' ? WORKS : WORKS.filter(w => w.cat === filter);
+  document.getElementById('workCount').textContent = filtered.length;
+  const grid = document.getElementById('worksGrid');
+
+  grid.innerHTML = filtered.map(w => {
+    const c = CAT[w.cat];
+    const thumbContent = w.thumb
+      ? `<img src="${w.thumb}" alt="${w.title}" loading="lazy">`
+      : `<div class="work-thumb-ph ${c.thumbClass}">${c.icon}<span>画像を配置</span></div>`;
+
+    return `
+    <div class="work-card" data-id="${w.id}" role="button" tabindex="0" aria-label="${w.title}の詳細を見る">
+      <div class="work-thumb">
+        ${thumbContent}
+        <span class="work-badge ${c.badgeClass}">${c.label}</span>
+        <div class="work-overlay">
+          <span class="work-overlay-label">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="6" cy="6" r="4.5"/><path d="M10 10l3 3"/></svg>
+            詳細を見る
+          </span>
+        </div>
+      </div>
+      <div class="work-body">
+        <div class="work-sub">${w.sub}</div>
+        <div class="work-title">${w.title}</div>
+        <div class="work-desc">${w.summary}</div>
+        <div class="work-tags">${w.tags.slice(0,4).map(t=>`<span class="work-tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  /* Click handlers */
+  grid.querySelectorAll('.work-card').forEach(card => {
+    const open = () => openDetail(+card.dataset.id);
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') open(); });
+  });
+}
+
+/* ══════════════════════════════════════
+   DETAIL MODAL
+   ══════════════════════════════════════ */
+let currentDetailId = null;
+
+function filteredWorks() {
+  return currentFilter === 'all' ? WORKS : WORKS.filter(w => w.cat === currentFilter);
+}
+
+function openDetail(id) {
+  currentDetailId = id;
+  renderDetail(id);
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentDetailId = null;
+}
+
+function renderDetail(id) {
+  const w = WORKS.find(x => x.id === id);
+  if (!w) return;
+  const c = CAT[w.cat];
+  const fw = filteredWorks();
+  const idx = fw.findIndex(x => x.id === id);
+
+  /* Header bar */
+  const badge = document.getElementById('dBarBadge');
+  badge.textContent = c.label;
+  badge.className = `detail-bar-badge ${c.badgeClass}`;
+  document.getElementById('dBarTitle').textContent = w.title;
+
+  /* Media: model-viewer or placeholder */
+  const viewerWrap = document.getElementById('dViewerWrap');
+  if (w.glb) {
+    viewerWrap.innerHTML = `
+      <model-viewer src="${w.glb}" alt="${w.title}"
+        camera-controls touch-action="pan-y" auto-rotate
+        auto-rotate-delay="1500" rotation-per-second="20deg"
+        shadow-intensity="0.6" environment-image="neutral"
+        style="width:100%;height:100%">
+        <div slot="poster" class="detail-viewer-placeholder">
+          ${c.icon}<span>読み込み中...</span>
+        </div>
+      </model-viewer>`;
+  } else if (w.images && w.images[0]) {
+    viewerWrap.innerHTML = `<img src="${w.images[0]}" alt="${w.title}" style="width:100%;height:100%;object-fit:cover">`;
+  } else {
+    viewerWrap.innerHTML = `<div class="detail-viewer-placeholder">${c.icon}<span>画像・モデルを配置</span></div>`;
+    viewerWrap.querySelector('.detail-viewer-placeholder').style.cssText='display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;width:100%;height:100%;color:#3A4060;font-size:.78rem;letter-spacing:.04em';
+  }
+
+  /* Gallery thumbnails */
+  const gallery = document.getElementById('dGallery');
+  const thumbSrcs = w.images && w.images.length ? w.images : [];
+  if (w.glb || thumbSrcs.length > 0) {
+    const items = [];
+    if (w.glb)  items.push({ type: 'glb' });
+    thumbSrcs.forEach(src => items.push({ type: 'img', src }));
+
+    gallery.innerHTML = items.map((item, i) => `
+      <div class="gallery-thumb ${i===0?'active':''}" data-idx="${i}" data-type="${item.type}" ${item.src?`data-src="${item.src}"`:''}
+        style="background:${i===0?'var(--accent-bg)':'var(--bg)'}">
+        ${item.type==='img'
+          ? `<img src="${item.src}" alt="アングル${i+1}" style="width:100%;height:100%;object-fit:cover">`
+          : `<div class="gallery-thumb-ph ${c.thumbClass}" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--sub)">3D</div>`}
+      </div>`).join('');
+
+    gallery.querySelectorAll('.gallery-thumb').forEach(th => {
+      th.addEventListener('click', () => {
+        gallery.querySelectorAll('.gallery-thumb').forEach(x => { x.classList.remove('active'); x.style.background='var(--bg)'; });
+        th.classList.add('active'); th.style.background='var(--accent-bg)';
+        if (th.dataset.type === 'glb' && w.glb) {
+          viewerWrap.innerHTML = `<model-viewer src="${w.glb}" alt="${w.title}" camera-controls touch-action="pan-y" auto-rotate style="width:100%;height:100%"></model-viewer>`;
+        } else if (th.dataset.src) {
+          viewerWrap.innerHTML = `<img src="${th.dataset.src}" alt="${w.title}" style="width:100%;height:100%;object-fit:cover">`;
+        }
+      });
+    });
+  } else {
+    /* No images: show 3 placeholder thumbs */
+    gallery.innerHTML = ['アングル1','アングル2','アングル3'].map((label, i) => `
+      <div class="gallery-thumb ${i===0?'active':''}" style="background:var(--bg)">
+        <div class="gallery-thumb-ph ${c.thumbClass}">${label}</div>
+      </div>`).join('');
+  }
+
+  /* Info panel */
+  document.getElementById('dTitle').textContent = w.title;
+  document.getElementById('dSummary').textContent = w.summary;
+  document.getElementById('dDesc').textContent = w.desc;
+
+  document.getElementById('dTags').innerHTML =
+    w.tags.map(t => `<span class="detail-tag">${t}</span>`).join('');
+
+  document.getElementById('dSpecs').innerHTML =
+    Object.entries(w.specs).map(([k, v]) =>
+      `<div class="spec-row"><span class="spec-key">${k}</span><span class="spec-val">${v}</span></div>`
+    ).join('');
+
+  /* Prev / Next */
+  const prevBtn = document.getElementById('dPrev');
+  const nextBtn = document.getElementById('dNext');
+  document.getElementById('dNavCount').textContent = `${idx + 1} / ${fw.length}`;
+  prevBtn.disabled = idx <= 0;
+  nextBtn.disabled = idx >= fw.length - 1;
+  prevBtn.onclick = () => { if (idx > 0) renderDetail(fw[idx-1].id); };
+  nextBtn.onclick = () => { if (idx < fw.length-1) renderDetail(fw[idx+1].id); };
+}
+
+/* Close handlers */
+document.getElementById('detailClose').addEventListener('click', closeDetail);
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) closeDetail();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
+/* ── Category filter ── */
+document.querySelectorAll('.cat-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderGrid(tab.dataset.cat);
+  });
+});
+
+/* ── Initial render ── */
+renderGrid('all');
+</script>
+</body>
+</html>

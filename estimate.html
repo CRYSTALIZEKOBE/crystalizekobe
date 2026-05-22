@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="CRYSTALIZE KOBE 見積もりシミュレーター。素材・サイズを選ぶだけで概算金額をリアルタイム表示。">
+<title>Estimate — CRYSTALIZE KOBE</title>
+<link rel="icon" href="rogo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4FA;--surface:#FFF;--border:#D4D9E8;
+  --ink:#111827;--mid:#6B7280;--sub:#9CA3AF;
+  --accent:#1E40AF;--accent-h:#1B349A;--accent-bg:#EEF2FF;
+  --dark:#080C1A;
+  --max:1120px;--nav-h:64px;--r:8px;
+  --font:'Plus Jakarta Sans',-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1)
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+input,button,select,textarea{font-family:var(--font)}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+.site-header{position:sticky;top:0;z-index:100;background:rgba(242,244,250,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--ink)}
+.logo-img{height:36px;width:36px;border-radius:6px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{padding:7px 14px;border-radius:100px;font-size:.875rem;font-weight:500;color:var(--mid);transition:.15s}
+.nav-links a:hover,.nav-links a.active{background:var(--surface);color:var(--ink)}
+.nav-links .btn-nav{background:var(--accent);color:#fff;padding:7px 18px;border-radius:100px;font-weight:600;transition:.15s}
+.nav-links .btn-nav:hover{background:var(--accent-h)}
+.nav-toggle{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none;cursor:pointer}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;transition:transform .2s,opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+.label{display:inline-block;font-size:.73rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.page-header{padding:64px 0 52px;border-bottom:1px solid var(--border)}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--sub);margin-bottom:20px}
+.breadcrumb a{color:var(--sub);transition:color .15s}
+.breadcrumb a:hover{color:var(--ink)}
+.page-header h1{font-size:clamp(2rem,4.5vw,3rem);font-weight:700;letter-spacing:-.025em;line-height:1.2;margin-bottom:12px}
+.page-header p{font-size:.95rem;color:var(--mid);max-width:480px;line-height:1.75}
+
+/* Simulator */
+.simulator{padding:60px 0}
+.sim-layout{display:grid;grid-template-columns:1fr 340px;gap:32px;align-items:start}
+.sim-selectors{display:flex;flex-direction:column;gap:32px}
+.sim-group-title{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin-bottom:14px}
+.sim-group-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:.72rem;font-weight:700;margin-right:8px}
+.radio-grid{display:grid;gap:10px}
+.radio-grid-3{grid-template-columns:repeat(3,1fr)}
+.radio-card-input{position:absolute;opacity:0;pointer-events:none}
+.radio-card-label{display:flex;flex-direction:column;gap:6px;padding:18px 18px 16px;background:var(--surface);border:2px solid var(--border);border-radius:var(--r);cursor:pointer;transition:border-color .15s,box-shadow .15s;user-select:none;-webkit-user-select:none}
+.radio-card-label:hover{border-color:#8BA3D8}
+.radio-card-input:checked + .radio-card-label{border-color:var(--accent);box-shadow:0 0 0 3px rgba(30,64,175,.1)}
+.rc-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:var(--accent-bg);color:var(--accent);margin-bottom:4px}
+.radio-card-name{font-size:.9rem;font-weight:700;line-height:1.3}
+.radio-card-sub{font-size:.75rem;color:var(--mid);line-height:1.45}
+.radio-card-rate{display:inline-block;margin-top:4px;font-size:.73rem;font-weight:700;color:var(--accent);background:var(--accent-bg);padding:2px 8px;border-radius:4px;width:fit-content}
+.radio-card-price{font-size:1rem;font-weight:700;color:var(--ink);margin-top:4px}
+.radio-card-price .price-unit{font-size:.7rem;font-weight:500;color:var(--mid)}
+
+.price-panel{position:sticky;top:calc(var(--nav-h) + 20px);background:var(--surface);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 2px 16px rgba(30,64,175,.07)}
+.price-panel-head{padding:20px 24px 16px;background:var(--accent);color:#fff}
+.pp-label{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.8;margin-bottom:4px}
+.price-panel-num{font-size:2.8rem;font-weight:700;letter-spacing:-.04em;line-height:1;margin-bottom:4px}
+.price-panel-num sup{font-size:1.4rem}
+.price-panel-num .price-suffix{font-size:1rem;opacity:.7;font-weight:500}
+.price-panel-note{font-size:.75rem;opacity:.65;line-height:1.5}
+.price-panel-body{padding:20px 24px}
+.pp-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.pp-row:last-of-type{border-bottom:none}
+.pp-key{font-size:.8rem;color:var(--mid)}
+.pp-val{font-size:.875rem;font-weight:600;text-align:right;max-width:160px}
+.pp-formula{margin-top:16px;padding:12px;background:var(--bg);border-radius:var(--r);font-size:.78rem;color:var(--mid);line-height:1.6;border:1px solid var(--border)}
+.go-form-btn{display:block;width:100%;padding:13px;text-align:center;background:var(--ink);color:#fff;font-family:var(--font);font-size:.9rem;font-weight:700;border:none;cursor:pointer;transition:.15s;margin-top:18px;border-radius:var(--r)}
+.go-form-btn:hover{background:#1F2937}
+
+.scroll-arrow{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.78rem;color:var(--sub);padding:12px 0;cursor:pointer}
+.scroll-arrow svg{animation:bounce .9s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+/* Form */
+.form-section{padding:0 0 80px;border-top:1px solid var(--border)}
+.form-card{background:var(--surface);border-radius:12px;border:1px solid var(--border);padding:36px 40px;max-width:720px;margin:48px auto 0;box-shadow:0 2px 16px rgba(30,64,175,.05)}
+.form-card h2{font-size:1.3rem;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.form-card>p{font-size:.875rem;color:var(--mid);margin-bottom:28px;line-height:1.65}
+.autofill-banner{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--accent-bg);border:1px solid rgba(30,64,175,.2);border-radius:var(--r);margin-bottom:24px}
+.autofill-banner svg{flex-shrink:0;margin-top:1px;color:var(--accent)}
+.af-title{font-size:.8rem;font-weight:700;color:var(--accent);margin-bottom:2px}
+.af-detail{font-size:.78rem;color:var(--mid);line-height:1.5}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.field:last-of-type{margin-bottom:0}
+.field label{font-size:.8rem;font-weight:600}
+.req{color:var(--accent);margin-left:3px;font-size:.75rem}
+.field input,.field textarea,.field select{font-family:var(--font);font-size:.9rem;color:var(--ink);background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);padding:10px 14px;outline:none;transition:.15s;width:100%;-webkit-appearance:none;appearance:none}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(30,64,175,.1);background:var(--surface)}
+.field textarea{resize:vertical;min-height:110px;line-height:1.65}
+.field-hint{font-size:.74rem;color:var(--sub);margin-top:3px;line-height:1.5}
+.field input[readonly]{background:var(--accent-bg);border-color:rgba(30,64,175,.2);color:var(--accent);font-weight:600;cursor:default}
+.file-wrap{position:relative}
+.file-input-custom{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg);border:1.5px dashed var(--border);border-radius:var(--r);cursor:pointer;transition:.15s}
+.file-input-custom:hover{border-color:#8BA3D8}
+.file-input-custom input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.file-icon{color:var(--accent);flex-shrink:0}
+.file-text{font-size:.82rem;color:var(--mid)}
+.file-text strong{color:var(--ink)}
+.field-error{font-size:.74rem;color:var(--accent);margin-top:3px;display:none}
+.field.has-error input,.field.has-error textarea{border-color:var(--accent)}
+.field.has-error .field-error{display:block}
+.form-footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-top:28px;padding-top:24px;border-top:1px solid var(--border)}
+.privacy-note{font-size:.75rem;color:var(--sub);max-width:340px;line-height:1.55}
+.submit-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:var(--r);background:var(--accent);color:#fff;border:none;font-family:var(--font);font-size:.95rem;font-weight:700;cursor:pointer;transition:.15s;white-space:nowrap}
+.submit-btn:hover{background:var(--accent-h)}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed}
+.success-msg{display:none;text-align:center;padding:56px 24px}
+.success-msg.show{display:block}
+.success-msg h3{font-size:1.5rem;font-weight:700;margin-bottom:8px;margin-top:16px}
+.success-msg p{font-size:.9rem;color:var(--mid)}
+
+/* Footer */
+footer{background:var(--dark);padding:0;color:#9CA3AF}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;padding:52px 0 44px;border-bottom:1px solid rgba(255,255,255,.07)}
+.footer-logo-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.footer-logo-img{height:38px;width:38px;border-radius:7px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.footer-brand-name{font-weight:700;font-size:.95rem;color:#F0F0F8;letter-spacing:.02em}
+.footer-desc{font-size:.82rem;line-height:1.75;margin-bottom:16px;color:#6B7280}
+.footer-address{font-size:.78rem;line-height:1.9;font-style:normal;color:#6B7280}
+.footer-address a{color:#93C5FD;transition:color .15s}
+.footer-address a:hover{color:#BFDBFE}
+.footer-col-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:14px}
+.footer-col-list{display:flex;flex-direction:column;gap:7px}
+.footer-col-list a{font-size:.84rem;color:#9CA3AF;transition:color .15s}
+.footer-col-list a:hover{color:#F0F0F8}
+.footer-col-list .info-item{font-size:.82rem;color:#6B7280}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 0}
+.footer-copy{font-size:.74rem;color:#4B5563}
+.footer-legal{display:flex;gap:18px}
+.footer-legal a{font-size:.74rem;color:#4B5563;transition:color .15s}
+.footer-legal a:hover{color:#9CA3AF}
+
+@media(max-width:768px){
+  .nav-toggle{display:flex}
+  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;gap:4px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a,.nav-links .btn-nav{border-radius:6px;padding:11px 14px;width:100%}
+  .sim-layout{grid-template-columns:1fr}
+  .price-panel{position:static}
+  .radio-grid-3{grid-template-columns:1fr}
+  .form-card{padding:24px 20px}
+  .form-grid-2{grid-template-columns:1fr}
+  .form-footer{flex-direction:column;align-items:stretch}
+  .submit-btn{width:100%;justify-content:center}
+  .footer-top{grid-template-columns:1fr;gap:28px}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+}
+@media(min-width:769px) and (max-width:1024px){
+  .sim-layout{grid-template-columns:1fr 300px}
+  .radio-grid-3{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="logo"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="logo-img">CRYSTALIZE KOBE</a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開閉"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">トップ</a></li>
+      <li><a href="materials.html">素材・仕様</a></li>
+      <li><a href="portfolio.html">実績</a></li>
+      <li><a href="shop.html">ショップ</a></li>
+      <li><a href="realtime.html">3DCG</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+      <li><a href="estimate.html" class="active btn-nav">見積もり</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<section class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">トップ</a><span style="opacity:.4">›</span><span>Estimate</span></div>
+    <span class="label">Price Simulator</span>
+    <h1>見積もりシミュレーター</h1>
+    <p>素材とサイズを選ぶだけで概算金額をリアルタイム表示。<br>そのままお問い合わせフォームに引き継いでご依頼いただけます。</p>
+  </div>
+</section>
+
+<section class="simulator">
+  <div class="container">
+    <div class="sim-layout">
+      <div class="sim-selectors">
+
+        <div>
+          <div class="sim-group-title"><span class="sim-group-num">1</span>素材を選ぶ</div>
+          <div class="radio-grid radio-grid-3">
+            <div>
+              <input class="radio-card-input" type="radio" name="material" id="mat-resin" value="resin">
+              <label class="radio-card-label" for="mat-resin">
+                <div class="rc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="5"/><path d="M11.5 11.5L16 16"/></svg></div>
+                <div class="radio-card-name">光造形レジン</div>
+                <div class="radio-card-sub">フィギュア・精密造形向け<br>ELEGOO 高精細</div>
+                <div class="radio-card-rate">素材倍率 × 1.5</div>
+              </label>
+            </div>
+            <div>
+              <input class="radio-card-input" type="radio" name="material" id="mat-pla" value="pla" checked>
+              <label class="radio-card-label" for="mat-pla">
+                <div class="rc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="9" r="3"/><path d="M9 2v2M9 14v2M2 9h2M14 9h2M4.1 4.1l1.4 1.4M12.5 12.5l1.4 1.4M4.1 13.9l1.4-1.4M12.5 5.5l1.4-1.4"/></svg></div>
+                <div class="radio-card-name">PLA / ABS</div>
+                <div class="radio-card-sub">実用部品・大型造形向け<br>Bambu Lab 高速FDM</div>
+                <div class="radio-card-rate">素材倍率 × 1.0（基準）</div>
+              </label>
+            </div>
+            <div>
+              <input class="radio-card-input" type="radio" name="material" id="mat-nylon" value="nylon">
+              <label class="radio-card-label" for="mat-nylon">
+                <div class="rc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l7-7 7 7-7 7-7-7z"/></svg></div>
+                <div class="radio-card-name">高耐久ナイロン</div>
+                <div class="radio-card-sub">高耐久・産業部品向け<br>SLS / 外注対応</div>
+                <div class="radio-card-rate">素材倍率 × 2.0</div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sim-group-title"><span class="sim-group-num">2</span>おおよそのサイズを選ぶ</div>
+          <div class="radio-grid radio-grid-3">
+            <div>
+              <input class="radio-card-input" type="radio" name="size" id="sz-small" value="small" checked>
+              <label class="radio-card-label" for="sz-small">
+                <div class="rc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="9" r="3.5"/></svg></div>
+                <div class="radio-card-name">小型</div>
+                <div class="radio-card-sub">〜 5cm 四方<br>フィギュア・アクセサリー</div>
+                <div class="radio-card-price">¥2,000 <span class="price-unit">〜（基本）</span></div>
+              </label>
+            </div>
+            <div>
+              <input class="radio-card-input" type="radio" name="size" id="sz-medium" value="medium">
+              <label class="radio-card-label" for="sz-medium">
+                <div class="rc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="9" r="6"/></svg></div>
+                <div class="radio-card-name">中型</div>
+                <div class="radio-card-sub">〜 15cm 四方<br>プロトタイプ・モデル</div>
+                <div class="radio-card-price">¥5,000 <span class="price-unit">〜（基本）</span></div>
+              </label>
+            </div>
+            <div>
+              <input class="radio-card-input" type="radio" name="size" id="sz-large" value="large">
+              <label class="radio-card-label" for="sz-large">
+                <div class="rc-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="9" r="8"/></svg></div>
+                <div class="radio-card-name">大型</div>
+                <div class="radio-card-sub">25〜30cm 四方<br>筐体・大型モデル</div>
+                <div class="radio-card-price">¥15,000 <span class="price-unit">〜（基本）</span></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:16px;background:var(--surface);border-radius:var(--r);border:1px solid var(--border);font-size:.8rem;color:var(--mid);line-height:1.7">
+          <strong style="color:var(--ink)">計算ロジック：</strong>サイズ基本料金 × 素材倍率 ＝ 概算金額<br>
+          ※ 表示金額は概算です。形状の複雑さ・後処理等により変動します。
+        </div>
+      </div>
+
+      <div>
+        <div class="price-panel" id="pricePanel">
+          <div class="price-panel-head">
+            <div class="pp-label">概算金額（税別）</div>
+            <div class="price-panel-num"><sup>¥</sup><span id="pp-num">2,000</span><span class="price-suffix">〜</span></div>
+            <div class="price-panel-note" id="pp-note">PLA / ABS × 小型（〜5cm四方）</div>
+          </div>
+          <div class="price-panel-body">
+            <div class="pp-row"><span class="pp-key">選択素材</span><span class="pp-val" id="pp-mat">PLA / ABS（FDM）</span></div>
+            <div class="pp-row"><span class="pp-key">サイズ目安</span><span class="pp-val" id="pp-size">小型（〜5cm四方）</span></div>
+            <div class="pp-row"><span class="pp-key">素材倍率</span><span class="pp-val" id="pp-rate">× 1.0</span></div>
+            <div class="pp-row"><span class="pp-key">基本料金</span><span class="pp-val" id="pp-base">¥2,000</span></div>
+            <div class="pp-formula" id="pp-formula">¥2,000（基本）× 1.0（素材）= <strong>¥2,000〜</strong></div>
+            <button class="go-form-btn" id="goFormBtn" type="button">この内容でお問い合わせ ↓</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="text-align:center;padding:8px 0 32px">
+  <div class="scroll-arrow" id="scrollToForm">
+    <span style="font-size:.78rem;color:var(--sub)">お問い合わせフォームへ</span>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="var(--sub)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+</div>
+
+<section class="form-section" id="formSection">
+  <div class="container">
+    <div class="form-card" id="formCard">
+      <h2>お問い合わせ・ご注文</h2>
+      <p>シミュレーター結果を自動で引き継ぎます。詳細や添付ファイルを追加してお送りください。</p>
+      <div class="autofill-banner" id="autofillBanner">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.75 10.5h-1.5v-5h1.5v5zm0-6.5h-1.5V3.5h1.5V5z" fill="currentColor"/></svg>
+        <div><div class="af-title">シミュレーター結果を自動入力済み</div><div class="af-detail" id="af-detail">素材: PLA / ABS（FDM） ／ サイズ: 小型（〜5cm四方） ／ 概算: ¥2,000〜</div></div>
+      </div>
+      <form id="contactForm" novalidate>
+        <input type="hidden" id="hf-mat" name="sim_material" value="PLA / ABS（FDM）">
+        <input type="hidden" id="hf-size" name="sim_size" value="小型（〜5cm四方）">
+        <input type="hidden" id="hf-price" name="sim_price" value="¥2,000〜">
+        <div class="form-grid-2">
+          <div class="field"><label for="f-name">お名前 <span class="req">*</span></label><input type="text" id="f-name" name="name" placeholder="山田 太郎" autocomplete="name" required><span class="field-error">お名前を入力してください</span></div>
+          <div class="field"><label for="f-email">メールアドレス <span class="req">*</span></label><input type="email" id="f-email" name="email" placeholder="taro@example.com" autocomplete="email" required><span class="field-error">正しいメールアドレスを入力してください</span></div>
+        </div>
+        <div class="form-grid-2">
+          <div class="field"><label for="f-company">会社名・団体名</label><input type="text" id="f-company" name="company" placeholder="（任意）"></div>
+          <div class="field"><label for="f-phone">電話番号</label><input type="tel" id="f-phone" name="phone" placeholder="（任意）"></div>
+        </div>
+        <div class="form-grid-2">
+          <div class="field"><label for="f-sim-mat">選択素材（自動入力）</label><input type="text" id="f-sim-mat" name="material_display" readonly><span class="field-hint">シミュレーターから自動入力</span></div>
+          <div class="field"><label for="f-sim-size">サイズ目安（自動入力）</label><input type="text" id="f-sim-size" name="size_display" readonly></div>
+        </div>
+        <div class="field" style="margin-bottom:14px"><label for="f-sim-price">概算金額（自動入力）</label><input type="text" id="f-sim-price" name="price_display" readonly><span class="field-hint">正確な金額は内容確認後にご案内します</span></div>
+        <div class="field" style="margin-bottom:14px"><label for="f-message">ご依頼内容・補足事項 <span class="req">*</span></label><textarea id="f-message" name="message" rows="5" required></textarea><span class="field-error">ご依頼内容を入力してください</span></div>
+        <div class="field" style="margin-bottom:8px">
+          <label>3Dデータファイル添付（任意）</label>
+          <div class="file-wrap">
+            <div class="file-input-custom">
+              <span class="file-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 9.5l-6.5 6.5a4 4 0 01-5.7-5.7l7-7a2.5 2.5 0 013.5 3.5L6.8 13.3a1 1 0 01-1.4-1.4L11 6"/></svg></span>
+              <div class="file-text"><strong id="file-name-display">ファイルを選択またはドロップ</strong><br>.glb / .stl / .fbx / .obj 対応</div>
+              <input type="file" id="f-file" name="attachment" accept=".glb,.stl,.fbx,.obj,.3mf,.zip">
+            </div>
+          </div>
+          <span class="field-hint">⚠️ 容量上限: 50MB。超える場合は WeTransfer 等のリンクをメッセージ欄にご記入ください。</span>
+        </div>
+        <div class="form-footer">
+          <p class="privacy-note">送信されたデータはお問い合わせ対応目的のみに使用します。</p>
+          <button class="submit-btn" id="submitBtn" type="submit">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M1.5 7.5L13.5 1.5L7.5 13.5L6 8.5L1.5 7.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            送信する
+          </button>
+        </div>
+      </form>
+      <div class="success-msg" id="successMsg">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#10B981" stroke-width="2"/><path d="M14 24l7 7 13-14" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>お問い合わせを受け付けました</h3>
+        <p>ご入力のメールアドレス宛に確認メールをお送りします。<br>通常 1〜2 営業日以内にご返答いたします。</p>
+        <a href="index.html" style="display:inline-block;margin-top:20px;color:var(--accent);font-weight:600;font-size:.9rem">← トップページへ戻る</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-wrap"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="footer-logo-img"><span class="footer-brand-name">CRYSTALIZE KOBE</span></div>
+        <p class="footer-desc">3Dプリント・リアルタイム3DCG制作サービス。<br>兵庫県神戸市を拠点に、全国対応いたします。</p>
+        <address class="footer-address">〒650-XXXX 兵庫県神戸市中央区 XX-XX<br>TEL: <a href="tel:078XXXXXXXX">078-XXX-XXXX</a><br>MAIL: <a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></address>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-col-list">
+          <li><a href="index.html">トップ / ギャラリー</a></li><li><a href="materials.html">対応素材・仕様</a></li>
+          <li><a href="realtime.html">リアルタイム3DCG</a></li><li><a href="portfolio.html">制作実績</a></li><li><a href="shop.html">ショップ</a></li><li><a href="estimate.html">見積もりシミュレーター</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">営業情報</div>
+        <ul class="footer-col-list">
+          <li class="info-item">平日 10:00 〜 18:00</li><li class="info-item">土日祝 休業</li>
+          <li style="margin-top:8px"><a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></li>
+          <li><a href="tel:078XXXXXXXX">078-XXX-XXXX</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 CRYSTALIZE KOBE. All rights reserved.</p>
+      <nav class="footer-legal"><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+const toggle=document.getElementById('navToggle'),links=document.getElementById('navLinks');
+toggle.addEventListener('click',()=>{const o=links.classList.toggle('open');toggle.classList.toggle('open',o)});
+links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');toggle.classList.remove('open')}));
+document.addEventListener('click',e=>{if(!toggle.contains(e.target)&&!links.contains(e.target)){links.classList.remove('open');toggle.classList.remove('open')}});
+
+const SIZES={small:{label:'小型（〜5cm四方）',price:2000},medium:{label:'中型（〜15cm四方）',price:5000},large:{label:'大型（25〜30cm四方）',price:15000}};
+const MATS={resin:{label:'光造形レジン（ELEGOO）',rate:1.5},pla:{label:'PLA / ABS（FDM）',rate:1.0},nylon:{label:'高耐久ナイロン（SLS）',rate:2.0}};
+
+function calcEstimate(){
+  const sKey=(document.querySelector('input[name=size]:checked')||{}).value||'small';
+  const mKey=(document.querySelector('input[name=material]:checked')||{}).value||'pla';
+  const base=SIZES[sKey].price,rate=MATS[mKey].rate,total=Math.round(base*rate);
+  const ts=total.toLocaleString('ja-JP');
+  document.getElementById('pp-num').textContent=ts;
+  document.getElementById('pp-note').textContent=`${MATS[mKey].label} × ${SIZES[sKey].label}`;
+  document.getElementById('pp-mat').textContent=MATS[mKey].label;
+  document.getElementById('pp-size').textContent=SIZES[sKey].label;
+  document.getElementById('pp-rate').textContent=`× ${rate}`;
+  document.getElementById('pp-base').textContent=`¥${base.toLocaleString('ja-JP')}`;
+  document.getElementById('pp-formula').innerHTML=`¥${base.toLocaleString('ja-JP')}（基本）× ${rate}（素材）= <strong>¥${ts}〜</strong>`;
+  document.getElementById('af-detail').textContent=`素材: ${MATS[mKey].label} ／ サイズ: ${SIZES[sKey].label} ／ 概算: ¥${ts}〜`;
+  document.getElementById('hf-mat').value=MATS[mKey].label;
+  document.getElementById('hf-size').value=SIZES[sKey].label;
+  document.getElementById('hf-price').value=`¥${ts}〜`;
+  document.getElementById('f-sim-mat').value=MATS[mKey].label;
+  document.getElementById('f-sim-size').value=SIZES[sKey].label;
+  document.getElementById('f-sim-price').value=`¥${ts}〜（税別・概算）`;
+  const ta=document.getElementById('f-message');
+  if(!ta.dataset.touched) ta.value=`【シミュレーター情報】\n素材：${MATS[mKey].label}\nサイズ目安：${SIZES[sKey].label}\n概算金額：¥${ts}〜（税別）\n\n---\n（ここにご依頼内容・補足をご記入ください）\n`;
+}
+document.getElementById('f-message').addEventListener('input',function(){this.dataset.touched='1'});
+document.querySelectorAll('input[name=size],input[name=material]').forEach(el=>el.addEventListener('change',calcEstimate));
+calcEstimate();
+
+document.getElementById('goFormBtn').addEventListener('click',()=>document.getElementById('formSection').scrollIntoView({behavior:'smooth',block:'start'}));
+document.getElementById('scrollToForm').addEventListener('click',()=>document.getElementById('formSection').scrollIntoView({behavior:'smooth',block:'start'}));
+
+document.getElementById('f-file').addEventListener('change',function(){
+  const fn=this.files[0]?this.files[0].name:'ファイルを選択またはドロップ';
+  document.getElementById('file-name-display').textContent=fn;
+  if(this.files[0]&&this.files[0].size>50*1024*1024){alert('50MBを超えています。\nWeTransfer等のリンクをご利用ください。');this.value='';document.getElementById('file-name-display').textContent='ファイルを選択またはドロップ';}
+});
+
+document.getElementById('contactForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  let ok=true;
+  const n=document.getElementById('f-name'),em=document.getElementById('f-email'),msg=document.getElementById('f-message');
+  [n,em,msg].forEach(el=>el.closest('.field').classList.remove('has-error'));
+  if(!n.value.trim()){n.closest('.field').classList.add('has-error');ok=false;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())){em.closest('.field').classList.add('has-error');ok=false;}
+  if(!msg.value.trim()){msg.closest('.field').classList.add('has-error');ok=false;}
+  if(!ok){const f=document.querySelector('.has-error input,.has-error textarea');if(f)f.scrollIntoView({behavior:'smooth',block:'center'});return;}
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;btn.textContent='送信中...';
+  /* ▼ 本番実装: fetch('https://formspree.io/f/YOUR_ID',{method:'POST',body:new FormData(this)}) */
+  setTimeout(()=>{
+    document.getElementById('contactForm').style.display='none';
+    document.getElementById('successMsg').classList.add('show');
+    document.getElementById('autofillBanner').style.display='none';
+    document.querySelector('#formCard h2').textContent='ありがとうございます';
+    document.querySelector('#formCard>p').style.display='none';
+  },800);
+});
+</script>
+</body>
+</html>
