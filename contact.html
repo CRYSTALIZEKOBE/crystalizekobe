@@ -498,7 +498,12 @@ document.getElementById('contactForm').addEventListener('submit',function(e){
   if(!priv.checked){alert('プライバシーポリシーへの同意をご確認ください。');ok=false;}
   if(!ok){const f=document.querySelector('.has-error input,.has-error textarea,.has-error select');if(f)f.scrollIntoView({behavior:'smooth',block:'center'});return;}
   const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='送信中...';
-  /* ▼ 本番: fetch('https://formspree.io/f/mnjrbgka',{method:'POST',body:new FormData(this)}) */
+  const fd = new FormData(this);
+fetch('https://formspree.io/f/mnjrbgka', {
+  method: 'POST',
+  body: fd,
+  headers: { Accept: 'application/json' }
+}).then(r => r.ok ? showSuccess() : alert('送信に失敗しました'));
   setTimeout(()=>{
     document.getElementById('contactForm').style.display='none';
     document.getElementById('successState').classList.add('show');
