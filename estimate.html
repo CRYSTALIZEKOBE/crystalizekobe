@@ -452,11 +452,15 @@ document.getElementById('contactForm').addEventListener('submit',function(e){
   if(!ok){const f=document.querySelector('.has-error input,.has-error textarea');if(f)f.scrollIntoView({behavior:'smooth',block:'center'});return;}
   const btn=document.getElementById('submitBtn');
   btn.disabled=true;btn.textContent='送信中...';
-  /* ▼ 本番実装: fetch('https://formspree.io/f/YOUR_ID',{method:'POST',body:new FormData(this)}) */
+  const fd = new FormData(this);
+fetch('https://formspree.io/f/mnjrbgka', {
+  method: 'POST',
+  body: fd,
+  headers: { Accept: 'application/json' }
+}).then(r => r.ok ? showSuccess() : alert('送信に失敗しました'));
   setTimeout(()=>{
     document.getElementById('contactForm').style.display='none';
-    document.getElementById('successMsg').classList.add('show');
-    document.getElementById('autofillBanner').style.display='none';
+    document.getElementById('successState').classList.add('show');
     document.querySelector('#formCard h2').textContent='ありがとうございます';
     document.querySelector('#formCard>p').style.display='none';
   },800);
