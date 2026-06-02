@@ -510,17 +510,52 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 })();
 
 /* ══════════════════════════════════════
-   WORKS DATA
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   各作品を追加・編集してください。
-
-   cat:    'print' | 'cg' | 'proto'
-   thumb:  カードのサムネイル画像パス（省略可）
-   glb:    model-viewer で表示するGLBファイル（省略可）
-   images: ギャラリー画像の配列（省略可）
-   specs:  仕様テーブル（キー: 値 の形式）
+   FIREBASE CONFIG
    ══════════════════════════════════════ */
-const WORKS = [
+const FB_PROJECT = 'crystalizekobe';
+const FB_API_KEY = 'AIzaSyCr2wO8oFsRO3IFFbW7yex2JiAQh00BNrw';
+const FB_BASE    = `https://firestore.googleapis.com/v1/projects/${FB_PROJECT}/databases/(default)/documents`;
+
+/* Firestore → JS object */
+function fsFrom(doc) {
+  const obj = { _fsId: doc.name.split('/').pop() };
+  for (const [k, v] of Object.entries(doc.fields || {})) {
+    if      (v.stringValue  !== undefined) obj[k] = v.stringValue;
+    else if (v.integerValue !== undefined) obj[k] = parseInt(v.integerValue);
+    else if (v.doubleValue  !== undefined) obj[k] = v.doubleValue;
+    else if (v.booleanValue !== undefined) obj[k] = v.booleanValue;
+    else if (v.arrayValue   !== undefined) obj[k] = (v.arrayValue.values || []).map(x => x.stringValue || '');
+    else if (v.mapValue     !== undefined) {
+      const m = {};
+      for (const [mk, mv] of Object.entries(v.mapValue.fields || {})) m[mk] = mv.stringValue || mv.integerValue || '';
+      obj[k] = m;
+    }
+  }
+  return obj;
+}
+
+/* ══════════════════════════════════════
+   WORKS DATA  ← Firestore で管理
+   ══════════════════════════════════════ */
+let WORKS = [];
+
+async function loadWorks() {
+  const grid = document.getElementById('worksGrid');
+  grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--sub);font-size:.9rem">読み込み中...</div>';
+  try {
+    const res  = await fetch(`${FB_BASE}/works?pageSize=100&key=${FB_API_KEY}`);
+    const data = await res.json();
+    WORKS      = (data.documents || []).map(fsFrom).sort((a, b) => a.id - b.id);
+  } catch (e) {
+    console.error('Firestore read error:', e);
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:#DC2626;font-size:.9rem">データの読み込みに失敗しました。</div>';
+    return;
+  }
+  renderGrid('all');
+}
+
+/* ── （以下は旧データ — Firestore管理に移行済み） ── */
+const _WORKS_DUMMY = [
   {
     id: 1,
     cat: 'print',
@@ -632,7 +667,7 @@ const WORKS = [
       '制作期間': '約10日（SLS外注含む）',
     },
   },
-];
+]; // ← _WORKS_DUMMY 終わり（参照されない）
 
 /* ══════════════════════════════════════
    CATEGORY CONFIG
@@ -821,8 +856,8 @@ document.querySelectorAll('.cat-tab').forEach(tab => {
   });
 });
 
-/* ── Initial render ── */
-renderGrid('all');
+/* ── Initial render（Firestore から読み込み） ── */
+loadWorks();
 </script>
 </body>
 </html>

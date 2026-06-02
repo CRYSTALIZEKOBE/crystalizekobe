@@ -633,65 +633,55 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 })();
 
 /* ════════════════════════════════════
-   PRODUCT DATA
-   ここに実際の商品を追加・編集してください
+   FIREBASE CONFIG
    ════════════════════════════════════ */
-const PRODUCTS = [
-  {
-    id: 1,
-    name: 'ミニチュアキャラクターフィギュア',
-    cat: 'physical',
-    sub: '光造形 / 高精細レジン',
-    price: 4800,
-    desc: '高精細レジン出力済み完成品。高さ約12cm。表面サンドペーパー仕上げ。塗装なし・素材色での出荷になります。',
-    formats: [],
-    stock: true,
-    // image: 'images/product-01.jpg'  ← 実際の商品画像パスを指定
-  },
-  {
-    id: 2,
-    name: '建築ミニチュアモデル A4台座付き',
-    cat: 'physical',
-    sub: 'FDM / PLA',
-    price: 6500,
-    desc: 'FDM・PLA素材。A4サイズ台座込みで高さ約20cm。インテリア・展示・プレゼント用途向け。',
-    formats: [],
-    stock: true,
-    // image: 'images/product-02.jpg'
-  },
-  {
-    id: 3,
-    name: '素材サンプルセット（3方式）',
-    cat: 'physical',
-    sub: '光造形 / FDM / SLS',
-    price: 1200,
-    desc: '光造形レジン・PLA・ナイロンの質感が確認できる小型サンプルキット。本発注前の素材確認に最適です。',
-    formats: [],
-    stock: true,
-    // image: 'images/product-03.jpg'
-  },
-  {
-    id: 4,
-    name: 'キャラクターベースメッシュ',
-    cat: 'digital',
-    sub: 'デジタルデータ',
-    price: 1500,
-    desc: 'Tポーズ汎用キャラクターベース。3Dプリント・ゲームエンジン両対応。ZBrushカスタマイズ想定のトポロジー設計。',
-    formats: ['STL', 'GLB', 'FBX'],
-    stock: true,
-    // image: 'images/product-04.jpg'
-  },
-  {
-    id: 5,
-    name: 'キーホルダーSTLテンプレート 5種セット',
-    cat: 'digital',
-    sub: 'デジタルデータ',
-    price: 500,
-    desc: 'ロゴ・テキストを差し替えてそのまま印刷できるキーホルダー用STLテンプレート5種。FDM・光造形どちらにも対応。',
-    formats: ['STL'],
-    stock: true,
-    // image: 'images/product-05.jpg'
-  },
+const FB_PROJECT = 'crystalizekobe';
+const FB_API_KEY = 'AIzaSyCr2wO8oFsRO3IFFbW7yex2JiAQh00BNrw';
+const FB_BASE    = `https://firestore.googleapis.com/v1/projects/${FB_PROJECT}/databases/(default)/documents`;
+
+/* Firestore → JS object */
+function fsFrom(doc) {
+  const obj = { _fsId: doc.name.split('/').pop() };
+  for (const [k, v] of Object.entries(doc.fields || {})) {
+    if      (v.stringValue  !== undefined) obj[k] = v.stringValue;
+    else if (v.integerValue !== undefined) obj[k] = parseInt(v.integerValue);
+    else if (v.doubleValue  !== undefined) obj[k] = v.doubleValue;
+    else if (v.booleanValue !== undefined) obj[k] = v.booleanValue;
+    else if (v.arrayValue   !== undefined) obj[k] = (v.arrayValue.values || []).map(x => x.stringValue || '');
+    else if (v.mapValue     !== undefined) {
+      const m = {};
+      for (const [mk, mv] of Object.entries(v.mapValue.fields || {})) m[mk] = mv.stringValue || mv.integerValue || '';
+      obj[k] = m;
+    }
+  }
+  return obj;
+}
+
+/* ════════════════════════════════════
+   PRODUCT DATA  ← Firestore で管理
+   ════════════════════════════════════ */
+let PRODUCTS = [];
+
+async function loadProducts() {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--sub);font-size:.9rem">読み込み中...</div>';
+  try {
+    const res  = await fetch(`${FB_BASE}/products?pageSize=100&key=${FB_API_KEY}`);
+    const data = await res.json();
+    PRODUCTS   = (data.documents || []).map(fsFrom).sort((a, b) => a.id - b.id);
+  } catch (e) {
+    console.error('Firestore read error:', e);
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:#DC2626;font-size:.9rem">データの読み込みに失敗しました。</div>';
+    return;
+  }
+  renderProducts('all');
+  updateCartUI();
+}
+
+/* ════════════════════════════════════
+   （以下は削除された旧データ — Firestore管理に移行済み）
+   ════════════════════════════════════ */
+const _DUMMY = [
   {
     id: 6,
     name: 'サイバーパンク建物アセットセット',
@@ -703,7 +693,7 @@ const PRODUCTS = [
     stock: true,
     // image: 'images/product-06.jpg'
   },
-];
+]; // ← _DUMMY 終わり（参照されない）
 
 /* ════════════════════════════════════
    CART STATE
@@ -960,9 +950,8 @@ document.querySelectorAll('.cat-tab').forEach(tab => {
   });
 });
 
-/* ── Initial render ── */
-renderProducts('all');
-updateCartUI();
+/* ── Initial render（Firestore から読み込み） ── */
+loadProducts();
 
 /* ── ESC to close modals ── */
 document.addEventListener('keydown', e => {
