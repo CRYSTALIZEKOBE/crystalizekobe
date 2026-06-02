@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="description" content="CRYSTALIZE KOBE 対応素材・プリンター仕様。光造形(ELEGOO)・FDM(Bambu Lab)・SLS 粉末焼結に対応。">
+<meta name="description" content="CRYSTALIZE KOBE 対応素材・プリンター仕様。光造形(ELEGOO)・FDM(Bambu Lab / PLA・PETG)に対応。">
 <title>Materials — CRYSTALIZE KOBE</title>
 <link rel="icon" href="rogo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -61,13 +61,11 @@ ul{list-style:none}
 .card-bar{height:4px}
 .bar-resin{background:linear-gradient(90deg,#1E40AF,#60A5FA)}
 .bar-fdm{background:linear-gradient(90deg,#0E7490,#22D3EE)}
-.bar-sls{background:linear-gradient(90deg,#059669,#34D399)}
 .card-inner{display:grid;grid-template-columns:280px 1fr}
 .card-left{padding:32px 28px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:16px}
 .printer-type-badge{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:100px;width:fit-content}
 .badge-resin{background:var(--blue-bg);color:var(--blue)}
 .badge-fdm{background:var(--teal-bg);color:var(--teal)}
-.badge-sls{background:var(--green-bg);color:var(--green)}
 .printer-name{font-size:1.1rem;font-weight:700;line-height:1.3;margin-top:4px}
 .printer-maker{font-size:.82rem;color:var(--mid);margin-top:2px}
 .build-vol{margin-top:8px;padding:16px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border)}
@@ -202,7 +200,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
               <tr><th>最小積層厚</th><td><strong>0.05 mm</strong><span class="spec-highlight hi-blue">高精細</span></td></tr>
               <tr><th>XY 解像度</th><td>0.035 mm（モノクロLCD）</td></tr>
               <tr><th>表面品質</th><td>非常に滑らか。細部の再現に優れる</td></tr>
-              <tr><th>後処理</th><td>洗浄（IPA or 水洗い）・UV二次硬化</td></tr>
+              <tr><th>後処理</th><td>洗浄（水洗い）・UV二次硬化</td></tr>
               <tr><th>得意な用途</th><td><div class="use-cases"><span class="use-case">フィギュア・ガレージキット</span><span class="use-case">アクセサリー・宝飾</span><span class="use-case">精密プロトタイプ</span></div></td></tr>
               <tr><th>強度・耐熱</th><td>中程度（硬質）。高熱・衝撃には不向き</td></tr>
             </table>
@@ -236,40 +234,8 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
               <tr><th>出力速度</th><td>最大 <strong>500 mm/s</strong><span class="spec-highlight hi-accent">高速</span></td></tr>
               <tr><th>ノズル温度</th><td>最大 300℃ / ヒートベッド 最大 110℃</td></tr>
               <tr><th>表面品質</th><td>積層跡あり（後研磨で改善可）</td></tr>
-              <tr><th>得意な用途</th><td><div class="use-cases"><span class="use-case">大型モデル・筐体</span><span class="use-case">実用部品・治具</span><span class="use-case">建築モデル</span></div></td></tr>
-              <tr><th>強度・耐熱</th><td>高い（ABS: 耐熱性あり / PLA: 汎用）</td></tr>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="printer-section">
-      <div class="printer-card">
-        <div class="card-bar bar-sls"></div>
-        <div class="card-inner">
-          <div class="card-left">
-            <span class="printer-type-badge badge-sls">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1.5L10.5 4.5V7.5L6 10.5L1.5 7.5V4.5L6 1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
-              粉末焼結 (SLS)
-            </span>
-            <div><div class="printer-name">SLS 粉末焼結<br>プリンター（外注対応）</div><div class="printer-maker">外部パートナー工場</div></div>
-            <div class="build-vol">
-              <div class="build-vol-label">最大造形サイズ</div>
-              <div class="build-vol-size">W200 × D200 × H150 <span style="font-size:.7rem;font-weight:400;color:var(--mid)">mm</span></div>
-              <div class="build-vol-sub">約 6.0L の造形空間</div>
-            </div>
-            <span class="status-badge status-planned">外注対応</span>
-          </div>
-          <div class="card-right">
-            <div class="specs-title">仕様・対応素材</div>
-            <table class="spec-table">
-              <tr><th>対応素材</th><td><div class="mat-tags"><span class="mat-tag">PA12（ナイロン）</span><span class="mat-tag">PA12-GF（ガラス繊維入り）</span></div></td></tr>
-              <tr><th>最小積層厚</th><td><strong>0.1 mm</strong></td></tr>
-              <tr><th>サポート材</th><td>不要（サポートレス造形）<span class="spec-highlight hi-green">メリット</span></td></tr>
-              <tr><th>表面品質</th><td>マット調・やや粗い（後処理で改善可）</td></tr>
-              <tr><th>得意な用途</th><td><div class="use-cases"><span class="use-case">高耐久実用部品</span><span class="use-case">複雑形状・アンダーカット</span><span class="use-case">可動機構</span></div></td></tr>
-              <tr><th>強度・耐熱</th><td><strong>最高レベル</strong>（PA12: 耐衝撃・耐薬品性に優れる）</td></tr>
+              <tr><th>得意な用途</th><td><div class="use-cases"><span class="use-case">大型モデル・筐体</span><span class="use-case">小物</span><span class="use-case">建築サンプル</span></div></td></tr>
+              <tr><th>強度・耐熱</th><td>高め</td></tr>
             </table>
           </div>
         </div>
@@ -286,16 +252,16 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
     <p>用途に最適な方式をお選びください。迷ったら見積もりページでご相談いただけます。</p>
     <div class="comp-table-wrap">
       <table class="comp-table">
-        <thead><tr><th>比較項目</th><th>光造形（レジン）</th><th>FDM（PLA/ABS）</th><th>SLS（ナイロン）</th></tr></thead>
+        <thead><tr><th>比較項目</th><th>光造形（レジン）</th><th>PLA（FDM）</th><th>PETG（FDM）</th></tr></thead>
         <tbody>
-          <tr><td>精細度</td><td><span class="comp-star">★★★★★</span></td><td><span class="comp-mid">★★★☆☆</span></td><td><span class="comp-mid">★★★★☆</span></td></tr>
-          <tr><td>強度</td><td><span class="comp-mid">★★☆☆☆</span></td><td><span class="comp-mid">★★★☆☆</span></td><td><span class="comp-star">★★★★★</span></td></tr>
-          <tr><td>最大サイズ</td><td>130×80×160mm</td><td><span class="comp-check">250×250×250mm</span></td><td>200×200×150mm</td></tr>
-          <tr><td>表面品質</td><td><span class="comp-check">非常に滑らか</span></td><td>積層跡あり</td><td>やや粗い</td></tr>
-          <tr><td>サポート材</td><td>必要</td><td>必要</td><td><span class="comp-check">不要</span></td></tr>
-          <tr><td>耐熱性</td><td>低め</td><td>ABS: 中 / PLA: 低</td><td><span class="comp-check">高い</span></td></tr>
-          <tr><td>参考単価目安</td><td>× 1.5</td><td>× 1.0（基準）</td><td>× 2.0</td></tr>
-          <tr><td>対応状況</td><td><span class="comp-check">✓ 自社設備</span></td><td><span class="comp-check">✓ 自社設備</span></td><td>外注対応</td></tr>
+          <tr><td>精細度</td><td><span class="comp-star">★★★★★</span></td><td><span class="comp-mid">★★★☆☆</span></td><td><span class="comp-mid">★★★☆☆</span></td></tr>
+          <tr><td>強度</td><td><span class="comp-mid">★★☆☆☆</span></td><td><span class="comp-mid">★★★☆☆</span></td><td><span class="comp-star">★★★★☆</span></td></tr>
+          <tr><td>最大サイズ</td><td>130×80×160mm</td><td><span class="comp-check">250×250×250mm</span></td><td><span class="comp-check">250×250×250mm</span></td></tr>
+          <tr><td>表面品質</td><td><span class="comp-check">非常に滑らか</span></td><td>積層跡あり</td><td>積層跡あり</td></tr>
+          <tr><td>サポート材</td><td>必要</td><td>必要</td><td>必要</td></tr>
+          <tr><td>耐熱性</td><td>× 耐熱低</td><td>× 耐熱低</td><td><span class="comp-check">中（70〜80℃）</span></td></tr>
+          <tr><td>参考単価目安</td><td>× 2.5</td><td>× 1.0（基準）</td><td>× 1.5</td></tr>
+          <tr><td>対応状況</td><td><span class="comp-check">✓ 自社設備</span></td><td><span class="comp-check">✓ 自社設備</span></td><td><span class="comp-check">✓ 自社設備</span></td></tr>
         </tbody>
       </table>
     </div>
