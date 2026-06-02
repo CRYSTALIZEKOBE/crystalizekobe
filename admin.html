@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin — CRYSTALIZE KOBE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4FA;--surface:#FFF;--border:#D4D9E8;
+  --ink:#111827;--mid:#6B7280;--sub:#9CA3AF;
+  --accent:#1E40AF;--accent-h:#1B349A;--accent-bg:#EEF2FF;
+  --indigo:#6366F1;--indigo-bg:#F5F3FF;
+  --green:#059669;--green-bg:#ECFDF5;
+  --red:#DC2626;--red-bg:#FEF2F2;
+  --amber:#D97706;--amber-bg:#FFFBEB;
+  --sidebar-w:240px;
+  --font:'Plus Jakarta Sans',-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1);
+  --r:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh;display:flex}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+input,button,select,textarea{font-family:var(--font)}
+button{cursor:pointer}
+
+/* ── Login screen ── */
+#loginScreen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;width:100%;background:var(--bg);
+  flex-direction:column;gap:0;
+}
+.login-box{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:44px 40px 40px;width:100%;max-width:400px;
+  box-shadow:0 8px 32px rgba(30,64,175,.08);
+  text-align:center;
+}
+.login-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.login-logo-circle{
+  width:44px;height:44px;border-radius:12px;
+  background:var(--accent);display:flex;align-items:center;justify-content:center;
+}
+.login-logo-circle svg{color:#fff}
+.login-title{font-weight:700;font-size:1.3rem;letter-spacing:-.02em}
+.login-subtitle{font-size:.83rem;color:var(--mid);margin-top:4px;margin-bottom:32px}
+.google-btn{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  width:100%;padding:13px 20px;border-radius:var(--r);
+  border:1.5px solid var(--border);background:var(--surface);
+  font-family:var(--font);font-size:.92rem;font-weight:600;color:var(--ink);
+  cursor:pointer;transition:.18s;
+}
+.google-btn:hover{border-color:#aab;background:var(--bg);box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.google-btn:active{transform:scale(.98)}
+.google-btn svg{flex-shrink:0}
+.login-err{font-size:.8rem;color:var(--red);text-align:center;margin-top:14px;display:none;padding:8px 12px;background:var(--red-bg);border-radius:6px}
+.login-note{font-size:.76rem;color:var(--sub);margin-top:20px;line-height:1.6}
+
+/* ── App layout ── */
+#app{display:none;width:100%;min-height:100vh}
+.app-wrap{display:flex;min-height:100vh}
+
+/* ── Sidebar ── */
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;
+  background:var(--surface);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;
+  overflow-y:auto;
+}
+.sidebar-logo{
+  display:flex;align-items:center;gap:10px;
+  padding:20px 20px 16px;border-bottom:1px solid var(--border);
+}
+.sidebar-logo-icon{
+  width:34px;height:34px;border-radius:8px;background:var(--accent);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.sidebar-logo-icon svg{color:#fff}
+.sidebar-brand{font-weight:700;font-size:.85rem;color:var(--ink);line-height:1.25}
+.sidebar-brand small{display:block;font-size:.68rem;font-weight:400;color:var(--sub);letter-spacing:.03em}
+.sidebar-nav{padding:12px 12px 0;flex:1}
+.nav-section{margin-bottom:6px}
+.nav-section-title{
+  font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--sub);padding:8px 8px 4px;
+}
+.nav-item{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 10px;border-radius:7px;
+  font-size:.84rem;font-weight:500;color:var(--mid);
+  cursor:pointer;transition:.15s;margin-bottom:1px;border:none;background:none;width:100%;text-align:left;
+}
+.nav-item:hover{background:var(--bg);color:var(--ink)}
+.nav-item.active{background:var(--accent-bg);color:var(--accent);font-weight:600}
+.nav-item svg{flex-shrink:0;opacity:.7}
+.nav-item.active svg{opacity:1}
+.sidebar-footer{padding:14px 16px;border-top:1px solid var(--border);margin-top:auto}
+.sidebar-user{display:flex;align-items:center;gap:9px}
+.sidebar-user-avatar{
+  width:30px;height:30px;border-radius:50%;background:var(--accent-bg);
+  display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--accent);flex-shrink:0;
+}
+.sidebar-user-name{font-size:.8rem;font-weight:600;color:var(--ink)}
+.sidebar-user-role{font-size:.7rem;color:var(--sub)}
+.logout-btn{
+  background:none;border:none;padding:4px 8px;border-radius:5px;
+  font-size:.75rem;color:var(--mid);margin-left:auto;transition:.15s;
+}
+.logout-btn:hover{background:var(--bg);color:var(--red)}
+
+/* ── Main content ── */
+.main-content{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{
+  height:58px;background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;padding:0 28px;
+  position:sticky;top:0;z-index:100;flex-shrink:0;
+}
+.topbar-title{font-size:1rem;font-weight:700;color:var(--ink)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.page{display:none;padding:28px;flex:1}
+.page.active{display:block}
+
+/* ── Dashboard ── */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:18px 20px;display:flex;flex-direction:column;gap:6px;
+}
+.stat-icon{
+  width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  margin-bottom:4px;
+}
+.stat-val{font-size:1.6rem;font-weight:700;letter-spacing:-.03em}
+.stat-label{font-size:.78rem;color:var(--mid)}
+.stat-change{font-size:.75rem;display:flex;align-items:center;gap:3px;margin-top:2px}
+.stat-change.up{color:var(--green)}
+.stat-change.neutral{color:var(--sub)}
+
+/* ── Sections ── */
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section-title{font-size:.88rem;font-weight:700;color:var(--ink)}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:var(--r);font-family:var(--font);
+  font-size:.8rem;font-weight:700;border:none;transition:.15s;cursor:pointer;
+}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-h)}
+.btn-secondary{background:var(--surface);color:var(--ink);border:1.5px solid var(--border)}
+.btn-secondary:hover{border-color:var(--ink)}
+.btn-danger{background:var(--red-bg);color:var(--red);border:1.5px solid #FECACA}
+.btn-danger:hover{background:#FEE2E2}
+.btn-sm{padding:5px 12px;font-size:.75rem}
+.btn-icon{padding:6px;border-radius:6px;background:none;border:1.5px solid var(--border);color:var(--mid);display:inline-flex;transition:.15s}
+.btn-icon:hover{background:var(--bg);color:var(--ink)}
+
+/* ── Table ── */
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th{
+  font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--sub);text-align:left;padding:12px 16px;
+  border-bottom:1px solid var(--border);background:var(--bg);
+}
+td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:.84rem;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(242,244,250,.5)}
+
+/* ── Badges ── */
+.badge{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:100px}
+.badge-print{background:var(--accent-bg);color:var(--accent)}
+.badge-cg{background:var(--indigo-bg);color:var(--indigo)}
+.badge-proto{background:var(--green-bg);color:var(--green)}
+.badge-physical{background:var(--accent-bg);color:var(--accent)}
+.badge-digital{background:var(--indigo-bg);color:var(--indigo)}
+.badge-active{background:var(--green-bg);color:var(--green)}
+.badge-inactive{background:var(--bg);color:var(--sub);border:1px solid var(--border)}
+
+/* ── Modal ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(8,12,26,.55);z-index:500;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .22s var(--ease);
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{
+  background:var(--surface);border-radius:14px;width:100%;max-width:640px;max-height:90vh;
+  overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 24px 60px rgba(0,0,0,.22);
+  transform:translateY(16px) scale(.98);transition:transform .25s var(--ease);
+}
+.modal-overlay.open .modal-box{transform:translateY(0) scale(1)}
+.modal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 22px 16px;border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.modal-head h3{font-size:.98rem;font-weight:700}
+.modal-close{background:none;border:none;color:var(--mid);padding:4px;border-radius:6px;transition:.15s;display:flex}
+.modal-close:hover{background:var(--bg);color:var(--ink)}
+.modal-body{padding:22px;overflow-y:auto;flex:1}
+.modal-footer{padding:16px 22px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
+
+/* ── Form fields ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid.full{grid-template-columns:1fr}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:.76rem;font-weight:600;color:var(--mid)}
+.field input,.field textarea,.field select{
+  padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r);
+  font-size:.86rem;color:var(--ink);background:var(--surface);outline:none;transition:.15s;
+}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(30,64,175,.08)}
+.field textarea{resize:vertical;min-height:72px}
+.field-hint{font-size:.72rem;color:var(--sub)}
+.form-section{margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
+.form-section-title{font-size:.74rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--sub);margin-bottom:12px}
+
+/* Tags input */
+.tags-input-wrap{
+  display:flex;flex-wrap:wrap;gap:6px;
+  padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--r);
+  cursor:text;transition:.15s;min-height:42px;align-items:center;
+  background:var(--surface);
+}
+.tags-input-wrap:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(30,64,175,.08)}
+.tag-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:4px;
+  background:var(--accent-bg);color:var(--accent);
+}
+.tag-chip button{background:none;border:none;color:var(--accent);padding:0 2px;font-size:.9rem;line-height:1;opacity:.6;transition:opacity .1s}
+.tag-chip button:hover{opacity:1}
+.tags-input{border:none;outline:none;font-family:var(--font);font-size:.82rem;color:var(--ink);background:transparent;min-width:80px;flex:1}
+
+/* Specs input */
+.specs-rows{display:flex;flex-direction:column;gap:8px}
+.spec-input-row{display:flex;gap:8px;align-items:center}
+.spec-input-row input{flex:1;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:.82rem;background:var(--surface);color:var(--ink);outline:none;transition:.15s}
+.spec-input-row input:focus{border-color:var(--accent)}
+.spec-input-row .spec-sep{color:var(--sub);font-size:.8rem;flex-shrink:0}
+.add-spec-btn{
+  display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;color:var(--accent);
+  background:none;border:1.5px dashed var(--accent-bg);padding:6px 12px;border-radius:6px;transition:.15s;
+}
+.add-spec-btn:hover{background:var(--accent-bg)}
+
+/* Toggle */
+.toggle-wrap{display:flex;align-items:center;gap:10px}
+.toggle{position:relative;width:38px;height:22px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{
+  display:block;width:38px;height:22px;border-radius:11px;background:#D1D5DB;
+  transition:background .2s;
+}
+.toggle input:checked + .toggle-track{background:var(--green)}
+.toggle-thumb{
+  position:absolute;top:3px;left:3px;width:16px;height:16px;
+  border-radius:50%;background:#fff;transition:transform .2s;
+  box-shadow:0 1px 4px rgba(0,0,0,.15);
+}
+.toggle input:checked ~ .toggle-thumb{transform:translateX(16px)}
+.toggle-label{font-size:.83rem;color:var(--ink)}
+
+/* Alert */
+.alert{padding:10px 14px;border-radius:var(--r);font-size:.82rem;margin-bottom:14px;display:none}
+.alert-success{background:var(--green-bg);color:#065F46;border:1px solid #A7F3D0}
+.alert-error{background:var(--red-bg);color:#991B1B;border:1px solid #FECACA}
+
+/* Loading */
+.loading{
+  display:flex;align-items:center;justify-content:center;
+  padding:60px;color:var(--sub);font-size:.88rem;gap:10px;
+}
+.spin{animation:spin .8s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── Confirm modal ── */
+.confirm-box{
+  background:var(--surface);border-radius:14px;padding:28px;max-width:380px;width:100%;
+  box-shadow:0 24px 60px rgba(0,0,0,.22);
+  transform:translateY(16px) scale(.98);transition:transform .25s var(--ease);
+}
+.modal-overlay.open .confirm-box{transform:translateY(0) scale(1)}
+.confirm-title{font-size:.98rem;font-weight:700;margin-bottom:8px}
+.confirm-body{font-size:.84rem;color:var(--mid);line-height:1.6;margin-bottom:22px}
+
+/* ── Empty state ── */
+.empty{text-align:center;padding:60px 24px;color:var(--sub)}
+.empty svg{margin:0 auto 14px;opacity:.3}
+.empty p{font-size:.88rem}
+
+/* ── Topbar search ── */
+.topbar-search{
+  display:flex;align-items:center;gap:8px;background:var(--bg);
+  border:1px solid var(--border);border-radius:8px;padding:6px 12px;
+}
+.topbar-search input{border:none;outline:none;background:transparent;font-family:var(--font);font-size:.84rem;color:var(--ink);width:180px}
+.topbar-search svg{color:var(--sub);flex-shrink:0}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════
+     LOGIN SCREEN
+     ═══════════════════════════════ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-circle">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7l9-5.5L20 7v8l-9 5.5L2 15V7z"/><path d="M2 7l9 5.5 9-5.5M11 20.5V12.5"/></svg>
+      </div>
+      <div class="login-title">CRYSTALIZE KOBE</div>
+    </div>
+    <div class="login-subtitle">Admin Dashboard</div>
+
+    <button class="google-btn" onclick="doGoogleLogin()">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Googleアカウントでログイン
+    </button>
+
+    <div class="login-err" id="loginErr"></div>
+    <div class="login-note">許可されたGoogleアカウントのみアクセスできます。<br>アクセス権はFirebase Consoleで管理します。</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     APP
+     ═══════════════════════════════ -->
+<div id="app">
+<div class="app-wrap">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5l7-4.5 7 4.5v7l-7 4.5-7-4.5v-7z"/><path d="M2 5.5l7 4.5 7-4.5M9 17.5V10"/></svg>
+      </div>
+      <div class="sidebar-brand">
+        CRYSTALIZE KOBE
+        <small>Admin Panel</small>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">メイン</div>
+        <button class="nav-item active" onclick="showPage('dashboard',this)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>
+          ダッシュボード
+        </button>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-title">コンテンツ管理</div>
+        <button class="nav-item" onclick="showPage('works',this)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4.5l7-3.5 7 3.5v7l-7 3.5-7-3.5v-7z"/><path d="M1 4.5l7 3.5 7-4.5M8 15.5V8"/></svg>
+          ポートフォリオ作品
+        </button>
+        <button class="nav-item" onclick="showPage('products',this)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2h2l2.2 8a1 1 0 001 .7h6.6"/><path d="M4.5 5h9.5l-1.4 4.5H6"/><circle cx="6.5" cy="13.5" r="1"/><circle cx="11.5" cy="13.5" r="1"/></svg>
+          ショップ商品
+        </button>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-user-avatar" id="userInitials">A</div>
+        <div>
+          <div class="sidebar-user-name" id="userName">管理者</div>
+          <div class="sidebar-user-role">Administrator</div>
+        </div>
+        <button class="logout-btn" onclick="doLogout()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 7h8M10 4.5l2.5 2.5-2.5 2.5"/><path d="M7 2H2.5A1.5 1.5 0 001 3.5v7A1.5 1.5 0 002.5 12H7"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">ダッシュボード</div>
+      <div class="topbar-right">
+        <div class="topbar-search">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="6" cy="6" r="4.5"/><path d="M10 10l3 3"/></svg>
+          <input type="text" id="searchInput" placeholder="検索..." oninput="handleSearch()">
+        </div>
+        <a href="portfolio.html" target="_blank">
+          <button class="btn btn-secondary btn-sm">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M5 1H2a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V8M8 1h3m0 0v3m0-3L5 7"/></svg>
+            サイトを表示
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <!-- Dashboard page -->
+    <div class="page active" id="page-dashboard">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--accent-bg)">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 5.5l8-4 8 4v7l-8 4-8-4v-7z"/><path d="M1 5.5l8 4 8-4M9 16.5v-6"/></svg>
+          </div>
+          <div class="stat-val" id="stat-works">—</div>
+          <div class="stat-label">ポートフォリオ作品数</div>
+          <div class="stat-change neutral">Firestoreから読み込み中</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--indigo-bg)">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="var(--indigo)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h2l2.5 9a1 1 0 001 .7h7.5"/><path d="M5.5 6h10l-1.5 5H7"/><circle cx="7.5" cy="15" r="1.2"/><circle cx="12.5" cy="15" r="1.2"/></svg>
+          </div>
+          <div class="stat-val" id="stat-products">—</div>
+          <div class="stat-label">ショップ商品数</div>
+          <div class="stat-change neutral">Firestoreから読み込み中</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--green-bg)">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="9" r="7"/><path d="M9 6v3l2 2"/></svg>
+          </div>
+          <div class="stat-val" id="stat-active">—</div>
+          <div class="stat-label">在庫あり商品</div>
+          <div class="stat-change neutral" id="stat-active-pct">計算中...</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--amber-bg)">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round"><path d="M2 13.5h14M5 13.5V6M9 13.5V4M13 13.5V8"/></svg>
+          </div>
+          <div class="stat-val" id="stat-cats">—</div>
+          <div class="stat-label">カテゴリ数（works）</div>
+          <div class="stat-change neutral">print / cg / proto</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <!-- Recent works -->
+        <div>
+          <div class="section-head">
+            <div class="section-title">最新のポートフォリオ作品</div>
+            <button class="btn btn-secondary btn-sm" onclick="showPage('works', document.querySelector('[onclick*=\"works\"]'))">全件表示</button>
+          </div>
+          <div class="table-wrap">
+            <div id="dashWorksTable">
+              <div class="loading"><span class="spin">⟳</span>読み込み中...</div>
+            </div>
+          </div>
+        </div>
+        <!-- Recent products -->
+        <div>
+          <div class="section-head">
+            <div class="section-title">最新のショップ商品</div>
+            <button class="btn btn-secondary btn-sm" onclick="showPage('products', document.querySelectorAll('.nav-item')[2])">全件表示</button>
+          </div>
+          <div class="table-wrap">
+            <div id="dashProductsTable">
+              <div class="loading"><span class="spin">⟳</span>読み込み中...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Works page -->
+    <div class="page" id="page-works">
+      <div class="section-head">
+        <div class="section-title" id="works-count-label">ポートフォリオ作品</div>
+        <button class="btn btn-primary" onclick="openWorkModal()">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg>
+          新規作品を追加
+        </button>
+      </div>
+      <div class="alert alert-success" id="works-alert"></div>
+      <div class="table-wrap">
+        <table id="worksTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>カテゴリ</th>
+              <th>タイトル</th>
+              <th>サブタイトル</th>
+              <th>タグ</th>
+              <th style="text-align:center">操作</th>
+            </tr>
+          </thead>
+          <tbody id="worksBody">
+            <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--sub)"><span class="spin">⟳</span> 読み込み中...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Products page -->
+    <div class="page" id="page-products">
+      <div class="section-head">
+        <div class="section-title" id="products-count-label">ショップ商品</div>
+        <button class="btn btn-primary" onclick="openProductModal()">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg>
+          新規商品を追加
+        </button>
+      </div>
+      <div class="alert alert-success" id="products-alert"></div>
+      <div class="table-wrap">
+        <table id="productsTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>カテゴリ</th>
+              <th>商品名</th>
+              <th>価格</th>
+              <th>フォーマット</th>
+              <th style="text-align:center">在庫</th>
+              <th style="text-align:center">操作</th>
+            </tr>
+          </thead>
+          <tbody id="productsBody">
+            <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--sub)"><span class="spin">⟳</span> 読み込み中...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════
+     WORK MODAL
+     ════════════════════════════════ -->
+<div class="modal-overlay" id="workModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="workModalTitle">作品を追加</h3>
+      <button class="modal-close" onclick="closeModal('workModal')">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l10 10M14 4L4 14"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-error" id="workErr"></div>
+      <div class="form-grid">
+        <div class="field">
+          <label>ID（数値・並び順）</label>
+          <input type="number" id="w-id" placeholder="1" min="1">
+        </div>
+        <div class="field">
+          <label>カテゴリ</label>
+          <select id="w-cat">
+            <option value="print">3Dプリント (print)</option>
+            <option value="cg">リアルタイム3DCG (cg)</option>
+            <option value="proto">試作・プロトタイプ (proto)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid full" style="margin-top:12px">
+        <div class="field">
+          <label>タイトル</label>
+          <input type="text" id="w-title" placeholder="作品名">
+        </div>
+        <div class="field">
+          <label>サブタイトル</label>
+          <input type="text" id="w-sub" placeholder="例：光造形 / 高精細レジン">
+        </div>
+        <div class="field">
+          <label>概要（サムネイル説明）</label>
+          <textarea id="w-summary" rows="2" placeholder="一覧カードに表示される短い説明"></textarea>
+        </div>
+        <div class="field">
+          <label>詳細説明</label>
+          <textarea id="w-desc" rows="3" placeholder="モーダル内に表示される制作詳細"></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">タグ</div>
+        <div class="field">
+          <div class="tags-input-wrap" id="w-tags-wrap" onclick="document.getElementById('w-tags-input').focus()">
+            <input class="tags-input" type="text" id="w-tags-input" placeholder="タグを入力してEnter">
+          </div>
+          <div class="field-hint">Enterキーで追加、×で削除</div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">Technical Specs（仕様）</div>
+        <div class="specs-rows" id="w-specs-rows"></div>
+        <button type="button" class="add-spec-btn" style="margin-top:8px" onclick="addSpecRow('w-specs-rows')">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg>
+          仕様を追加
+        </button>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">メディア（URL）</div>
+        <div class="form-grid">
+          <div class="field">
+            <label>サムネイル画像 URL</label>
+            <input type="text" id="w-thumb" placeholder="images/portfolio/01-thumb.jpg">
+          </div>
+          <div class="field">
+            <label>3D モデル (.glb) URL</label>
+            <input type="text" id="w-glb" placeholder="models/portfolio/01.glb">
+          </div>
+        </div>
+        <div class="field" style="margin-top:10px">
+          <label>ギャラリー画像 URL（カンマ区切り）</label>
+          <textarea id="w-images" rows="2" placeholder="images/01-a.jpg, images/01-b.jpg, images/01-c.jpg"></textarea>
+          <div class="field-hint">カンマ区切りで複数入力可能</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('workModal')">キャンセル</button>
+      <button class="btn btn-primary" id="workSaveBtn" onclick="saveWork()">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3L4.5 9 2 6.5"/></svg>
+        保存する
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     PRODUCT MODAL
+     ════════════════════════════════ -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="productModalTitle">商品を追加</h3>
+      <button class="modal-close" onclick="closeModal('productModal')">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l10 10M14 4L4 14"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-error" id="productErr"></div>
+      <div class="form-grid">
+        <div class="field">
+          <label>ID（数値・並び順）</label>
+          <input type="number" id="p-id" placeholder="1" min="1">
+        </div>
+        <div class="field">
+          <label>カテゴリ</label>
+          <select id="p-cat">
+            <option value="physical">完成品 (physical)</option>
+            <option value="digital">デジタルデータ (digital)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid full" style="margin-top:12px">
+        <div class="field">
+          <label>商品名</label>
+          <input type="text" id="p-name" placeholder="商品名">
+        </div>
+        <div class="field">
+          <label>サブタイトル</label>
+          <input type="text" id="p-sub" placeholder="例：3Dプリント完成品">
+        </div>
+        <div class="field">
+          <label>説明文</label>
+          <textarea id="p-desc" rows="3" placeholder="商品の説明"></textarea>
+        </div>
+      </div>
+      <div class="form-grid" style="margin-top:12px">
+        <div class="field">
+          <label>価格（税込・円）</label>
+          <input type="number" id="p-price" placeholder="3200" min="0">
+        </div>
+        <div class="field">
+          <label>画像 URL</label>
+          <input type="text" id="p-image" placeholder="images/product-01.jpg">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">ファイルフォーマット（デジタルデータ用）</div>
+        <div class="field">
+          <div class="tags-input-wrap" id="p-formats-wrap" onclick="document.getElementById('p-formats-input').focus()">
+            <input class="tags-input" type="text" id="p-formats-input" placeholder="STL, GLB, OBJ などを入力してEnter">
+          </div>
+          <div class="field-hint">Enterキーで追加（物理商品の場合は空欄で可）</div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">在庫・表示設定</div>
+        <label class="toggle-wrap">
+          <span class="toggle">
+            <input type="checkbox" id="p-stock" checked>
+            <span class="toggle-track"></span>
+            <span class="toggle-thumb"></span>
+          </span>
+          <span class="toggle-label">在庫あり（ショップに表示）</span>
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('productModal')">キャンセル</button>
+      <button class="btn btn-primary" id="productSaveBtn" onclick="saveProduct()">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3L4.5 9 2 6.5"/></svg>
+        保存する
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     CONFIRM MODAL
+     ════════════════════════════════ -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="confirm-box">
+    <div class="confirm-title" id="confirmTitle">削除しますか？</div>
+    <div class="confirm-body" id="confirmBody">この操作は元に戻せません。</div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn btn-secondary" onclick="closeModal('confirmModal')">キャンセル</button>
+      <button class="btn btn-danger" id="confirmOkBtn">削除する</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════ -->
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore, collection, getDocs, doc, setDoc, addDoc, deleteDoc, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+/* ── Firebase Config ── */
+const firebaseConfig = {
+  apiKey:    'AIzaSyCr2wO8oFsRO3IFFbW7yex2JiAQh00BNrw',
+  authDomain: 'crystalizekobe.firebaseapp.com',
+  projectId: 'crystalizekobe',
+};
+
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+/* ── State ── */
+let WORKS = [];
+let PRODUCTS = [];
+let currentPage = 'dashboard';
+const tagsState = { 'w-tags': [], 'p-formats': [] };
+let editingWorkId = null;
+let editingProductId = null;
+
+/* expose for onclick handlers */
+window._app = {
+  get WORKS(){ return WORKS; },
+  get PRODUCTS(){ return PRODUCTS; },
+  get tagsState(){ return tagsState; },
+  get editingWorkId(){ return editingWorkId; },
+  set editingWorkId(v){ editingWorkId = v; },
+  get editingProductId(){ return editingProductId; },
+  set editingProductId(v){ editingProductId = v; },
+  get currentPage(){ return currentPage; },
+  set currentPage(v){ currentPage = v; },
+};
+
+/* ── Google Login ── */
+window.doGoogleLogin = async function() {
+  const errEl = document.getElementById('loginErr');
+  errEl.style.display = 'none';
+  try {
+    await signInWithPopup(auth, provider);
+  } catch(e) {
+    errEl.textContent = 'ログインに失敗しました: ' + (e.code === 'auth/popup-closed-by-user' ? 'ポップアップが閉じられました' : e.message);
+    errEl.style.display = 'block';
+  }
+};
+
+window.doLogout = async function() {
+  await signOut(auth);
+};
+
+/* ── Auth state ── */
+onAuthStateChanged(auth, user => {
+  if (user) {
+    const initials = (user.displayName || user.email || 'A').charAt(0).toUpperCase();
+    document.getElementById('userInitials').textContent = initials;
+    document.getElementById('userName').textContent = user.displayName || user.email.split('@')[0];
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    loadAll();
+  } else {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('app').style.display = 'none';
+  }
+});
+
+/* ── Firestore helpers ── */
+function fsFrom(snap) {
+  return { _fsId: snap.id, ...snap.data() };
+}
+
+async function fsGetAll(col) {
+  const snap = await getDocs(collection(db, col));
+  return snap.docs.map(fsFrom).sort((a,b) => (a.id||0) - (b.id||0));
+}
+
+async function fsSave(col, fsId, data) {
+  const clean = {...data};
+  delete clean._fsId;
+  if (fsId) {
+    await setDoc(doc(db, col, fsId), clean);
+  } else {
+    await addDoc(collection(db, col), clean);
+  }
+}
+
+async function fsDelete(col, fsId) {
+  await deleteDoc(doc(db, col, fsId));
+}
+
+/* ── Load All ── */
+async function loadAll() {
+  await Promise.all([loadWorks(), loadProducts()]);
+}
+
+async function loadWorks() {
+  try {
+    WORKS = await fsGetAll('works');
+    renderWorks(WORKS);
+    renderDashWorks();
+    updateStats();
+  } catch(e) {
+    document.getElementById('worksBody').innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--red)">読み込みエラー: ${e.message}</td></tr>`;
+  }
+}
+window.loadWorks = loadWorks;
+
+async function loadProducts() {
+  try {
+    PRODUCTS = await fsGetAll('products');
+    renderProducts(PRODUCTS);
+    renderDashProducts();
+    updateStats();
+  } catch(e) {
+    document.getElementById('productsBody').innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--red)">読み込みエラー: ${e.message}</td></tr>`;
+  }
+}
+window.loadProducts = loadProducts;
+
+/* ── Stats ── */
+function updateStats() {
+  document.getElementById('stat-works').textContent = WORKS.length;
+  document.getElementById('stat-products').textContent = PRODUCTS.length;
+  const activeCount = PRODUCTS.filter(p => p.stock !== false).length;
+  document.getElementById('stat-active').textContent = activeCount;
+  const pct = PRODUCTS.length ? Math.round(activeCount / PRODUCTS.length * 100) : 0;
+  document.getElementById('stat-active-pct').textContent = `全商品の${pct}%`;
+  const cats = new Set(WORKS.map(w => w.cat)).size;
+  document.getElementById('stat-cats').textContent = cats || '—';
+}
+
+/* ── Category badge ── */
+function catBadge(cat) {
+  const map = {
+    print:    ['badge-print',   '3Dプリント'],
+    cg:       ['badge-cg',      '3DCG'],
+    proto:    ['badge-proto',   '試作・プロト'],
+    physical: ['badge-physical','完成品'],
+    digital:  ['badge-digital', 'デジタル'],
+  };
+  const [cls, label] = map[cat] || ['badge-inactive', cat];
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+
+/* ── Search ── */
+window.handleSearch = function() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  if (currentPage === 'works') renderWorks(WORKS.filter(w => w.title?.toLowerCase().includes(q) || w.cat?.includes(q)));
+  if (currentPage === 'products') renderProducts(PRODUCTS.filter(p => p.name?.toLowerCase().includes(q)));
+};
+
+/* ── Render Works ── */
+function renderWorks(list) {
+  document.getElementById('works-count-label').textContent = `ポートフォリオ作品 （${list.length}件）`;
+  const tbody = document.getElementById('worksBody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><p>作品がありません</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(w => `
+    <tr>
+      <td style="color:var(--sub);font-size:.78rem">${w.id ?? '—'}</td>
+      <td>${catBadge(w.cat)}</td>
+      <td style="font-weight:600;max-width:200px">${escHtml(w.title||'')}</td>
+      <td style="color:var(--mid);font-size:.8rem">${escHtml(w.sub||'')}</td>
+      <td>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;max-width:180px">
+          ${(w.tags||[]).slice(0,3).map(t=>`<span style="font-size:.68rem;background:var(--bg);border:1px solid var(--border);padding:1px 7px;border-radius:4px;color:var(--mid)">${escHtml(t)}</span>`).join('')}
+          ${(w.tags||[]).length>3?`<span style="font-size:.68rem;color:var(--sub)">+${(w.tags||[]).length-3}</span>`:''}
+        </div>
+      </td>
+      <td style="text-align:center">
+        <div style="display:flex;gap:6px;justify-content:center">
+          <button class="btn-icon" title="編集" onclick="openWorkModal('${w._fsId}')">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12l1.5-4L10 1l2 2-7.5 7.5L1 12z"/></svg>
+          </button>
+          <button class="btn-icon" title="削除" style="color:var(--red)" onclick="confirmDelete('work','${w._fsId}','${escHtml(w.title||'')}')">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5h9M4.5 3.5V2h4v1.5M5.5 6v4M7.5 6v4M3 3.5l.5 7.5h6L10 3.5"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+window.renderWorks = renderWorks;
+
+/* ── Render Products ── */
+function renderProducts(list) {
+  document.getElementById('products-count-label').textContent = `ショップ商品 （${list.length}件）`;
+  const tbody = document.getElementById('productsBody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><p>商品がありません</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(p => `
+    <tr>
+      <td style="color:var(--sub);font-size:.78rem">${p.id??'—'}</td>
+      <td>${catBadge(p.cat)}</td>
+      <td style="font-weight:600">${escHtml(p.name||'')}</td>
+      <td style="font-weight:700">¥${(p.price||0).toLocaleString('ja-JP')}</td>
+      <td>
+        <div style="display:flex;gap:4px;flex-wrap:wrap">
+          ${(p.formats||[]).map(f=>`<span style="font-size:.66rem;background:#F5F3FF;color:var(--indigo);border:1px solid #DDD6FE;padding:1px 7px;border-radius:4px;font-weight:700">${escHtml(f)}</span>`).join('')}
+        </div>
+      </td>
+      <td style="text-align:center">
+        ${p.stock!==false?'<span class="badge badge-active">あり</span>':'<span class="badge badge-inactive">なし</span>'}
+      </td>
+      <td style="text-align:center">
+        <div style="display:flex;gap:6px;justify-content:center">
+          <button class="btn-icon" title="編集" onclick="openProductModal('${p._fsId}')">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12l1.5-4L10 1l2 2-7.5 7.5L1 12z"/></svg>
+          </button>
+          <button class="btn-icon" title="削除" style="color:var(--red)" onclick="confirmDelete('product','${p._fsId}','${escHtml(p.name||'')}')">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5h9M4.5 3.5V2h4v1.5M5.5 6v4M7.5 6v4M3 3.5l.5 7.5h6L10 3.5"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+window.renderProducts = renderProducts;
+
+/* ── Dashboard mini tables ── */
+function renderDashWorks() {
+  const el = document.getElementById('dashWorksTable');
+  const list = [...WORKS].slice(0, 5);
+  if (!list.length) { el.innerHTML = '<div class="empty" style="padding:30px"><p>作品なし</p></div>'; return; }
+  el.innerHTML = `<table><thead><tr><th>タイトル</th><th>カテゴリ</th></tr></thead><tbody>
+    ${list.map(w=>`<tr><td style="font-weight:600;font-size:.82rem">${escHtml(w.title||'')}</td><td>${catBadge(w.cat)}</td></tr>`).join('')}
+  </tbody></table>`;
+}
+
+function renderDashProducts() {
+  const el = document.getElementById('dashProductsTable');
+  const list = [...PRODUCTS].slice(0, 5);
+  if (!list.length) { el.innerHTML = '<div class="empty" style="padding:30px"><p>商品なし</p></div>'; return; }
+  el.innerHTML = `<table><thead><tr><th>商品名</th><th>価格</th></tr></thead><tbody>
+    ${list.map(p=>`<tr><td style="font-weight:600;font-size:.82rem">${escHtml(p.name||'')}</td><td style="font-weight:700;font-size:.82rem">¥${(p.price||0).toLocaleString('ja-JP')}</td></tr>`).join('')}
+  </tbody></table>`;
+}
+
+/* ── Nav ── */
+window.showPage = function(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick')?.includes(`'${name}'`)) n.classList.add('active');
+  });
+  const titles = { dashboard:'ダッシュボード', works:'ポートフォリオ作品', products:'ショップ商品' };
+  document.getElementById('topbarTitle').textContent = titles[name] || name;
+  currentPage = name;
+  document.getElementById('searchInput').value = '';
+};
+
+/* ── Modal helpers ── */
+window.openModal  = id => document.getElementById(id).classList.add('open');
+window.closeModal = id => document.getElementById(id).classList.remove('open');
+
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+});
+
+/* ── Tags input ── */
+window.initTags = function(key, wrap, input) {
+  tagsState[key] = [];
+  document.getElementById(wrap).querySelectorAll('.tag-chip').forEach(c => c.remove());
+  document.getElementById(input).addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      const val = e.target.value.trim().replace(/,$/, '');
+      if (val && !tagsState[key].includes(val)) addTag(key, wrap, val);
+      e.target.value = '';
+    }
+  });
+};
+
+window.setTags = function(key, wrap, values) {
+  tagsState[key] = [];
+  document.getElementById(wrap).querySelectorAll('.tag-chip').forEach(c => c.remove());
+  (values||[]).forEach(v => addTag(key, wrap, v));
+};
+
+function addTag(key, wrap, val) {
+  if (tagsState[key].includes(val)) return;
+  tagsState[key].push(val);
+  const chip = document.createElement('span');
+  chip.className = 'tag-chip';
+  chip.innerHTML = `${escHtml(val)}<button type="button" onclick="removeTag('${key}','${wrap}',this,'${escHtml(val)}')">×</button>`;
+  const inputEl = document.getElementById(wrap === 'w-tags-wrap' ? 'w-tags-input' : 'p-formats-input');
+  document.getElementById(wrap).insertBefore(chip, inputEl);
+}
+window.addTag = addTag;
+
+window.removeTag = function(key, wrap, btn, val) {
+  tagsState[key] = tagsState[key].filter(t => t !== val);
+  btn.parentElement.remove();
+};
+
+/* ── Specs input ── */
+window.addSpecRow = function(containerId, key='', val='') {
+  const row = document.createElement('div');
+  row.className = 'spec-input-row';
+  row.innerHTML = `
+    <input type="text" placeholder="項目名（例：方式）" value="${escAttr(key)}" style="flex:1">
+    <span class="spec-sep">：</span>
+    <input type="text" placeholder="内容（例：光造形）" value="${escAttr(val)}" style="flex:2">
+    <button type="button" onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--red);padding:4px;cursor:pointer">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l9 9M11 2L2 11"/></svg>
+    </button>`;
+  document.getElementById(containerId).appendChild(row);
+};
+
+function getSpecs(containerId) {
+  const specs = {};
+  document.getElementById(containerId).querySelectorAll('.spec-input-row').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const k = inputs[0].value.trim();
+    const v = inputs[1].value.trim();
+    if (k) specs[k] = v;
+  });
+  return specs;
+}
+
+window.setSpecs = function(containerId, specs) {
+  document.getElementById(containerId).innerHTML = '';
+  for (const [k, v] of Object.entries(specs||{})) window.addSpecRow(containerId, k, v);
+};
+
+/* ── Work Modal ── */
+window.openWorkModal = function(fsId) {
+  editingWorkId = fsId || null;
+  document.getElementById('workModalTitle').textContent = fsId ? '作品を編集' : '作品を追加';
+  document.getElementById('workErr').style.display = 'none';
+  ['w-id','w-title','w-sub','w-summary','w-desc','w-thumb','w-glb','w-images'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('w-cat').value = 'print';
+  document.getElementById('w-specs-rows').innerHTML = '';
+  initTags('w-tags', 'w-tags-wrap', 'w-tags-input');
+
+  if (fsId) {
+    const w = WORKS.find(x => x._fsId === fsId);
+    if (w) {
+      document.getElementById('w-id').value      = w.id || '';
+      document.getElementById('w-cat').value     = w.cat || 'print';
+      document.getElementById('w-title').value   = w.title || '';
+      document.getElementById('w-sub').value     = w.sub || '';
+      document.getElementById('w-summary').value = w.summary || '';
+      document.getElementById('w-desc').value    = w.desc || '';
+      document.getElementById('w-thumb').value   = w.thumb || '';
+      document.getElementById('w-glb').value     = w.glb || '';
+      document.getElementById('w-images').value  = (w.images||[]).join(', ');
+      setTags('w-tags', 'w-tags-wrap', w.tags||[]);
+      window.setSpecs('w-specs-rows', w.specs||{});
+    }
+  } else {
+    window.addSpecRow('w-specs-rows');
+  }
+  openModal('workModal');
+};
+
+window.saveWork = async function() {
+  const btn = document.getElementById('workSaveBtn');
+  document.getElementById('workErr').style.display = 'none';
+  const title = document.getElementById('w-title').value.trim();
+  if (!title) { showModalErr('workErr', 'タイトルは必須です'); return; }
+  const imagesRaw = document.getElementById('w-images').value.trim();
+  const images = imagesRaw ? imagesRaw.split(',').map(s=>s.trim()).filter(Boolean) : [];
+  const data = {
+    id:      parseInt(document.getElementById('w-id').value)||0,
+    cat:     document.getElementById('w-cat').value,
+    title,
+    sub:     document.getElementById('w-sub').value.trim(),
+    summary: document.getElementById('w-summary').value.trim(),
+    desc:    document.getElementById('w-desc').value.trim(),
+    tags:    tagsState['w-tags'],
+    specs:   getSpecs('w-specs-rows'),
+    thumb:   document.getElementById('w-thumb').value.trim(),
+    glb:     document.getElementById('w-glb').value.trim(),
+    images,
+  };
+  btn.disabled = true; btn.textContent = '保存中...';
+  try {
+    await fsSave('works', editingWorkId, data);
+    closeModal('workModal');
+    showAlert('works-alert', editingWorkId ? '作品を更新しました' : '作品を追加しました');
+    await loadWorks();
+  } catch(e) { showModalErr('workErr', '保存エラー: ' + e.message); }
+  finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3L4.5 9 2 6.5"/></svg> 保存する';
+  }
+};
+
+/* ── Product Modal ── */
+window.openProductModal = function(fsId) {
+  editingProductId = fsId || null;
+  document.getElementById('productModalTitle').textContent = fsId ? '商品を編集' : '商品を追加';
+  document.getElementById('productErr').style.display = 'none';
+  ['p-id','p-name','p-sub','p-desc','p-price','p-image'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('p-cat').value = 'physical';
+  document.getElementById('p-stock').checked = true;
+  initTags('p-formats', 'p-formats-wrap', 'p-formats-input');
+
+  if (fsId) {
+    const p = PRODUCTS.find(x => x._fsId === fsId);
+    if (p) {
+      document.getElementById('p-id').value    = p.id || '';
+      document.getElementById('p-cat').value   = p.cat || 'physical';
+      document.getElementById('p-name').value  = p.name || '';
+      document.getElementById('p-sub').value   = p.sub || '';
+      document.getElementById('p-desc').value  = p.desc || '';
+      document.getElementById('p-price').value = p.price || '';
+      document.getElementById('p-image').value = p.image || '';
+      document.getElementById('p-stock').checked = p.stock !== false;
+      setTags('p-formats', 'p-formats-wrap', p.formats||[]);
+    }
+  }
+  openModal('productModal');
+};
+
+window.saveProduct = async function() {
+  const btn = document.getElementById('productSaveBtn');
+  document.getElementById('productErr').style.display = 'none';
+  const name = document.getElementById('p-name').value.trim();
+  if (!name) { showModalErr('productErr', '商品名は必須です'); return; }
+  const price = parseFloat(document.getElementById('p-price').value);
+  if (isNaN(price)) { showModalErr('productErr', '価格を正しく入力してください'); return; }
+  const data = {
+    id:      parseInt(document.getElementById('p-id').value)||0,
+    cat:     document.getElementById('p-cat').value,
+    name,
+    sub:     document.getElementById('p-sub').value.trim(),
+    desc:    document.getElementById('p-desc').value.trim(),
+    price,
+    image:   document.getElementById('p-image').value.trim(),
+    stock:   document.getElementById('p-stock').checked,
+    formats: tagsState['p-formats'],
+  };
+  btn.disabled = true; btn.textContent = '保存中...';
+  try {
+    await fsSave('products', editingProductId, data);
+    closeModal('productModal');
+    showAlert('products-alert', editingProductId ? '商品を更新しました' : '商品を追加しました');
+    await loadProducts();
+  } catch(e) { showModalErr('productErr', '保存エラー: ' + e.message); }
+  finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3L4.5 9 2 6.5"/></svg> 保存する';
+  }
+};
+
+/* ── Delete confirm ── */
+window.confirmDelete = function(type, fsId, name) {
+  document.getElementById('confirmTitle').textContent = '削除しますか？';
+  document.getElementById('confirmBody').textContent = `「${name}」を削除します。この操作は元に戻せません。`;
+  document.getElementById('confirmOkBtn').onclick = async () => {
+    try {
+      await fsDelete(type === 'work' ? 'works' : 'products', fsId);
+      closeModal('confirmModal');
+      showAlert(type === 'work' ? 'works-alert' : 'products-alert', '削除しました');
+      type === 'work' ? await loadWorks() : await loadProducts();
+    } catch(e) { alert('削除エラー: ' + e.message); }
+  };
+  openModal('confirmModal');
+};
+
+/* ── Utility ── */
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escAttr(s) { return String(s).replace(/"/g,'&quot;'); }
+window.escHtml = escHtml;
+window.escAttr = escAttr;
+
+function showAlert(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg; el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 3500);
+}
+function showModalErr(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg; el.style.display = 'block';
+}
+window.showAlert    = showAlert;
+window.showModalErr = showModalErr;
+
+</script>
+</body>
+</html>
