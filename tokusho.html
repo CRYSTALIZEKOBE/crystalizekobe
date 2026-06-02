@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="CRYSTALIZE KOBE 特定商取引法に基づく表記">
+<title>特定商取引法に基づく表記 — CRYSTALIZE KOBE</title>
+<link rel="icon" href="rogo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4FA;--surface:#FFF;--border:#D4D9E8;
+  --ink:#111827;--mid:#6B7280;--sub:#9CA3AF;
+  --accent:#1E40AF;--accent-h:#1B349A;--accent-bg:#EEF2FF;
+  --dark:#080C1A;
+  --max:1120px;--nav-h:64px;--r:8px;
+  --font:'Plus Jakarta Sans',-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+ul{list-style:none}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+.site-header{position:sticky;top:0;z-index:100;background:rgba(242,244,250,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+.logo-img{height:36px;width:36px;border-radius:6px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{padding:7px 14px;border-radius:100px;font-size:.875rem;font-weight:500;color:var(--mid);transition:.15s;text-decoration:none}
+.nav-links a:hover{background:var(--surface);color:var(--ink)}
+.nav-links .btn-nav{background:var(--accent);color:#fff;padding:7px 18px;border-radius:100px;font-weight:600;transition:.15s}
+.nav-links .btn-nav:hover{background:var(--accent-h)}
+.nav-toggle{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none;cursor:pointer}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;transition:transform .2s,opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+.page-header{padding:56px 0 44px;border-bottom:1px solid var(--border)}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--sub);margin-bottom:20px}
+.breadcrumb a{color:var(--sub);transition:color .15s;text-decoration:none}
+.breadcrumb a:hover{color:var(--ink)}
+.page-header h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;letter-spacing:-.025em;line-height:1.2;margin-bottom:10px}
+.page-header p{font-size:.9rem;color:var(--mid)}
+
+.doc-wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
+
+.tokusho-table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.tokusho-table th{
+  width:32%;padding:16px 20px;text-align:left;
+  font-size:.84rem;font-weight:600;color:var(--mid);
+  background:var(--bg);border-bottom:1px solid var(--border);
+  vertical-align:top;
+}
+.tokusho-table td{
+  padding:16px 20px;font-size:.88rem;color:var(--ink);
+  border-bottom:1px solid var(--border);line-height:1.75;
+  vertical-align:top;
+}
+.tokusho-table tr:last-child th,
+.tokusho-table tr:last-child td{border-bottom:none}
+
+.note-box{margin-top:32px;padding:16px 20px;background:var(--accent-bg);border:1px solid rgba(30,64,175,.2);border-radius:var(--r);font-size:.83rem;color:#1E3A8A;line-height:1.75}
+
+footer{background:var(--dark);padding:0;color:#9CA3AF}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:20px 0}
+.footer-copy{font-size:.74rem;color:#4B5563}
+.footer-legal{display:flex;gap:18px}
+.footer-legal a{font-size:.74rem;color:#4B5563;transition:color .15s;text-decoration:none}
+.footer-legal a:hover{color:#9CA3AF}
+
+@media(max-width:768px){
+  .nav-toggle{display:flex}
+  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;gap:4px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a,.nav-links .btn-nav{border-radius:6px;padding:11px 14px;width:100%}
+  .tokusho-table th{width:40%}
+  .tokusho-table th,.tokusho-table td{padding:12px 14px;font-size:.82rem}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="logo"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="logo-img">CRYSTALIZE KOBE</a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開閉"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">トップ</a></li>
+      <li><a href="materials.html">素材・仕様</a></li>
+      <li><a href="portfolio.html">実績</a></li>
+      <li><a href="shop.html">ショップ</a></li>
+      <li><a href="realtime.html">3DCG</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+      <li><a href="estimate.html" class="btn-nav">見積もり</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<section class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">トップ</a><span style="opacity:.4">›</span><span>特定商取引法に基づく表記</span></div>
+    <h1>特定商取引法に基づく表記</h1>
+    <p>特定商取引法の規定に基づき、以下の通り表記します。</p>
+  </div>
+</section>
+
+<div class="doc-wrap">
+  <table class="tokusho-table">
+    <tr>
+      <th>販売業者</th>
+      <td>合同会社sciuri　クリスタライズ神戸</td>
+    </tr>
+    <tr>
+      <th>代表者</th>
+      <td>角田 浩紀</td>
+    </tr>
+    <tr>
+      <th>所在地</th>
+      <td>〒673-0891<br>兵庫県明石市大明石町1丁目2-1<br>明石商工会議所ビル1階 METAGAME明石</td>
+    </tr>
+    <tr>
+      <th>電話番号</th>
+      <td><a href="tel:0789627801">078-962-7801</a><br><span style="font-size:.8rem;color:var(--mid)">受付時間：平日 10:00〜18:00（土日祝休）</span></td>
+    </tr>
+    <tr>
+      <th>メールアドレス</th>
+      <td><a href="mailto:crystallizekobe@gmail.com">crystallizekobe@gmail.com</a></td>
+    </tr>
+    <tr>
+      <th>販売価格</th>
+      <td>各サービス・商品ページに記載の通り（税込）。<br>3DCG制作・3Dプリント制作については、内容により個別にお見積もりします。</td>
+    </tr>
+    <tr>
+      <th>支払方法</th>
+      <td>
+        クレジットカード決済（Stripe）<br>
+        銀行振込<br>
+        コンビニ決済
+      </td>
+    </tr>
+    <tr>
+      <th>支払時期</th>
+      <td>
+        クレジットカード・コンビニ決済：注文手続き完了時<br>
+        銀行振込：ご注文確認後、請求書をお送りします
+      </td>
+    </tr>
+    <tr>
+      <th>商品の引渡し時期</th>
+      <td>
+        デジタルデータ（3DCGモデル等）：決済確認後、順次メールにてお届けします<br>
+        3Dプリント完成品：ご注文確認後、概ね1週間程度（内容・難易度により変動します）<br>
+        ※詳細な納期はご注文時または制作開始前にご案内します
+      </td>
+    </tr>
+    <tr>
+      <th>返品・キャンセルについて</th>
+      <td>
+        制作物の性質上、お客様都合によるキャンセル・返品はお受けできません。<br>
+        ただし、当社の明らかな制作ミス・不備があると認められる場合は、修正または代替対応をいたします。<br>
+        ご不明な点はご注文前にお問い合わせください。
+      </td>
+    </tr>
+    <tr>
+      <th>動作環境</th>
+      <td>
+        デジタルデータの動作環境はお客様のご利用環境に依存します。<br>
+        納品形式・対応ソフトウェアについては事前にご確認ください。
+      </td>
+    </tr>
+  </table>
+
+  <div class="note-box">
+    ご不明な点がございましたら、お気軽に <a href="mailto:crystallizekobe@gmail.com">crystallizekobe@gmail.com</a> までお問い合わせください。
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 CRYSTALIZE KOBE. All rights reserved.</p>
+      <nav class="footer-legal">
+        <a href="privacy.html">プライバシーポリシー</a>
+        <a href="tokusho.html">特定商取引法に基づく表記</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+const toggle=document.getElementById('navToggle'),links=document.getElementById('navLinks');
+toggle.addEventListener('click',()=>{const o=links.classList.toggle('open');toggle.classList.toggle('open',o)});
+links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');toggle.classList.remove('open')}));
+document.addEventListener('click',e=>{if(!toggle.contains(e.target)&&!links.contains(e.target)){links.classList.remove('open');toggle.classList.remove('open')}});
+</script>
+</body>
+</html>

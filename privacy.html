@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="CRYSTALIZE KOBE プライバシーポリシー">
+<title>プライバシーポリシー — CRYSTALIZE KOBE</title>
+<link rel="icon" href="rogo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4FA;--surface:#FFF;--border:#D4D9E8;
+  --ink:#111827;--mid:#6B7280;--sub:#9CA3AF;
+  --accent:#1E40AF;--accent-h:#1B349A;--accent-bg:#EEF2FF;
+  --dark:#080C1A;
+  --max:1120px;--nav-h:64px;--r:8px;
+  --font:'Plus Jakarta Sans',-apple-system,'Hiragino Kaku Gothic ProN',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.7}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+ul{list-style:none}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+.site-header{position:sticky;top:0;z-index:100;background:rgba(242,244,250,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+.logo-img{height:36px;width:36px;border-radius:6px;object-fit:cover;object-position:center 28%;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{padding:7px 14px;border-radius:100px;font-size:.875rem;font-weight:500;color:var(--mid);transition:.15s;text-decoration:none}
+.nav-links a:hover{background:var(--surface);color:var(--ink)}
+.nav-links .btn-nav{background:var(--accent);color:#fff;padding:7px 18px;border-radius:100px;font-weight:600;transition:.15s}
+.nav-links .btn-nav:hover{background:var(--accent-h)}
+.nav-toggle{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none;cursor:pointer}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;transition:transform .2s,opacity .2s}
+.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+.page-header{padding:56px 0 44px;border-bottom:1px solid var(--border)}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--sub);margin-bottom:20px}
+.breadcrumb a{color:var(--sub);transition:color .15s;text-decoration:none}
+.breadcrumb a:hover{color:var(--ink)}
+.page-header h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;letter-spacing:-.025em;line-height:1.2;margin-bottom:10px}
+.page-header p{font-size:.9rem;color:var(--mid)}
+
+.doc-wrap{max-width:760px;margin:0 auto;padding:56px 24px 80px}
+.doc-section{margin-bottom:44px}
+.doc-section h2{font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.doc-section p{font-size:.9rem;color:var(--mid);line-height:1.85;margin-bottom:10px}
+.doc-section p:last-child{margin-bottom:0}
+.doc-section ul{padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.doc-section ul li{font-size:.9rem;color:var(--mid);line-height:1.75;list-style:disc}
+.doc-date{font-size:.82rem;color:var(--sub);margin-bottom:40px}
+
+footer{background:var(--dark);padding:0;color:#9CA3AF}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:20px 0}
+.footer-copy{font-size:.74rem;color:#4B5563}
+.footer-legal{display:flex;gap:18px}
+.footer-legal a{font-size:.74rem;color:#4B5563;transition:color .15s;text-decoration:none}
+.footer-legal a:hover{color:#9CA3AF}
+
+@media(max-width:768px){
+  .nav-toggle{display:flex}
+  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;gap:4px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a,.nav-links .btn-nav{border-radius:6px;padding:11px 14px;width:100%}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="logo"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="logo-img">CRYSTALIZE KOBE</a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開閉"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">トップ</a></li>
+      <li><a href="materials.html">素材・仕様</a></li>
+      <li><a href="portfolio.html">実績</a></li>
+      <li><a href="shop.html">ショップ</a></li>
+      <li><a href="realtime.html">3DCG</a></li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+      <li><a href="estimate.html" class="btn-nav">見積もり</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<section class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">トップ</a><span style="opacity:.4">›</span><span>プライバシーポリシー</span></div>
+    <h1>プライバシーポリシー</h1>
+    <p>個人情報の取り扱いについて定めたものです。</p>
+  </div>
+</section>
+
+<div class="doc-wrap">
+  <p class="doc-date">制定日：2026年6月2日</p>
+
+  <div class="doc-section">
+    <h2>1. 事業者情報</h2>
+    <p>合同会社sciuri（屋号：クリスタライズ神戸、以下「当社」）は、お客様の個人情報の保護を重要な責務と考え、以下の方針に基づいて適切に取り扱います。</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>2. 取得する個人情報</h2>
+    <p>当社は、以下の情報をお客様からご提供いただく場合があります。</p>
+    <ul>
+      <li>お名前・会社名・団体名</li>
+      <li>メールアドレス</li>
+      <li>電話番号</li>
+      <li>お届け先住所（商品購入・発送が伴う場合）</li>
+      <li>お問い合わせ・ご依頼内容</li>
+      <li>決済情報（クレジットカード情報はStripe社が管理し、当社では保持しません）</li>
+    </ul>
+  </div>
+
+  <div class="doc-section">
+    <h2>3. 利用目的</h2>
+    <p>取得した個人情報は、以下の目的に限り利用します。</p>
+    <ul>
+      <li>ご注文・ご依頼への対応および納品</li>
+      <li>お問い合わせへの回答</li>
+      <li>見積もりのご提案・制作業務の遂行</li>
+      <li>商品の発送・配送業者への情報提供</li>
+      <li>請求・支払いに関する手続き</li>
+      <li>サービス向上のための分析・改善</li>
+    </ul>
+  </div>
+
+  <div class="doc-section">
+    <h2>4. 第三者への提供</h2>
+    <p>当社は、以下の場合を除き、お客様の個人情報を第三者に提供しません。</p>
+    <ul>
+      <li>商品の配送のため、配送業者にお届け先情報を提供する場合</li>
+      <li>決済処理のため、Stripe Inc.に必要な情報を提供する場合</li>
+      <li>法令に基づき開示が必要な場合</li>
+      <li>お客様ご本人の同意がある場合</li>
+    </ul>
+  </div>
+
+  <div class="doc-section">
+    <h2>5. Cookieの使用について</h2>
+    <p>当サイトでは、サービスの利便性向上およびセキュリティ維持のため、Cookieを使用することがあります。Cookieは、お客様のブラウザ設定により無効にすることが可能ですが、一部機能が利用できなくなる場合があります。</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>6. 個人情報の管理</h2>
+    <p>当社は、お客様の個人情報を正確かつ最新の状態に保ち、不正アクセス・紛失・改ざん・漏洩などを防止するために適切な安全管理措置を講じます。</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>7. 個人情報の開示・訂正・削除</h2>
+    <p>お客様ご本人から個人情報の開示・訂正・削除をご希望される場合は、下記の問い合わせ先までご連絡ください。本人確認のうえ、合理的な範囲で対応いたします。</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>8. プライバシーポリシーの変更</h2>
+    <p>当社は、法令の変更やサービス内容の変更に応じて、本ポリシーを改定することがあります。変更後のポリシーは当ページに掲載した時点より効力を生じます。</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>9. お問い合わせ先</h2>
+    <p>個人情報の取り扱いに関するお問い合わせは、以下までご連絡ください。</p>
+    <p>
+      合同会社sciuri（クリスタライズ神戸）<br>
+      〒673-0891 兵庫県明石市大明石町1丁目2-1 明石商工会議所ビル1階 METAGAME明石<br>
+      TEL：078-962-7801<br>
+      MAIL：<a href="mailto:crystallizekobe@gmail.com">crystallizekobe@gmail.com</a>
+    </p>
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 CRYSTALIZE KOBE. All rights reserved.</p>
+      <nav class="footer-legal">
+        <a href="privacy.html">プライバシーポリシー</a>
+        <a href="tokusho.html">特定商取引法に基づく表記</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+const toggle=document.getElementById('navToggle'),links=document.getElementById('navLinks');
+toggle.addEventListener('click',()=>{const o=links.classList.toggle('open');toggle.classList.toggle('open',o)});
+links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');toggle.classList.remove('open')}));
+document.addEventListener('click',e=>{if(!toggle.contains(e.target)&&!links.contains(e.target)){links.classList.remove('open');toggle.classList.remove('open')}});
+</script>
+</body>
+</html>
