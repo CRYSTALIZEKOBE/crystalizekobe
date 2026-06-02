@@ -1,61 +1,30 @@
-[build]
-  functions = "netlify/functions"
-  command   = "npm install"
-  publish   = "."
+# Netlify 設定ファイル
+# ドキュメント: https://docs.netlify.com/configure-builds/file-based-configuration/
 
+[build]
+  # 関数ディレクトリ
+  functions = "netlify/functions"
+
+  # ビルドコマンド（stripe SDKのインストール）
+  command = "npm install"
+
+  # 公開ディレクトリ（HTMLファイルが置いてあるルート）
+  publish = "."
+
+# ── 関数の設定 ────────────────────────────
 [functions]
   node_bundler = "esbuild"
 
-# ── Asset minification（ファイルサイズ 30〜40%削減） ──────
-[build.processing]
-  skip_processing = false
-[build.processing.html]
-  pretty_urls = true
-[build.processing.css]
-  bundle = true
-  minify = true
-[build.processing.js]
-  bundle  = true
-  minify  = true
-[build.processing.images]
-  compress = true
-
-# ── Cache headers ──────────────────────────────────────────
-[[headers]]
-  for = "/*.html"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-[[headers]]
-  for = "/*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/images/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.png"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# ── Security headers ───────────────────────────────────────
+# ── セキュリティヘッダー ──────────────────
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options        = "DENY"
+    X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
-    Referrer-Policy        = "strict-origin-when-cross-origin"
+    Referrer-Policy = "strict-origin-when-cross-origin"
 
-# ── Redirects ─────────────────────────────────────────────
+# ── リダイレクト（SPAではないので最低限のみ） ──
 [[redirects]]
-  from   = "/api/create-checkout"
-  to     = "/.netlify/functions/create-checkout"
+  from  = "/api/create-checkout"
+  to    = "/.netlify/functions/create-checkout"
   status = 200

@@ -154,9 +154,9 @@ input,button,select,textarea{font-family:var(--font)}
 .head-cg   {background:var(--indigo)}
 .pp-label{font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;opacity:.75;margin-bottom:4px}
 .pp-mode-badge{font-size:.7rem;opacity:.65;margin-bottom:6px}
-.price-panel-num{font-size:2.8rem;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:4px}
-.price-panel-num sup{font-size:1.4rem}
-.price-panel-num .price-suffix{font-size:1rem;opacity:.65;font-weight:500}
+.price-panel-num{font-size:3.8rem;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:4px}
+.price-panel-num sup{font-size:1.8rem}
+.price-panel-num .price-suffix{font-size:1.2rem;opacity:.65;font-weight:500}
 .price-panel-note{font-size:.74rem;opacity:.6;line-height:1.5}
 .price-panel-body{padding:18px 24px}
 .pp-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--border)}
@@ -175,8 +175,8 @@ input,button,select,textarea{font-family:var(--font)}
 }
 .pp-ai-flag{
   margin-top:10px;padding:9px 11px;
-  background:var(--warn-bg);border:1px solid var(--warn-border);
-  border-radius:6px;font-size:.74rem;color:var(--warn);line-height:1.5;
+  background:var(--green-bg);border:1px solid #6EE7B7;
+  border-radius:6px;font-size:.74rem;color:#065F46;line-height:1.5;
   display:none;
 }
 .pp-ai-flag.show{display:block}
@@ -365,25 +365,25 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
                   <div class="rc-icon rc-icon-print"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="5"/><path d="M11 11L15 15"/></svg></div>
                   <div class="radio-card-name">光造形レジン</div>
                   <div class="radio-card-sub">フィギュア・精密造形<br>ELEGOO 高精細</div>
-                  <div class="radio-card-rate rate-print">素材倍率 × 1.5</div>
+                  <div class="radio-card-rate rate-print">素材倍率 × 2.5</div>
                 </label>
               </div>
               <div>
                 <input class="radio-card-input" type="radio" name="material" id="mat-pla" value="pla" checked>
                 <label class="radio-card-label print-card" for="mat-pla">
                   <div class="rc-icon rc-icon-print"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="3"/><path d="M8.5 2v2M8.5 13v2M2 8.5h2M13 8.5h2M4.1 4.1l1.4 1.4M11.5 11.5l1.4 1.4M4.1 12.9l1.4-1.4M11.5 5.5l1.4-1.4"/></svg></div>
-                  <div class="radio-card-name">PLA / ABS</div>
+                  <div class="radio-card-name">PLA</div>
                   <div class="radio-card-sub">実用部品・大型造形<br>Bambu Lab FDM</div>
                   <div class="radio-card-rate rate-print">素材倍率 × 1.0（基準）</div>
                 </label>
               </div>
               <div>
-                <input class="radio-card-input" type="radio" name="material" id="mat-nylon" value="nylon">
-                <label class="radio-card-label print-card" for="mat-nylon">
+                <input class="radio-card-input" type="radio" name="material" id="mat-petg" value="petg">
+                <label class="radio-card-label print-card" for="mat-petg">
                   <div class="rc-icon rc-icon-print"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 2l7 5-7 8-7-8 7-5z"/></svg></div>
-                  <div class="radio-card-name">高耐久ナイロン</div>
-                  <div class="radio-card-sub">高耐久・産業部品<br>SLS / 外注対応</div>
-                  <div class="radio-card-rate rate-print">素材倍率 × 2.0</div>
+                  <div class="radio-card-name">PETG</div>
+                  <div class="radio-card-sub">高耐久・耐水<br>屋外部品向け</div>
+                  <div class="radio-card-rate rate-print">素材倍率 × 1.5</div>
                 </label>
               </div>
             </div>
@@ -416,37 +416,105 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
                 <label class="radio-card-label print-card" for="sz-large">
                   <div class="rc-icon rc-icon-print"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8.5" cy="8.5" r="8"/></svg></div>
                   <div class="radio-card-name">大型</div>
-                  <div class="radio-card-sub">25〜30cm 四方<br>筐体・モデル</div>
+                  <div class="radio-card-sub">25cm〜 四方<br>筐体・モデル</div>
                   <div class="radio-card-price">¥15,000 <span class="price-unit">〜（基本）</span></div>
                 </label>
               </div>
             </div>
           </div>
 
-          <!-- Step 3: AI material option -->
+          <!-- Step 3: Options -->
           <div>
             <div class="sim-group-title"><span class="sim-group-num num-print">3</span>オプション</div>
             <div class="check-options">
+
+              <!-- Data creation (default checked) -->
+              <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden">
+                <label class="check-item" id="data-create-wrap" style="border:none;border-bottom:1px solid var(--border);border-radius:0">
+                  <input type="checkbox" id="data-create-check" checked>
+                  <div class="check-item-body">
+                    <div class="check-item-label">データ作成を依頼する</div>
+                    <div class="check-item-sub">3Dデータをお持ちでない場合、データ作成から承ります</div>
+                  </div>
+                </label>
+                <!-- Complexity selector (shown when checked) -->
+                <div id="data-complexity-wrap" style="padding:12px 16px;display:flex;flex-direction:column;gap:8px">
+                  <div style="font-size:.74rem;font-weight:600;color:var(--sub);letter-spacing:.04em">形状の複雑さ</div>
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+                    <div>
+                      <input class="radio-card-input" type="radio" name="data-complexity" id="dc-simple" value="simple" checked>
+                      <label class="radio-card-label print-card" for="dc-simple" style="padding:12px 12px 10px">
+                        <div class="radio-card-name" style="font-size:.84rem">シンプル</div>
+                        <div class="radio-card-sub" style="font-size:.7rem">小物・アクセサリーなど</div>
+                        <div class="radio-card-price" style="font-size:.84rem">+¥5,000 <span class="price-unit">〜</span></div>
+                      </label>
+                    </div>
+                    <div>
+                      <input class="radio-card-input" type="radio" name="data-complexity" id="dc-standard" value="standard">
+                      <label class="radio-card-label print-card" for="dc-standard" style="padding:12px 12px 10px">
+                        <div class="radio-card-name" style="font-size:.84rem">標準</div>
+                        <div class="radio-card-sub" style="font-size:.7rem">プロトタイプ・パーツなど</div>
+                        <div class="radio-card-price" style="font-size:.84rem">+¥10,000 <span class="price-unit">〜</span></div>
+                      </label>
+                    </div>
+                    <div>
+                      <input class="radio-card-input" type="radio" name="data-complexity" id="dc-complex" value="complex">
+                      <label class="radio-card-label print-card" for="dc-complex" style="padding:12px 12px 10px">
+                        <div class="radio-card-name" style="font-size:.84rem">複雑</div>
+                        <div class="radio-card-sub" style="font-size:.7rem">フィギュア・有機形状など</div>
+                        <div class="radio-card-price" style="font-size:.84rem">+¥20,000 <span class="price-unit">〜</span></div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Design option -->
+              <label class="check-item" id="design-print-wrap">
+                <input type="checkbox" id="design-print-check">
+                <div class="check-item-body">
+                  <div class="check-item-label">デザイン作成<span class="check-item-price">+¥2,000</span></div>
+                  <div class="check-item-sub">造形物のデザイン案・ラフスケッチの提案から承ります</div>
+                </div>
+              </label>
+
+              <!-- Painting option -->
+              <label class="check-item" id="paint-wrap">
+                <input type="checkbox" id="paint-check">
+                <div class="check-item-body">
+                  <div class="check-item-label">塗装（アクリル絵の具）<span class="check-item-price">+¥2,000</span></div>
+                  <div class="check-item-sub">アクリル絵の具による手塗り塗装。色指定はお問い合わせ時にご記入ください</div>
+                </div>
+              </label>
+
+              <!-- AI option -->
               <label class="check-item" id="ai-print-wrap">
                 <input type="checkbox" id="ai-print-check">
                 <div class="check-item-body">
-                  <div class="check-item-label">
-                    AI生成データを使用する
-                    <span class="check-item-price" style="background:#FEF3C7;color:#92400E">要確認</span>
-                  </div>
-                  <div class="check-item-sub">AIで生成したモデル・テクスチャデータを含む場合にチェック</div>
+                  <div class="check-item-label">AI使用可</div>
+                  <div class="check-item-sub">AIで生成したモデル・テクスチャデータの使用を許可する場合にチェック</div>
                 </div>
               </label>
+
+              <!-- Lot discount -->
+              <label class="check-item" id="lot-wrap">
+                <input type="checkbox" id="lot-check">
+                <div class="check-item-body">
+                  <div class="check-item-label">大ロット（10個以上）</div>
+                  <div class="check-item-sub">同一モデルを10個以上ご注文の場合、合計金額から5%割引</div>
+                </div>
+              </label>
+
             </div>
-            <!-- AI warning -->
-            <div class="ai-warn" id="ai-print-warn">
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M7.5 1.5l6 11H1.5l6-11z"/><path d="M7.5 6v3"/><circle cx="7.5" cy="11" r=".6" fill="currentColor" stroke="none"/></svg>
-              <span>AI生成データはメッシュの破綻・非多様体が含まれる場合があります。データ確認・修正費用が別途発生することがあります。受領後にチェックしてご連絡します。</span>
+            <!-- AI discount note -->
+            <div class="ai-warn" id="ai-print-warn" style="background:#ECFDF5;border-color:#6EE7B7">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="#059669" stroke-width="1.4" stroke-linecap="round"><path d="M7.5 1.5l6 11H1.5l6-11z"/><path d="M7.5 6v3"/><circle cx="7.5" cy="11" r=".6" fill="#059669" stroke="none"/></svg>
+              <span style="color:#065F46">AI使用可として制作した場合、AIで生成したモデル・テクスチャ等を一部使用することがあります。納品物の品質は通常と同等に保証します。</span>
             </div>
           </div>
 
           <div class="sim-note">
-            <strong>計算ロジック：</strong>サイズ基本料金 × 素材倍率 ＝ 概算金額<br>
+            <strong>計算ロジック：</strong>サイズ基本料金 × 素材倍率 ＋ データ作成費 ＝ 概算金額<br>
             ※ 表示金額は概算です。形状の複雑さ・後処理等により変動します。
           </div>
         </div><!-- /panel-print -->
@@ -464,7 +532,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
                   <div class="rc-icon rc-icon-cg"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5L8.5 1.5L15.5 5v7L8.5 15.5 1.5 12V5z"/><path d="M1.5 5l7 4 7-4M8.5 15.5V9"/></svg></div>
                   <div class="radio-card-name">プロップ・小物</div>
                   <div class="radio-card-sub">小道具・建物パーツ・アイテム</div>
-                  <div class="radio-card-price">¥15,000 <span class="price-unit">〜（基本）</span></div>
+                  <div class="radio-card-price">¥5,000 <span class="price-unit">〜（基本）</span></div>
                 </label>
               </div>
               <div>
@@ -473,7 +541,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
                   <div class="rc-icon rc-icon-cg"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8.5" cy="5.5" r="3"/><path d="M2.5 16c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg></div>
                   <div class="radio-card-name">キャラクター（リグなし）</div>
                   <div class="radio-card-sub">フルキャラ・テクスチャ込み</div>
-                  <div class="radio-card-price">¥35,000 <span class="price-unit">〜（基本）</span></div>
+                  <div class="radio-card-price">¥50,000 <span class="price-unit">〜（基本）</span></div>
                 </label>
               </div>
               <div>
@@ -482,25 +550,16 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
                   <div class="rc-icon rc-icon-cg"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8.5" cy="4" r="2.5"/><path d="M8.5 6.5v4M5.5 8.5h6M6 14.5l2.5-4 2.5 4"/></svg></div>
                   <div class="radio-card-name">キャラクター（リグあり）</div>
                   <div class="radio-card-sub">ヒューマノイドリグ・ウェイト込み</div>
-                  <div class="radio-card-price">¥50,000 <span class="price-unit">〜（基本）</span></div>
+                  <div class="radio-card-price">¥200,000 <span class="price-unit">〜（基本）</span></div>
                 </label>
               </div>
               <div>
-                <input class="radio-card-input" type="radio" name="cg-type" id="cg-env" value="env">
-                <label class="radio-card-label cg-card" for="cg-env">
-                  <div class="rc-icon rc-icon-cg"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="7" height="10"/><rect x="8" y="9" width="8" height="7"/></svg></div>
-                  <div class="radio-card-name">背景・環境セット</div>
-                  <div class="radio-card-sub">モジュラー背景・ライトマップUV</div>
-                  <div class="radio-card-price">¥60,000 <span class="price-unit">〜（基本）</span></div>
-                </label>
-              </div>
-              <div>
-                <input class="radio-card-input" type="radio" name="cg-type" id="cg-tex" value="tex">
-                <label class="radio-card-label cg-card" for="cg-tex">
-                  <div class="rc-icon rc-icon-cg"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 2l7.5 5.5-7.5 7.5-7.5-7.5L8.5 2z"/><path d="M1 7.5h15"/></svg></div>
-                  <div class="radio-card-name">テクスチャ・マテリアルのみ</div>
-                  <div class="radio-card-sub">PBRテクスチャセット制作</div>
-                  <div class="radio-card-price">¥10,000 <span class="price-unit">〜（基本）</span></div>
+                <input class="radio-card-input" type="radio" name="cg-type" id="cg-costume" value="costume">
+                <label class="radio-card-label cg-card" for="cg-costume">
+                  <div class="rc-icon rc-icon-cg"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2.5l-3 3v9h13v-9l-3-3"/><path d="M5 2.5c0 2 1.8 3.5 3.5 3.5S12 4.5 12 2.5"/></svg></div>
+                  <div class="radio-card-name">キャラクター衣装のみ</div>
+                  <div class="radio-card-sub">既存モデルへの衣装追加・リグあり</div>
+                  <div class="radio-card-price">¥100,000 <span class="price-unit">〜（基本）</span></div>
                 </label>
               </div>
               <div>
@@ -509,66 +568,49 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
                   <div class="rc-icon rc-icon-cg"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5a5.5 5.5 0 015.5-5.5c2 0 3.7 1 4.7 2.5"/><path d="M14 8.5a5.5 5.5 0 01-5.5 5.5c-2 0-3.7-1-4.7-2.5"/><path d="M14 5.5v3h-3M3 11.5v-3h3"/></svg></div>
                   <div class="radio-card-name">モデル最適化・変換</div>
                   <div class="radio-card-sub">リトポロジー・LOD・UV再展開</div>
-                  <div class="radio-card-price">¥12,000 <span class="price-unit">〜（基本）</span></div>
+                  <div class="radio-card-price">¥20,000 <span class="price-unit">〜（基本）</span></div>
                 </label>
               </div>
             </div>
           </div>
 
-          <!-- Step 2: Quality -->
+          <!-- Step 2: Options -->
           <div>
-            <div class="sim-group-title"><span class="sim-group-num num-cg">2</span>クオリティを選ぶ</div>
-            <div class="radio-grid radio-grid-3">
-              <div>
-                <input class="radio-card-input" type="radio" name="cg-quality" id="cg-simple" value="simple">
-                <label class="radio-card-label cg-card" for="cg-simple">
-                  <div class="radio-card-name">シンプル</div>
-                  <div class="radio-card-sub">ローポリ・スタイライズ<br>モバイル・カジュアル向け</div>
-                  <div class="radio-card-rate rate-cg">× 1.0（基準）</div>
-                </label>
-              </div>
-              <div>
-                <input class="radio-card-input" type="radio" name="cg-quality" id="cg-standard" value="standard" checked>
-                <label class="radio-card-label cg-card" for="cg-standard">
-                  <div class="radio-card-name">標準</div>
-                  <div class="radio-card-sub">ゲームレディ・PBR<br>Unity / UE5 向け</div>
-                  <div class="radio-card-rate rate-cg">× 1.5</div>
-                </label>
-              </div>
-              <div>
-                <input class="radio-card-input" type="radio" name="cg-quality" id="cg-high" value="highpoly">
-                <label class="radio-card-label cg-card" for="cg-high">
-                  <div class="radio-card-name">高精度</div>
-                  <div class="radio-card-sub">ハイポリ・フォトリアル<br>映像・ビジュアライズ向け</div>
-                  <div class="radio-card-rate rate-cg">× 2.0</div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 3: Options -->
-          <div>
-            <div class="sim-group-title"><span class="sim-group-num num-cg">3</span>オプション（複数選択可）</div>
+            <div class="sim-group-title"><span class="sim-group-num num-cg">2</span>オプション（複数選択可）</div>
             <div class="check-options" id="cg-options-wrap">
               <label class="check-item cg-check">
-                <input type="checkbox" name="cg-option" value="anim">
+                <input type="checkbox" name="cg-option" value="design">
                 <div class="check-item-body">
-                  <div class="check-item-label">アニメーション（1セット）<span class="check-item-price cg">+¥20,000</span></div>
-                  <div class="check-item-sub">待機・走り・攻撃など、1セット分のアニメーション制作</div>
-                </div>
-              </label>
-              <label class="check-item cg-check">
-                <input type="checkbox" name="cg-option" value="lod">
-                <div class="check-item-body">
-                  <div class="check-item-label">LOD生成（LOD0〜3）<span class="check-item-price cg">+¥8,000</span></div>
-                  <div class="check-item-sub">段階的なポリゴン削減。ゲームの最適化に必須</div>
+                  <div class="check-item-label">デザイン作成<span class="check-item-price cg">+¥5,000〜</span></div>
+                  <div class="check-item-sub">キャラクター・衣装などのコンセプトデザインから承ります</div>
                 </div>
               </label>
               <label class="check-item cg-check">
                 <input type="checkbox" name="cg-option" value="source">
                 <div class="check-item-body">
-                  <div class="check-item-label">ソースファイル納品<span class="check-item-price cg">+¥5,000</span></div>
+                  <div class="check-item-label">ソースファイル納品<span class="check-item-price cg" id="cg-source-price">+合計の10%</span></div>
                   <div class="check-item-sub">.blend / .ma など編集可能な元データを含めて納品</div>
+                </div>
+              </label>
+              <label class="check-item cg-check">
+                <input type="checkbox" name="cg-option" value="vrm">
+                <div class="check-item-body">
+                  <div class="check-item-label">VRM変換<span class="check-item-price cg">+¥50,000</span></div>
+                  <div class="check-item-sub">VRChat・Vtuber向けVRMファイルへの変換。基本モーフ込み</div>
+                </div>
+              </label>
+              <label class="check-item cg-check">
+                <input type="checkbox" name="cg-option" value="vrc">
+                <div class="check-item-body">
+                  <div class="check-item-label">VRChat対応設定<span class="check-item-price cg">+¥50,000</span></div>
+                  <div class="check-item-sub">表情設定・アイトラッキング・マテリアル等、Unity上での設定込みで納品</div>
+                </div>
+              </label>
+              <label class="check-item cg-check">
+                <input type="checkbox" name="cg-option" value="morph">
+                <div class="check-item-body">
+                  <div class="check-item-label">追加モーフ<span class="check-item-price cg">+¥2,000〜／セット</span></div>
+                  <div class="check-item-sub">基本モーフ以上の表情・シェイプを追加制作</div>
                 </div>
               </label>
               <label class="check-item cg-check">
@@ -578,26 +620,11 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
                   <div class="check-item-sub">実際のエンジンにインポートして表示・動作を確認して納品</div>
                 </div>
               </label>
-              <label class="check-item cg-check" id="ai-cg-wrap">
-                <input type="checkbox" name="cg-option" value="ai" id="ai-cg-check">
-                <div class="check-item-body">
-                  <div class="check-item-label">
-                    AI生成素材の使用
-                    <span class="check-item-price" style="background:#FEF3C7;color:#92400E;padding:2px 7px;border-radius:4px">要確認</span>
-                  </div>
-                  <div class="check-item-sub">AIで生成したテクスチャ・参考データを素材として使用する場合</div>
-                </div>
-              </label>
-            </div>
-            <!-- AI warning for CG -->
-            <div class="ai-warn" id="ai-cg-warn">
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M7.5 1.5l6 11H1.5l6-11z"/><path d="M7.5 6v3"/><circle cx="7.5" cy="11" r=".6" fill="currentColor" stroke="none"/></svg>
-              <span>AI生成素材の著作権・ライセンスについて、利用規約をご確認ください。商業利用を想定している場合は事前にご相談いただくことを推奨します。</span>
             </div>
           </div>
 
           <div class="sim-note">
-            <strong>計算ロジック：</strong>タイプ基本料金 × クオリティ倍率 ＋ オプション合計 ＝ 概算金額<br>
+            <strong>計算ロジック：</strong>タイプ基本料金 ＋ オプション合計 ＝ 概算金額<br>
             ※ 制作内容・難易度により変動します。正確な金額はお見積もりにてご案内します。
           </div>
         </div><!-- /panel-cg -->
@@ -610,25 +637,30 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
           <div class="price-panel-head" id="pp-head">
             <div class="pp-label">概算金額（税別）</div>
             <div class="pp-mode-badge" id="pp-mode">3Dプリント見積もり</div>
-            <div class="price-panel-num"><sup>¥</sup><span id="pp-num">2,000</span><span class="price-suffix">〜</span></div>
-            <div class="price-panel-note" id="pp-note">PLA / ABS × 小型（〜5cm四方）</div>
+            <div class="price-panel-note" id="pp-note">PLA（FDM） × 小型（〜5cm四方）</div>
           </div>
           <div class="price-panel-body">
             <div id="pp-rows">
-              <div class="pp-row"><span class="pp-key">素材</span><span class="pp-val" id="pp-mat">PLA / ABS（FDM）</span></div>
+              <div class="pp-row"><span class="pp-key">素材</span><span class="pp-val" id="pp-mat">PLA（FDM）</span></div>
               <div class="pp-row"><span class="pp-key">サイズ</span><span class="pp-val" id="pp-size">小型（〜5cm四方）</span></div>
               <div class="pp-row"><span class="pp-key">倍率</span><span class="pp-val" id="pp-rate">× 1.0</span></div>
               <div class="pp-row"><span class="pp-key">基本料金</span><span class="pp-val" id="pp-base">¥2,000</span></div>
+              <div class="pp-row" style="border-bottom:none;padding-top:14px;align-items:center">
+                <span class="pp-key" style="font-weight:700;color:var(--ink)">合計（概算）</span>
+                <span style="font-size:2.4rem;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink)"><sup style="font-size:1.1rem">¥</sup><span id="pp-num">2,000</span><span style="font-size:.9rem;font-weight:500;opacity:.6">〜</span></span>
+              </div>
             </div>
             <div id="pp-rows-cg" style="display:none">
               <div class="pp-row"><span class="pp-key">制作タイプ</span><span class="pp-val" id="pp-cg-type">プロップ・小物</span></div>
-              <div class="pp-row"><span class="pp-key">クオリティ</span><span class="pp-val" id="pp-cg-qual">標準（× 1.5）</span></div>
-              <div class="pp-row"><span class="pp-key">タイプ基本</span><span class="pp-val" id="pp-cg-base">¥15,000</span></div>
-              <div class="pp-row"><span class="pp-key">クオリティ後</span><span class="pp-val" id="pp-cg-after">¥22,500</span></div>
+              <div class="pp-row"><span class="pp-key">基本料金</span><span class="pp-val" id="pp-cg-base">¥5,000</span></div>
               <div class="pp-row" id="pp-cg-opt-row" style="display:none"><span class="pp-key">オプション計</span><span class="pp-val" id="pp-cg-opts">—</span></div>
+              <div class="pp-row" style="border-bottom:none;padding-top:14px;align-items:center">
+                <span class="pp-key" style="font-weight:700;color:var(--ink)">合計（概算）</span>
+                <span style="font-size:2.4rem;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink)"><sup style="font-size:1.1rem">¥</sup><span id="pp-num-cg">5,000</span><span style="font-size:.9rem;font-weight:500;opacity:.6">〜</span></span>
+              </div>
             </div>
             <div class="pp-formula" id="pp-formula">¥2,000（基本）× 1.0（素材）= <strong>¥2,000〜</strong></div>
-            <div class="pp-ai-flag" id="pp-ai-flag">⚠️ AI生成データ使用：受領後にデータ確認を行います</div>
+            <div class="pp-ai-flag" id="pp-ai-flag">✅ AI使用可：30%割引を適用しています</div>
             <button class="go-form-btn print-btn" id="goFormBtn" type="button">この内容でお問い合わせ ↓</button>
           </div>
         </div>
@@ -736,7 +768,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
       <div>
         <div class="footer-logo-wrap"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="footer-logo-img"><span class="footer-brand-name">CRYSTALIZE KOBE</span></div>
         <p class="footer-desc">3Dプリント・リアルタイム3DCG制作サービス。<br>兵庫県神戸市を拠点に、全国対応いたします。</p>
-        <address class="footer-address">〒650-XXXX 兵庫県神戸市中央区 XX-XX<br>TEL: <a href="tel:078XXXXXXXX">078-XXX-XXXX</a><br>MAIL: <a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></address>
+        <address class="footer-address">〒673-0891 兵庫県明石市大明石町1丁目2-1 明石商工会議所ビル1階 METAGAME明石<br>TEL: <a href="tel:0789627801">078-962-7801</a><br>MAIL: <a href="mailto:crystallizekobe@gmail.com">crystallizekobe@gmail.com</a></address>
       </div>
       <div>
         <div class="footer-col-title">Services</div>
@@ -755,14 +787,14 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
         <ul class="footer-col-list">
           <li class="info-item">平日 10:00 〜 18:00</li>
           <li class="info-item">土日祝 休業</li>
-          <li style="margin-top:8px"><a href="mailto:info@crystalize-kobe.jp">info@crystalize-kobe.jp</a></li>
-          <li><a href="tel:078XXXXXXXX">078-XXX-XXXX</a></li>
+          <li style="margin-top:8px"><a href="mailto:crystallizekobe@gmail.com">crystallizekobe@gmail.com</a></li>
+          <li><a href="tel:0789627801">078-962-7801</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-copy">© 2025 CRYSTALIZE KOBE. All rights reserved.</p>
-      <nav class="footer-legal"><a href="#">プライバシーポリシー</a><a href="#">特定商取引法に基づく表記</a></nav>
+      <p class="footer-copy">© 2026 CRYSTALIZE KOBE. All rights reserved.</p>
+      <nav class="footer-legal"><a href="privacy.html">プライバシーポリシー</a><a href="tokusho.html">特定商取引法に基づく表記</a></nav>
     </div>
   </div>
 </footer>
@@ -778,24 +810,24 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 })();
 
 /* ══════════════ DATA ══════════════ */
-const SIZES={small:{label:'小型（〜5cm四方）',price:2000},medium:{label:'中型（〜15cm四方）',price:5000},large:{label:'大型（25〜30cm四方）',price:15000}};
-const MATS ={resin:{label:'光造形レジン（ELEGOO）',rate:1.5},pla:{label:'PLA / ABS（FDM）',rate:1.0},nylon:{label:'高耐久ナイロン（SLS）',rate:2.0}};
+const SIZES={small:{label:'小型（〜5cm四方）',price:2000},medium:{label:'中型（〜15cm四方）',price:5000},large:{label:'大型（25cm〜）',price:15000}};
+const MATS ={resin:{label:'光造形レジン（ELEGOO）',rate:2.5},pla:{label:'PLA（FDM）',rate:1.0},petg:{label:'PETG（FDM）',rate:1.5}};
+const DATA_COST={simple:{label:'シンプル',price:5000},standard:{label:'標準',price:10000},complex:{label:'複雑',price:20000}};
 
 const CG_TYPES={
-  prop:    {label:'プロップ・小物',           price:15000},
-  char:    {label:'キャラクター（リグなし）', price:35000},
-  char_rig:{label:'キャラクター（リグあり）', price:50000},
-  env:     {label:'背景・環境セット',         price:60000},
-  tex:     {label:'テクスチャ・マテリアルのみ',price:10000},
-  opt:     {label:'モデル最適化・変換',        price:12000},
+  prop:    {label:'プロップ・小物',               price:5000},
+  char:    {label:'キャラクター（リグなし）',     price:50000},
+  char_rig:{label:'キャラクター（リグあり）',     price:200000},
+  costume: {label:'キャラクター衣装のみ',         price:100000},
+  opt:     {label:'モデル最適化・変換',            price:20000},
 };
-const CG_QUALITY={simple:{label:'シンプル',mult:1.0},standard:{label:'標準',mult:1.5},highpoly:{label:'高精度',mult:2.0}};
 const CG_OPTS=[
-  {value:'anim',       label:'アニメーション（1セット）', price:20000},
-  {value:'lod',        label:'LOD生成（LOD0〜3）',         price:8000 },
-  {value:'source',     label:'ソースファイル納品',          price:5000 },
-  {value:'engine_check',label:'Unity / UE5 動作確認',      price:5000 },
-  {value:'ai',         label:'AI生成素材の使用（要確認）',  price:0    },
+  {value:'design',       label:'デザイン作成',          price:5000,  pct:0},
+  {value:'source',       label:'ソースファイル納品',     price:0,     pct:0.1},
+  {value:'vrm',          label:'VRM変換',                price:50000, pct:0},
+  {value:'vrc',          label:'VRChat対応設定',         price:50000, pct:0},
+  {value:'morph',        label:'追加モーフ',              price:2000,  pct:0},
+  {value:'engine_check', label:'Unity / UE5 動作確認',  price:5000,  pct:0},
 ];
 
 const fmt = n => '¥' + n.toLocaleString('ja-JP');
@@ -844,35 +876,63 @@ function switchMode(mode) {
 
 /* ══ 3DPRINT CALCULATOR ══ */
 function calcPrint() {
-  const sKey = (document.querySelector('input[name=size]:checked')     || {}).value || 'small';
-  const mKey = (document.querySelector('input[name=material]:checked') || {}).value || 'pla';
-  const aiOn = document.getElementById('ai-print-check').checked;
+  const sKey   = (document.querySelector('input[name=size]:checked')           || {}).value || 'small';
+  const mKey   = (document.querySelector('input[name=material]:checked')       || {}).value || 'pla';
+  const dcKey  = (document.querySelector('input[name=data-complexity]:checked')|| {}).value || 'simple';
+  const aiOn      = document.getElementById('ai-print-check').checked;
+  const dataOn    = document.getElementById('data-create-check').checked;
+  const lotOn     = document.getElementById('lot-check').checked;
+  const paintOn   = document.getElementById('paint-check').checked;
+  const designOn  = document.getElementById('design-print-check').checked;
 
-  const base  = SIZES[sKey].price;
-  const rate  = MATS[mKey].rate;
-  const total = Math.round(base * rate);
-  const ts    = total.toLocaleString('ja-JP');
+  const base       = SIZES[sKey].price;
+  const rate       = MATS[mKey].rate;
+  const subtotal   = Math.round(base * rate);
+  const dataCost   = dataOn   ? DATA_COST[dcKey].price : 0;
+  const paintCost  = paintOn  ? 2000 : 0;
+  const designCost = designOn ? 2000 : 0;
+  const aiDisc     = aiOn ? Math.round((subtotal + dataCost + paintCost + designCost) * 0.3) : 0;
+  const afterAI    = subtotal + dataCost + paintCost + designCost - aiDisc;
+  const lotDisc    = lotOn ? Math.round(afterAI * 0.05) : 0;
+  const total      = afterAI - lotDisc;
 
   /* Panel */
-  document.getElementById('pp-num').textContent  = ts;
+  document.getElementById('pp-num').textContent  = total.toLocaleString('ja-JP');
   document.getElementById('pp-note').textContent = MATS[mKey].label + ' × ' + SIZES[sKey].label;
   document.getElementById('pp-mat').textContent  = MATS[mKey].label;
   document.getElementById('pp-size').textContent = SIZES[sKey].label;
   document.getElementById('pp-rate').textContent = '× ' + rate;
   document.getElementById('pp-base').textContent = fmt(base);
-  document.getElementById('pp-formula').innerHTML= fmt(base)+'（基本）× '+rate+'（素材）= <strong>'+fmt(total)+'〜</strong>';
-  document.getElementById('pp-ai-flag').classList.toggle('show', aiOn);
+
+  let formula = fmt(base) + '（基本）× ' + rate + '（素材）= ' + fmt(subtotal);
+  if (designOn) formula += ' ＋ ' + fmt(designCost) + '（デザイン）';
+  if (dataOn)   formula += ' ＋ ' + fmt(dataCost) + '（データ作成）';
+  if (paintOn)  formula += ' ＋ ' + fmt(paintCost) + '（塗装）';
+  if (lotOn)    formula += ' → 大ロット5%引き = <strong>' + fmt(total) + '〜</strong>';
+  else          formula += ' = <strong>' + fmt(total) + '〜</strong>';
+  document.getElementById('pp-formula').innerHTML = formula;
+  document.getElementById('pp-ai-flag').classList.remove('show');
 
   /* Autofill banner */
-  document.getElementById('af-detail').textContent = MATS[mKey].label + ' ／ ' + SIZES[sKey].label + ' ／ ' + fmt(total) + '〜' + (aiOn ? ' ／ AI素材使用' : '');
+  const designLabel = designOn ? ' ／ デザイン作成（+¥2,000）' : '';
+  const dataLabel   = dataOn   ? ' ／ データ作成：' + DATA_COST[dcKey].label + '（+' + fmt(dataCost) + '）' : ' ／ データ持ち込み';
+  const paintLabel  = paintOn  ? ' ／ 塗装（+¥2,000）' : '';
+  const lotLabel    = lotOn    ? ' ／ 大ロット割引5%' : '';
+  document.getElementById('af-detail').textContent = MATS[mKey].label + ' ／ ' + SIZES[sKey].label + designLabel + dataLabel + paintLabel + lotLabel + ' ／ ' + fmt(total) + '〜' + (aiOn ? ' ／ AI使用可' : '');
 
   /* Hidden fields */
-  document.getElementById('hf-mode').value   = '3Dプリント';
-  document.getElementById('hf-param1').value = MATS[mKey].label;
-  document.getElementById('hf-param2').value = SIZES[sKey].label;
-  document.getElementById('hf-price').value  = fmt(total) + '〜';
-  document.getElementById('hf-ai').value     = aiOn ? 'あり（データ確認必要）' : '';
-  document.getElementById('hf-options').value= aiOn ? 'AI生成データ使用' : '';
+  document.getElementById('hf-mode').value    = '3Dプリント';
+  document.getElementById('hf-param1').value  = MATS[mKey].label;
+  document.getElementById('hf-param2').value  = SIZES[sKey].label;
+  document.getElementById('hf-price').value   = fmt(total) + '〜';
+  document.getElementById('hf-ai').value      = aiOn ? 'AI使用可' : '';
+  document.getElementById('hf-options').value = [
+    designOn ? 'デザイン作成（+¥2,000）' : '',
+    dataOn   ? 'データ作成：' + DATA_COST[dcKey].label + '（+' + fmt(dataCost) + '）' : 'データ持ち込み',
+    paintOn  ? '塗装（アクリル絵の具）（+¥2,000）' : '',
+    lotOn    ? '大ロット割引（5%）' : '',
+    aiOn     ? 'AI使用可' : ''
+  ].filter(Boolean).join('、');
 
   /* Visible readonly fields */
   document.getElementById('f-sim-mode').value   = '3Dプリント';
@@ -883,35 +943,50 @@ function calcPrint() {
   /* Textarea prefill */
   const ta = document.getElementById('f-message');
   if (!ta.dataset.touched) {
-    ta.value = '【3Dプリント見積もり】\n素材：' + MATS[mKey].label + '\nサイズ：' + SIZES[sKey].label + '\n概算：' + fmt(total) + '〜（税別）' + (aiOn ? '\nAI生成データ使用：あり' : '') + '\n\n---\n（ここにご依頼内容をご記入ください）\n';
+    const designLine = designOn ? '\nデザイン作成：あり（+¥2,000）' : '';
+    const dataLine   = dataOn   ? '\nデータ作成：' + DATA_COST[dcKey].label + '（+' + fmt(dataCost) + '〜）' : '\nデータ：持ち込み';
+    const paintLine  = paintOn  ? '\n塗装：あり（アクリル絵の具・+¥2,000）' : '';
+    const lotLine    = lotOn    ? '\n大ロット割引：5%引き（10個以上）' : '';
+    ta.value = '【3Dプリント見積もり】\n素材：' + MATS[mKey].label + '\nサイズ：' + SIZES[sKey].label + designLine + dataLine + paintLine + lotLine + '\n概算：' + fmt(total) + '〜（税別）' + (aiOn ? '\nAI使用可：あり' : '') + '\n\n---\n（ここにご依頼内容をご記入ください）\n';
   }
 }
 
 /* ══ 3DCG CALCULATOR ══ */
 function calcCG() {
-  const tKey = (document.querySelector('input[name=cg-type]:checked')    || {}).value || 'prop';
-  const qKey = (document.querySelector('input[name=cg-quality]:checked') || {}).value || 'standard';
+  const tKey = (document.querySelector('input[name=cg-type]:checked') || {}).value || 'prop';
   const selectedOpts = [...document.querySelectorAll('input[name=cg-option]:checked')].map(el => el.value);
-  const aiOn = selectedOpts.includes('ai');
 
-  const basePrice  = CG_TYPES[tKey].price;
-  const qualMult   = CG_QUALITY[qKey].mult;
-  const afterQual  = Math.round(basePrice * qualMult);
-  const optItems   = CG_OPTS.filter(o => selectedOpts.includes(o.value) && o.price > 0);
-  const optTotal   = optItems.reduce((s, o) => s + o.price, 0);
-  const total      = afterQual + optTotal;
-  const ts         = total.toLocaleString('ja-JP');
+  const basePrice   = CG_TYPES[tKey].price;
+  const sourceOn    = selectedOpts.includes('source');
+
+  /* 固定オプション合計（source除く） */
+  const fixedOpts   = CG_OPTS.filter(o => selectedOpts.includes(o.value) && o.value !== 'source');
+  const fixedTotal  = fixedOpts.reduce((s, o) => s + o.price, 0);
+
+  /* ソースファイル = (基本 + 固定オプション) × 10% */
+  const subtotal    = basePrice + fixedTotal;
+  const sourceCost  = sourceOn ? Math.round(subtotal * 0.1) : 0;
+  const total       = subtotal + sourceCost;
+  const ts          = total.toLocaleString('ja-JP');
+
+  /* ソースファイルバッジ更新 */
+  const srcBadge = document.getElementById('cg-source-price');
+  if (srcBadge) srcBadge.textContent = sourceOn ? '+' + fmt(sourceCost) : '+合計の10%';
 
   /* Panel */
-  document.getElementById('pp-num').textContent      = ts;
-  document.getElementById('pp-note').textContent     = CG_TYPES[tKey].label + ' / ' + CG_QUALITY[qKey].label;
-  document.getElementById('pp-cg-type').textContent  = CG_TYPES[tKey].label;
-  document.getElementById('pp-cg-qual').textContent  = CG_QUALITY[qKey].label + '（× ' + qualMult + '）';
-  document.getElementById('pp-cg-base').textContent  = fmt(basePrice);
-  document.getElementById('pp-cg-after').textContent = fmt(afterQual);
+  document.getElementById('pp-num').textContent    = ts;
+  document.getElementById('pp-num-cg').textContent = ts;
+  document.getElementById('pp-note').textContent   = CG_TYPES[tKey].label;
+  document.getElementById('pp-cg-type').textContent = CG_TYPES[tKey].label;
+  document.getElementById('pp-cg-base').textContent = fmt(basePrice);
 
+  const allOptItems = [
+    ...fixedOpts,
+    ...(sourceOn ? [{label:'ソースファイル納品', price: sourceCost}] : [])
+  ];
+  const optTotal = fixedTotal + sourceCost;
   const optRow = document.getElementById('pp-cg-opt-row');
-  if (optItems.length > 0) {
+  if (allOptItems.length > 0) {
     optRow.style.display = '';
     document.getElementById('pp-cg-opts').textContent = '+' + fmt(optTotal);
   } else {
@@ -919,54 +994,79 @@ function calcCG() {
   }
 
   /* Formula */
-  let formula = fmt(basePrice) + '（基本）× ' + qualMult + '（クオリティ）= ' + fmt(afterQual);
-  if (optItems.length) formula += ' ＋ ' + fmt(optTotal) + '（オプション）= <strong>' + fmt(total) + '〜</strong>';
+  let formula = fmt(basePrice) + '（基本）';
+  if (allOptItems.length) formula += ' ＋ ' + fmt(optTotal) + '（オプション）= <strong>' + fmt(total) + '〜</strong>';
   else formula += ' = <strong>' + fmt(total) + '〜</strong>';
   document.getElementById('pp-formula').innerHTML = formula;
-  document.getElementById('pp-ai-flag').classList.toggle('show', aiOn);
+  document.getElementById('pp-ai-flag').classList.remove('show');
 
-  /* Options list */
-  const optLabels = optItems.map(o => o.label + '（+' + fmt(o.price) + '）');
-  if (aiOn) optLabels.push('AI生成素材使用（要確認）');
+  /* Labels */
+  const optLabels = [
+    ...fixedOpts.map(o => o.label + '（+' + fmt(o.price) + '）'),
+    ...(sourceOn ? ['ソースファイル納品（+' + fmt(sourceCost) + '）'] : [])
+  ];
 
   /* Banner */
   const optStr = optLabels.length ? ' ／ ' + optLabels.join('・') : '';
-  document.getElementById('af-detail').textContent = CG_TYPES[tKey].label + ' × ' + CG_QUALITY[qKey].label + optStr + ' ／ ' + fmt(total) + '〜';
+  document.getElementById('af-detail').textContent = CG_TYPES[tKey].label + optStr + ' ／ ' + fmt(total) + '〜';
 
   /* Hidden fields */
   document.getElementById('hf-mode').value    = 'リアルタイム3DCG';
   document.getElementById('hf-param1').value  = CG_TYPES[tKey].label;
-  document.getElementById('hf-param2').value  = CG_QUALITY[qKey].label;
+  document.getElementById('hf-param2').value  = optLabels.join('、') || 'なし';
   document.getElementById('hf-price').value   = fmt(total) + '〜';
-  document.getElementById('hf-ai').value      = aiOn ? 'あり（著作権確認必要）' : '';
+  document.getElementById('hf-ai').value      = '';
   document.getElementById('hf-options').value = optLabels.join('、');
 
   /* Visible readonly fields */
   document.getElementById('f-sim-mode').value   = 'リアルタイム3DCG';
   document.getElementById('f-sim-param1').value = CG_TYPES[tKey].label;
-  document.getElementById('f-sim-param2').value = CG_QUALITY[qKey].label;
+  document.getElementById('f-sim-param2').value = optLabels.join('、') || 'オプションなし';
   document.getElementById('f-sim-price').value  = fmt(total) + '〜（税別・概算）';
 
   /* Textarea prefill */
   const ta = document.getElementById('f-message');
   if (!ta.dataset.touched) {
     const optLine = optLabels.length ? '\nオプション：' + optLabels.join('、') : '';
-    ta.value = '【リアルタイム3DCG見積もり】\n制作タイプ：' + CG_TYPES[tKey].label + '\nクオリティ：' + CG_QUALITY[qKey].label + optLine + '\n概算：' + fmt(total) + '〜（税別）\n\n---\n（ここにご依頼内容・参考資料等をご記入ください）\n';
+    ta.value = '【リアルタイム3DCG見積もり】\n制作タイプ：' + CG_TYPES[tKey].label + optLine + '\n概算：' + fmt(total) + '〜（税別）\n\n---\n（ここにご依頼内容・参考資料等をご記入ください）\n';
   }
 }
 
-/* ── AI warning toggles ── */
+/* ── AI discount toggle ── */
 document.getElementById('ai-print-check').addEventListener('change', function() {
   const w = document.getElementById('ai-print-warn');
   w.classList.toggle('show', this.checked);
   document.getElementById('ai-print-wrap').classList.toggle('checked-print', this.checked);
   calcPrint();
 });
-document.getElementById('ai-cg-check').addEventListener('change', function() {
-  const w = document.getElementById('ai-cg-warn');
-  w.classList.toggle('show', this.checked);
-  document.getElementById('ai-cg-wrap').classList.toggle('checked-cg', this.checked);
-  calcCG();
+
+/* ── Data creation toggle ── */
+document.getElementById('data-create-check').addEventListener('change', function() {
+  const wrap = document.getElementById('data-complexity-wrap');
+  wrap.style.display = this.checked ? 'flex' : 'none';
+  document.getElementById('data-create-wrap').classList.toggle('checked-print', this.checked);
+  calcPrint();
+});
+
+/* ── Data complexity radio ── */
+document.querySelectorAll('input[name=data-complexity]').forEach(el => el.addEventListener('change', calcPrint));
+
+/* ── Lot discount toggle ── */
+document.getElementById('lot-check').addEventListener('change', function() {
+  document.getElementById('lot-wrap').classList.toggle('checked-print', this.checked);
+  calcPrint();
+});
+
+/* ── Paint toggle ── */
+document.getElementById('paint-check').addEventListener('change', function() {
+  document.getElementById('paint-wrap').classList.toggle('checked-print', this.checked);
+  calcPrint();
+});
+
+/* ── Design toggle (print) ── */
+document.getElementById('design-print-check').addEventListener('change', function() {
+  document.getElementById('design-print-wrap').classList.toggle('checked-print', this.checked);
+  calcPrint();
 });
 
 /* ── Check item active style ── */
@@ -981,7 +1081,7 @@ document.querySelectorAll('.check-item input[type=checkbox]').forEach(cb => {
 
 /* ── Listen to radio changes ── */
 document.querySelectorAll('input[name=size],input[name=material]').forEach(el => el.addEventListener('change', calcPrint));
-document.querySelectorAll('input[name=cg-type],input[name=cg-quality]').forEach(el => el.addEventListener('change', calcCG));
+document.querySelectorAll('input[name=cg-type]').forEach(el => el.addEventListener('change', calcCG));
 document.querySelectorAll('input[name=cg-option]').forEach(el => el.addEventListener('change', calcCG));
 
 /* ── Message textarea: mark as touched ── */
