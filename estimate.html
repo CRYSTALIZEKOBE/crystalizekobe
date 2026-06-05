@@ -695,6 +695,8 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
       </div>
 
       <form id="contactForm" novalidate>
+            <input type="hidden" name="access_key" value="58aabb14-378d-402e-9cd1-bd138589f859">
+            <input type="hidden" name="subject" value="【CRYSTALIZE KOBE】見積もりお問い合わせが届きました">
         <!-- Hidden fields -->
         <input type="hidden" id="hf-mode"    name="sim_mode"    value="3Dプリント">
         <input type="hidden" id="hf-param1"  name="sim_param1"  value="PLA / ABS（FDM）">
@@ -732,13 +734,11 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 
         <!-- File -->
         <div class="field" style="margin-bottom:8px">
-          <label>3Dデータファイル（任意）</label>
-          <div class="file-input-custom">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent);flex-shrink:0"><path d="M15.5 9.5l-6.5 6.5a4 4 0 01-5.7-5.7l7-7a2.5 2.5 0 013.5 3.5L7.3 13.8a1 1 0 01-1.4-1.4L11.5 7"/></svg>
-            <div><strong id="file-name-display" style="font-size:.85rem">ファイルを選択またはドロップ</strong><br><span style="font-size:.74rem;color:var(--sub)">.glb / .stl / .fbx / .obj 対応</span></div>
-            <input type="file" id="f-file" name="attachment" accept=".glb,.stl,.fbx,.obj,.3mf,.zip">
+          <label>3Dデータ・参考ファイルについて</label>
+          <div style="padding:12px 14px;background:var(--accent-bg);border:1.5px solid var(--border);border-radius:var(--r);font-size:.84rem;color:var(--mid);line-height:1.7">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M13.5 7.5l-5.5 5.5a3.5 3.5 0 01-5-5l6-6a2.3 2.3 0 013.2 3.2L6 11.5a1.1 1.1 0 01-1.6-1.6L9 5"/></svg>
+            3Dデータ（.glb / .stl / .fbx など）や参考画像は、<a href="mailto:crystallizekobe@gmail.com" style="color:var(--accent)">crystallizekobe@gmail.com</a> に直接メールでお送りいただくか、メッセージ欄にWeTransfer等の共有リンクをご記入ください。
           </div>
-          <span class="field-hint">⚠️ 上限 50MB。超える場合は WeTransfer 等のリンクをメッセージ欄にご記入ください。</span>
         </div>
 
         <div class="form-footer">
@@ -767,7 +767,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
     <div class="footer-top">
       <div>
         <div class="footer-logo-wrap"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="footer-logo-img"><span class="footer-brand-name">CRYSTALIZE KOBE</span></div>
-        <p class="footer-desc">3Dプリント・リアルタイム3DCG制作サービス。<br>兵庫県神戸市を拠点に、全国対応いたします。</p>
+        <p class="footer-desc">3Dプリント・リアルタイム3DCG制作サービス。<br>兵庫県明石市を拠点に、全国対応いたします。</p>
         <address class="footer-address">〒673-0891 兵庫県明石市大明石町1丁目2-1 明石商工会議所ビル1階 METAGAME明石<br>TEL: <a href="tel:0789627801">078-962-7801</a><br>MAIL: <a href="mailto:crystallizekobe@gmail.com">crystallizekobe@gmail.com</a></address>
       </div>
       <div>
@@ -1092,15 +1092,6 @@ document.getElementById('goFormBtn').addEventListener('click', () => document.ge
 document.getElementById('scrollToForm').addEventListener('click', () => document.getElementById('formSection').scrollIntoView({behavior:'smooth',block:'start'}));
 
 /* ── File input ── */
-document.getElementById('f-file').addEventListener('change', function() {
-  const fn = this.files[0] ? this.files[0].name : 'ファイルを選択またはドロップ';
-  document.getElementById('file-name-display').textContent = fn;
-  if (this.files[0] && this.files[0].size > 50*1024*1024) {
-    alert('50MBを超えています。WeTransfer等をご利用ください。');
-    this.value = '';
-    document.getElementById('file-name-display').textContent = 'ファイルを選択またはドロップ';
-  }
-});
 
 /* ── Form submit ── */
 document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -1116,14 +1107,27 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
   const btn = document.getElementById('submitBtn');
   btn.disabled=true; btn.textContent='送信中...';
 
-  /* ▼ 本番: fetch('https://formspree.io/f/YOUR_ID',{method:'POST',body:new FormData(this),headers:{Accept:'application/json'}}).then(r=>r.ok?showSuccess():alert('送信失敗')) */
-  setTimeout(() => {
-    document.getElementById('contactForm').style.display='none';
-    document.getElementById('successMsg').classList.add('show');
-    document.getElementById('autofillBanner').style.display='none';
-    document.querySelector('#formCard h2').textContent='ありがとうございます';
-    document.querySelector('#formCard>p').style.display='none';
-  }, 800);
+  fetch('https://api.web3forms.com/submit',{
+    method:'POST',
+    headers:{'Accept':'application/json'},
+    body:new FormData(this)
+  }).then(function(res){
+    if(res.ok){
+      document.getElementById('contactForm').style.display='none';
+      document.getElementById('successMsg').classList.add('show');
+      document.getElementById('autofillBanner').style.display='none';
+      document.querySelector('#formCard h2').textContent='ありがとうございます';
+      document.querySelector('#formCard>p').style.display='none';
+    } else {
+      res.json().then(function(data){
+        alert(data.message || '送信に失敗しました。時間をおいて再度お試しください。');
+        btn.disabled=false; btn.textContent='送信する';
+      });
+    }
+  }).catch(function(){
+    alert('通信エラーが発生しました。時間をおいて再度お試しください。');
+    btn.disabled=false; btn.textContent='送信する';
+  });
 });
 
 /* ── Initial calc ── */
