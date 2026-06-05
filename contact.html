@@ -215,8 +215,6 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
           <h2>お問い合わせフォーム</h2>
           <p>以下のフォームに必要事項をご記入のうえ送信してください。</p>
           <form id="contactForm" novalidate>
-            <input type="hidden" name="access_key" value="58aabb14-378d-402e-9cd1-bd138589f859">
-            <input type="hidden" name="subject" value="【CRYSTALIZE KOBE】お問い合わせが届きました">
             <div class="form-grid-2">
               <div class="field"><label for="f-name">お名前 <span class="req">*</span></label><input type="text" id="f-name" name="name" placeholder="山田 太郎" autocomplete="name" required><span class="field-error">お名前を入力してください</span></div>
               <div class="field"><label for="f-email">メールアドレス <span class="req">*</span></label><input type="email" id="f-email" name="email" placeholder="taro@example.com" autocomplete="email" required><span class="field-error">正しいメールアドレスを入力してください</span></div>
@@ -249,11 +247,19 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
               <div class="field-hint" style="text-align:right"><span id="charCount">0</span> / 2,000 文字</div>
             </div>
             <div class="field">
-              <label>添付ファイルについて</label>
-              <div style="padding:12px 14px;background:var(--accent-bg);border:1.5px solid var(--border);border-radius:var(--r);font-size:.84rem;color:var(--mid);line-height:1.7">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M13.5 7.5l-5.5 5.5a3.5 3.5 0 01-5-5l6-6a2.3 2.3 0 013.2 3.2L6 11.5a1.1 1.1 0 01-1.6-1.6L9 5"/></svg>
-                3Dデータ（.glb / .stl / .fbx など）や参考画像は、<a href="mailto:crystallizekobe@gmail.com" style="color:var(--accent)">crystallizekobe@gmail.com</a> に直接メールでお送りいただくか、メッセージ欄にWeTransfer等の共有リンクをご記入ください。
+              <label>添付ファイル（任意）</label>
+              <div class="file-input-custom" id="fileDropArea">
+                <span style="color:var(--accent);flex-shrink:0">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.5l-7 7a4.5 4.5 0 01-6.4-6.4l8-8a3 3 0 014.2 4.2L7 14.5a1.5 1.5 0 01-2.1-2.1L11 6"/></svg>
+                </span>
+                <div class="file-meta">
+                  <span class="file-main">クリックまたはドラッグ＆ドロップでファイルを追加</span>
+                  <span class="file-sub">.glb / .stl / .fbx / .obj / .3mf / .zip 対応</span>
+                </div>
+                <input type="file" id="f-file" name="attachment" accept=".glb,.stl,.fbx,.obj,.3mf,.zip,.pdf,.png,.jpg,.jpeg" multiple>
               </div>
+              <div class="file-list" id="fileList"></div>
+              <span class="field-hint">⚠️ 1ファイルあたり上限 50MB。50MB を超える場合は WeTransfer 等の共有リンクをメッセージ欄にご記入ください。</span>
             </div>
             <div class="checkbox-row">
               <input type="checkbox" id="f-privacy" name="privacy" required>
@@ -297,7 +303,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
             </div>
             <div>
               <div class="info-row-label">メール</div>
-          <div class="info-row-val"><a href="mailto:crystallizekobe@gmail.com" style="color:var(--accent)">crystallizekobe@gmail.com</a></div>
+              <div class="info-row-val">info@crystalize-kobe.jp</div>
             </div>
           </div>
           <div class="info-row">
@@ -316,7 +322,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
             </div>
             <div>
               <div class="info-row-label">所在地</div>
-              <div class="info-row-val">兵庫県明石市</div>
+              <div class="info-row-val">兵庫県神戸市</div>
               <div class="info-row-sub">全国対応（郵送・データ納品）</div>
             </div>
           </div>
@@ -364,42 +370,59 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
             <span class="faq-q"><span class="faq-q-prefix">Q.</span>対応しているデータ形式は何ですか？</span>
             <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <div class="faq-body" id="faq-1"><div class="faq-body-inner"><div class="faq-a"><strong>.stl / .obj / .glb / .gltf / .fbx / .3mf</strong> に対応しています。推奨は <strong>.stl</strong>（スライサー直接入稿）または <strong>.glb</strong>（3Dビューア確認用）です。その他形式（.step / .iges 等）については別途ご相談ください。</div></div></div>
+          <div class="faq-body" id="faq-1"><div class="faq-body-inner"><div class="faq-a">
+            <strong>.stl / .obj / .glb / .gltf / .fbx / .vrm</strong> に対応しています。<br>
+            推奨は <strong>.stl</strong>（3Dプリント用）、<strong>.glb</strong>（3Dビューア確認用）、<strong>.vrm</strong>（VRChat・Vtuber用）です。<br>
+            その他の形式（.mb / .blend など）はお気軽にご相談ください。
+          </div></div></div>
         </div>
         <div class="faq-item">
           <button class="faq-btn" aria-expanded="false" data-target="faq-2">
             <span class="faq-q"><span class="faq-q-prefix">Q.</span>最小の造形サイズ・細さはどれくらいですか？</span>
             <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <div class="faq-body" id="faq-2"><div class="faq-body-inner"><div class="faq-a"><strong>光造形（レジン）</strong>：XY解像度 0.035mm、最小肉厚 0.3mm 推奨。<br><strong>FDM（PLA/ABS）</strong>：最小積層 0.1mm。細いピン形状などは 1mm 以上推奨。<br>SLS は最小肉厚 0.7mm 推奨です。</div></div></div>
+          <div class="faq-body" id="faq-2"><div class="faq-body-inner"><div class="faq-a">
+            <strong>光造形（レジン）</strong>：XY解像度 0.035mm、最小肉厚 0.3mm 推奨。<br>
+            <strong>FDM（PLA / PETG）</strong>：最小積層 0.1mm。細いピン形状などは 1mm 以上推奨。<br>
+            形状によっては造形可否をご確認いただく場合があります。お気軽にご相談ください。
+          </div></div></div>
         </div>
         <div class="faq-item">
           <button class="faq-btn" aria-expanded="false" data-target="faq-3">
             <span class="faq-q"><span class="faq-q-prefix">Q.</span>納期はどのくらいかかりますか？</span>
             <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <div class="faq-body" id="faq-3"><div class="faq-body-inner"><div class="faq-a">データ受領・確認後、<strong>光造形・FDM は最短翌日〜3営業日</strong>目安。<strong>SLS（外注）</strong>は 7〜14 営業日程度。急ぎの場合は「特急対応希望」とご明記ください。</div></div></div>
+          <div class="faq-body" id="faq-3"><div class="faq-body-inner"><div class="faq-a">
+            データ受領・確認後、<strong>光造形・FDM は最短翌日〜3営業日</strong>目安です。<br>
+            形状の複雑さや仕上げ内容によって変動します。お急ぎの場合はお問い合わせ時にお知らせください。
+          </div></div></div>
         </div>
         <div class="faq-item">
           <button class="faq-btn" aria-expanded="false" data-target="faq-4">
             <span class="faq-q"><span class="faq-q-prefix">Q.</span>データに問題がある場合はどうなりますか？</span>
             <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <div class="faq-body" id="faq-4"><div class="faq-body-inner"><div class="faq-a">受領後にデータチェックを行い、問題（非多様体メッシュ・薄肉・穴あきなど）が見つかった場合はメールでご連絡します。簡単な修正は無償対応できる場合があります（要相談）。</div></div></div>
+          <div class="faq-body" id="faq-4"><div class="faq-body-inner"><div class="faq-a">
+            受領後にデータチェックを行い、問題（非多様体メッシュ・薄肉・穴あきなど）が見つかった場合はメールでご連絡します。簡単な修正は無償対応できる場合があります（要相談）。
+          </div></div></div>
         </div>
         <div class="faq-item">
           <button class="faq-btn" aria-expanded="false" data-target="faq-5">
             <span class="faq-q"><span class="faq-q-prefix">Q.</span>仕上げ・後処理は対応していますか？</span>
             <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <div class="faq-body" id="faq-5"><div class="faq-body-inner"><div class="faq-a">サポート除去・洗浄・UV硬化は料金に含まれます。オプションで表面研磨・サーフェイサー・単色塗装も対応可（別途見積もり）。詳細はお問い合わせください。</div></div></div>
+          <div class="faq-body" id="faq-5"><div class="faq-body-inner"><div class="faq-a">
+            サポート除去・洗浄・UV硬化は料金に含まれます。オプションでアクリル絵の具による塗装も対応しています（別途見積もり）。詳細はお問い合わせください。
+          </div></div></div>
         </div>
         <div class="faq-item">
           <button class="faq-btn" aria-expanded="false" data-target="faq-6">
-            <span class="faq-q"><span class="faq-q-prefix">Q.</span>リアルタイム3DCG制作も依頼できますか？</span>
+            <span class="faq-q"><span class="faq-q-prefix">Q.</span>3Dプリント以外のデータ制作も依頼できますか？</span>
             <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <div class="faq-body" id="faq-6"><div class="faq-body-inner"><div class="faq-a">はい。Unity・Unreal Engine・WebGL・AR/VR 向けのゲームレディ3Dアセット制作も承っております。<a href="realtime.html">3DCG制作サービスページ</a>をご覧ください。3Dプリントとのワンストップ対応も可能です。</div></div></div>
+          <div class="faq-body" id="faq-6"><div class="faq-body-inner"><div class="faq-a">
+            はい。VRChat・Vtuber向けのキャラクターモデルや衣装制作、Unity向けアセット制作、既存モデルのVRM変換・最適化なども承っております。<a href="realtime.html">3DCG制作サービスページ</a>をご覧いただくか、お気軽にお問い合わせください。3Dプリントとあわせてのご依頼も可能です。
+          </div></div></div>
         </div>
       </div>
     </div>
@@ -449,6 +472,31 @@ document.getElementById('f-message').addEventListener('input',function(){
   document.getElementById('charDisplay').textContent=this.value.length;
 });
 
+(function(){
+  const input=document.getElementById('f-file'),dropArea=document.getElementById('fileDropArea'),listEl=document.getElementById('fileList');
+  let files=[];
+  function fmt(b){return b<1024*1024?(b/1024).toFixed(0)+'KB':(b/1024/1024).toFixed(1)+'MB'}
+  function renderList(){
+    listEl.innerHTML='';
+    files.forEach((f,i)=>{
+      const el=document.createElement('div');el.className='file-item';
+      el.innerHTML=`<span class="file-item-name" title="${f.name}">&#128196; ${f.name}</span><span class="file-item-size">${fmt(f.size)}</span><button class="file-remove" type="button" data-i="${i}" aria-label="削除">&#215;</button>`;
+      listEl.appendChild(el);
+    });
+    listEl.querySelectorAll('.file-remove').forEach(btn=>btn.addEventListener('click',()=>{files.splice(+btn.dataset.i,1);renderList()}));
+  }
+  function addFiles(nf){
+    Array.from(nf).forEach(f=>{
+      if(f.size>50*1024*1024){alert(`「${f.name}」は50MBを超えています。`);return;}
+      if(!files.find(ex=>ex.name===f.name&&ex.size===f.size))files.push(f);
+    });renderList();
+  }
+  input.addEventListener('change',()=>addFiles(input.files));
+  ['dragover','dragenter'].forEach(ev=>dropArea.addEventListener(ev,e=>{e.preventDefault();dropArea.classList.add('dragover')}));
+  ['dragleave','drop'].forEach(ev=>dropArea.addEventListener(ev,e=>{e.preventDefault();dropArea.classList.remove('dragover')}));
+  dropArea.addEventListener('drop',e=>addFiles(e.dataTransfer.files));
+})();
+
 document.getElementById('contactForm').addEventListener('submit',function(e){
   e.preventDefault();
   let ok=true;
@@ -461,26 +509,13 @@ document.getElementById('contactForm').addEventListener('submit',function(e){
   if(!priv.checked){alert('プライバシーポリシーへの同意をご確認ください。');ok=false;}
   if(!ok){const f=document.querySelector('.has-error input,.has-error textarea,.has-error select');if(f)f.scrollIntoView({behavior:'smooth',block:'center'});return;}
   const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='送信中...';
-  fetch('https://api.web3forms.com/submit',{
-    method:'POST',
-    headers:{'Accept':'application/json'},
-    body:new FormData(this)
-  }).then(function(res){
-    if(res.ok){
-      document.getElementById('contactForm').style.display='none';
-      document.getElementById('successState').classList.add('show');
-      document.querySelector('#formCard h2').textContent='ありがとうございます';
-      document.querySelector('#formCard>p').style.display='none';
-    } else {
-      res.json().then(function(data){
-        alert(data.errors ? data.errors.map(function(e){return e.message}).join('\n') : '送信に失敗しました。時間をおいて再度お試しください。');
-        btn.disabled=false;btn.textContent='送信する';
-      });
-    }
-  }).catch(function(){
-    alert('通信エラーが発生しました。時間をおいて再度お試しください。');
-    btn.disabled=false;btn.textContent='送信する';
-  });
+  /* ▼ 本番: fetch('https://formspree.io/f/YOUR_ID',{method:'POST',body:new FormData(this)}) */
+  setTimeout(()=>{
+    document.getElementById('contactForm').style.display='none';
+    document.getElementById('successState').classList.add('show');
+    document.querySelector('#formCard h2').textContent='ありがとうございます';
+    document.querySelector('#formCard>p').style.display='none';
+  },800);
 });
 
 document.getElementById('faqList').addEventListener('click',function(e){
