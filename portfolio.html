@@ -136,7 +136,13 @@ ul{list-style:none}
   padding:2px 8px;border-radius:4px;border:1px solid var(--border);color:var(--mid);
 }
 
-/* ═══ DETAIL MODAL ═══════════════════ */
+/* ═══ EMPTY STATE ════════════════════ */
+.empty-state{
+  grid-column:1/-1;text-align:center;padding:72px 24px;color:var(--sub);
+}
+.empty-state svg{margin:0 auto 16px;opacity:.25;display:block}
+.empty-state p{font-size:.9rem;line-height:1.7}
+.empty-state small{font-size:.8rem;color:var(--sub);margin-top:6px;display:block}
 .modal-overlay{
   position:fixed;inset:0;background:rgba(8,12,26,.7);z-index:500;
   display:flex;align-items:center;justify-content:center;
@@ -691,6 +697,32 @@ function renderGrid(filter) {
   const filtered = filter === 'all' ? WORKS : WORKS.filter(w => w.cat === filter);
   document.getElementById('workCount').textContent = filtered.length;
   const grid = document.getElementById('worksGrid');
+
+  /* 空状態 */
+  if (filtered.length === 0) {
+    if (WORKS.length === 0) {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 14L26 3.5 48 14v24L26 48.5 4 38V14z"/>
+            <path d="M4 14l22 12 22-12M26 48.5V26"/>
+          </svg>
+          <p>現在、作品を準備中です。</p>
+          <small>制作実績は随時更新予定です。お問い合わせはお気軽にどうぞ。</small>
+        </div>`;
+    } else {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+            <circle cx="22" cy="22" r="16"/>
+            <path d="M34 34l10 10"/>
+            <path d="M16 22h12M22 16v12"/>
+          </svg>
+          <p>この条件の作品はありません。</p>
+        </div>`;
+    }
+    return;
+  }
 
   grid.innerHTML = filtered.map(w => {
     const c = CAT[w.cat];
