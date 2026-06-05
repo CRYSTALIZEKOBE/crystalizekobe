@@ -215,6 +215,8 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
           <h2>お問い合わせフォーム</h2>
           <p>以下のフォームに必要事項をご記入のうえ送信してください。</p>
           <form id="contactForm" novalidate>
+            <input type="hidden" name="access_key" value="58aabb14-378d-402e-9cd1-bd138589f859">
+            <input type="hidden" name="subject" value="【CRYSTALIZE KOBE】お問い合わせが届きました">
             <div class="form-grid-2">
               <div class="field"><label for="f-name">お名前 <span class="req">*</span></label><input type="text" id="f-name" name="name" placeholder="山田 太郎" autocomplete="name" required><span class="field-error">お名前を入力してください</span></div>
               <div class="field"><label for="f-email">メールアドレス <span class="req">*</span></label><input type="email" id="f-email" name="email" placeholder="taro@example.com" autocomplete="email" required><span class="field-error">正しいメールアドレスを入力してください</span></div>
@@ -247,19 +249,11 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
               <div class="field-hint" style="text-align:right"><span id="charCount">0</span> / 2,000 文字</div>
             </div>
             <div class="field">
-              <label>添付ファイル（任意）</label>
-              <div class="file-input-custom" id="fileDropArea">
-                <span style="color:var(--accent);flex-shrink:0">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.5l-7 7a4.5 4.5 0 01-6.4-6.4l8-8a3 3 0 014.2 4.2L7 14.5a1.5 1.5 0 01-2.1-2.1L11 6"/></svg>
-                </span>
-                <div class="file-meta">
-                  <span class="file-main">クリックまたはドラッグ＆ドロップでファイルを追加</span>
-                  <span class="file-sub">.glb / .stl / .fbx / .obj / .3mf / .zip 対応</span>
-                </div>
-                <input type="file" id="f-file" name="attachment" accept=".glb,.stl,.fbx,.obj,.3mf,.zip,.pdf,.png,.jpg,.jpeg" multiple>
+              <label>添付ファイルについて</label>
+              <div style="padding:12px 14px;background:var(--accent-bg);border:1.5px solid var(--border);border-radius:var(--r);font-size:.84rem;color:var(--mid);line-height:1.7">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M13.5 7.5l-5.5 5.5a3.5 3.5 0 01-5-5l6-6a2.3 2.3 0 013.2 3.2L6 11.5a1.1 1.1 0 01-1.6-1.6L9 5"/></svg>
+                3Dデータ（.glb / .stl / .fbx など）や参考画像は、<a href="mailto:crystallizekobe@gmail.com" style="color:var(--accent)">crystallizekobe@gmail.com</a> に直接メールでお送りいただくか、メッセージ欄にWeTransfer等の共有リンクをご記入ください。
               </div>
-              <div class="file-list" id="fileList"></div>
-              <span class="field-hint">⚠️ 1ファイルあたり上限 50MB。50MB を超える場合は WeTransfer 等の共有リンクをメッセージ欄にご記入ください。</span>
             </div>
             <div class="checkbox-row">
               <input type="checkbox" id="f-privacy" name="privacy" required>
@@ -303,7 +297,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
             </div>
             <div>
               <div class="info-row-label">メール</div>
-              <div class="info-row-val">info@crystalize-kobe.jp</div>
+          <div class="info-row-val"><a href="mailto:crystallizekobe@gmail.com" style="color:var(--accent)">crystallizekobe@gmail.com</a></div>
             </div>
           </div>
           <div class="info-row">
@@ -322,7 +316,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
             </div>
             <div>
               <div class="info-row-label">所在地</div>
-              <div class="info-row-val">兵庫県神戸市</div>
+              <div class="info-row-val">兵庫県明石市</div>
               <div class="info-row-sub">全国対応（郵送・データ納品）</div>
             </div>
           </div>
@@ -418,7 +412,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
     <div class="footer-top">
       <div>
         <div class="footer-logo-wrap"><img src="rogo.png" alt="CRYSTALIZE KOBE" class="footer-logo-img"><span class="footer-brand-name">CRYSTALIZE KOBE</span></div>
-        <p class="footer-desc">3Dプリント・リアルタイム3DCG制作サービス。<br>兵庫県神戸市を拠点に、全国対応いたします。</p>
+        <p class="footer-desc">3Dプリント・リアルタイム3DCG制作サービス。<br>兵庫県明石市を拠点に、全国対応いたします。</p>
         <address class="footer-address">〒673-0891 兵庫県明石市大明石町1丁目2-1 明石商工会議所ビル1階 METAGAME明石<br>TEL: <a href="tel:0789627801">078-962-7801</a><br>MAIL: <a href="mailto:crystallizekobe@gmail.com">crystallizekobe@gmail.com</a></address>
       </div>
       <div>
@@ -455,31 +449,6 @@ document.getElementById('f-message').addEventListener('input',function(){
   document.getElementById('charDisplay').textContent=this.value.length;
 });
 
-(function(){
-  const input=document.getElementById('f-file'),dropArea=document.getElementById('fileDropArea'),listEl=document.getElementById('fileList');
-  let files=[];
-  function fmt(b){return b<1024*1024?(b/1024).toFixed(0)+'KB':(b/1024/1024).toFixed(1)+'MB'}
-  function renderList(){
-    listEl.innerHTML='';
-    files.forEach((f,i)=>{
-      const el=document.createElement('div');el.className='file-item';
-      el.innerHTML=`<span class="file-item-name" title="${f.name}">&#128196; ${f.name}</span><span class="file-item-size">${fmt(f.size)}</span><button class="file-remove" type="button" data-i="${i}" aria-label="削除">&#215;</button>`;
-      listEl.appendChild(el);
-    });
-    listEl.querySelectorAll('.file-remove').forEach(btn=>btn.addEventListener('click',()=>{files.splice(+btn.dataset.i,1);renderList()}));
-  }
-  function addFiles(nf){
-    Array.from(nf).forEach(f=>{
-      if(f.size>50*1024*1024){alert(`「${f.name}」は50MBを超えています。`);return;}
-      if(!files.find(ex=>ex.name===f.name&&ex.size===f.size))files.push(f);
-    });renderList();
-  }
-  input.addEventListener('change',()=>addFiles(input.files));
-  ['dragover','dragenter'].forEach(ev=>dropArea.addEventListener(ev,e=>{e.preventDefault();dropArea.classList.add('dragover')}));
-  ['dragleave','drop'].forEach(ev=>dropArea.addEventListener(ev,e=>{e.preventDefault();dropArea.classList.remove('dragover')}));
-  dropArea.addEventListener('drop',e=>addFiles(e.dataTransfer.files));
-})();
-
 document.getElementById('contactForm').addEventListener('submit',function(e){
   e.preventDefault();
   let ok=true;
@@ -492,7 +461,7 @@ document.getElementById('contactForm').addEventListener('submit',function(e){
   if(!priv.checked){alert('プライバシーポリシーへの同意をご確認ください。');ok=false;}
   if(!ok){const f=document.querySelector('.has-error input,.has-error textarea,.has-error select');if(f)f.scrollIntoView({behavior:'smooth',block:'center'});return;}
   const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='送信中...';
-  fetch('https://formspree.io/f/mnjrbgka',{
+  fetch('https://api.web3forms.com/submit',{
     method:'POST',
     headers:{'Accept':'application/json'},
     body:new FormData(this)
