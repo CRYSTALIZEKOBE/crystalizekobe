@@ -303,7 +303,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
             </div>
             <div>
               <div class="info-row-label">メール</div>
-              <div class="info-row-val">crystallizekobe@gmail.com</div>
+              <div class="info-row-val">info@crystalize-kobe.jp</div>
             </div>
           </div>
           <div class="info-row">
@@ -322,7 +322,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
             </div>
             <div>
               <div class="info-row-label">所在地</div>
-              <div class="info-row-val">兵庫県明石市</div>
+              <div class="info-row-val">兵庫県神戸市</div>
               <div class="info-row-sub">全国対応（郵送・データ納品）</div>
             </div>
           </div>
@@ -492,13 +492,26 @@ document.getElementById('contactForm').addEventListener('submit',function(e){
   if(!priv.checked){alert('プライバシーポリシーへの同意をご確認ください。');ok=false;}
   if(!ok){const f=document.querySelector('.has-error input,.has-error textarea,.has-error select');if(f)f.scrollIntoView({behavior:'smooth',block:'center'});return;}
   const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='送信中...';
-  /* ▼ 本番: fetch('https://formspree.io/f/YOUR_ID',{method:'POST',body:new FormData(this)}) */
-  setTimeout(()=>{
-    document.getElementById('contactForm').style.display='none';
-    document.getElementById('successState').classList.add('show');
-    document.querySelector('#formCard h2').textContent='ありがとうございます';
-    document.querySelector('#formCard>p').style.display='none';
-  },800);
+  fetch('https://formspree.io/f/mnjrbgka',{
+    method:'POST',
+    headers:{'Accept':'application/json'},
+    body:new FormData(this)
+  }).then(function(res){
+    if(res.ok){
+      document.getElementById('contactForm').style.display='none';
+      document.getElementById('successState').classList.add('show');
+      document.querySelector('#formCard h2').textContent='ありがとうございます';
+      document.querySelector('#formCard>p').style.display='none';
+    } else {
+      res.json().then(function(data){
+        alert(data.errors ? data.errors.map(function(e){return e.message}).join('\n') : '送信に失敗しました。時間をおいて再度お試しください。');
+        btn.disabled=false;btn.textContent='送信する';
+      });
+    }
+  }).catch(function(){
+    alert('通信エラーが発生しました。時間をおいて再度お試しください。');
+    btn.disabled=false;btn.textContent='送信する';
+  });
 });
 
 document.getElementById('faqList').addEventListener('click',function(e){
