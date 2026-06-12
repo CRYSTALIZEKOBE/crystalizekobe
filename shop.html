@@ -265,7 +265,43 @@ input,button,select,textarea{font-family:var(--font)}
 .cart-checkout-btn:hover{background:var(--accent-h)}
 .cart-note{font-size:.72rem;color:var(--sub);text-align:center;margin-top:10px;line-height:1.6}
 
-/* ── Order modal ── */
+/* ── Product detail modal ── */
+.pd-modal-overlay{
+  position:fixed;inset:0;background:rgba(8,12,26,.6);z-index:400;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .22s var(--ease);
+}
+.pd-modal-overlay.open{opacity:1;pointer-events:all}
+.pd-modal-box{
+  background:var(--surface);border-radius:14px;width:100%;max-width:680px;
+  max-height:90vh;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 24px 60px rgba(0,0,0,.22);
+  transform:translateY(16px) scale(.98);transition:transform .25s var(--ease);
+}
+.pd-modal-overlay.open .pd-modal-box{transform:translateY(0) scale(1)}
+.pd-modal-img{
+  width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  max-height:280px;overflow:hidden;position:relative;
+}
+.pd-modal-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.pd-modal-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--sub)}
+.pd-modal-body{padding:24px 28px;overflow-y:auto;flex:1}
+.pd-modal-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
+.pd-modal-close{background:none;border:none;cursor:pointer;color:var(--mid);padding:4px;border-radius:6px;display:flex;transition:.15s;flex-shrink:0}
+.pd-modal-close:hover{background:var(--bg);color:var(--ink)}
+.pd-modal-sub{font-size:.72rem;color:var(--sub);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.pd-modal-name{font-size:1.2rem;font-weight:700;line-height:1.3;color:var(--ink)}
+.pd-modal-desc{font-size:.88rem;color:var(--mid);line-height:1.75;margin:14px 0}
+.pd-modal-formats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.pd-modal-footer{
+  padding:16px 28px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;
+}
+.pd-modal-price{font-size:1.4rem;font-weight:700;letter-spacing:-.02em}
+.pd-modal-price small{font-size:.75rem;font-weight:400;color:var(--sub);margin-left:4px}
+.pd-stock-badge{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:600;color:var(--green);margin-top:4px}
+.pd-stock-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);display:block}
 .modal-overlay{
   position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:600;
   display:flex;align-items:center;justify-content:center;
@@ -399,7 +435,6 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">トップ</a></li>
       <li><a href="materials.html">素材・仕様</a></li>
-      <li><a href="portfolio.html">実績</a></li>
       <li><a href="shop.html" class="active">ショップ</a></li>
       <li><a href="realtime.html">3DCG</a></li>
       <li><a href="contact.html">お問い合わせ</a></li>
@@ -420,6 +455,17 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
         <h1>ショップ</h1>
         <p>3Dプリント完成品・デジタルデータ（STL/GLB）を販売しています。</p>
       </div>
+      <!-- BASE / BOOTH リンクボタン -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px">
+        <a href="#" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#FF6B35;color:#fff;border-radius:var(--r);font-size:.85rem;font-weight:700;text-decoration:none;transition:.15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1l6 3.5v5L7 13 1 9.5v-5L7 1z"/></svg>
+          BASE で購入（完成品）
+        </a>
+        <a href="#" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#4B5563;color:#fff;border-radius:var(--r);font-size:.85rem;font-weight:700;text-decoration:none;transition:.15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2h2l2 7h6M4 5h7.5l-1 4H6"/><circle cx="6" cy="12" r="1"/><circle cx="10" cy="12" r="1"/></svg>
+          BOOTH で購入（デジタルデータ）
+        </a>
+      </div>
     </div>
 
     <!-- Payment notice -->
@@ -428,24 +474,10 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="9" r="7.5"/><path d="M9 5.5v4"/><circle cx="9" cy="13" r=".75" fill="currentColor" stroke="none"/></svg>
       </div>
       <div>
-        <div class="pay-notice-title">現在の購入方法について</div>
+        <div class="pay-notice-title">購入方法について</div>
         <div class="pay-notice-body">
-          現在はカートから注文フォームでのご依頼受付を行っています。決済方法は個別にご案内します。<br>
-          今後、各プラットフォームへの出店も検討中です：
-          <div class="pay-platforms">
-            <span class="pay-pill">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4.5" stroke="currentColor" stroke-width="1"/></svg>
-              BOOTH（デジタルデータ推奨）
-            </span>
-            <span class="pay-pill">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4.5" stroke="currentColor" stroke-width="1"/></svg>
-              BASE（完成品販売推奨）
-            </span>
-            <span class="pay-pill">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4.5" stroke="currentColor" stroke-width="1"/></svg>
-              STORES
-            </span>
-          </div>
+          完成品は <strong>BASE</strong>、デジタルデータは <strong>BOOTH</strong> よりご購入いただけます。<br>
+          このページのカートからもご注文いただけます。決済方法は個別にご案内します。
         </div>
       </div>
     </div>
@@ -458,22 +490,11 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 
     <!-- Controls -->
     <div class="shop-controls">
-      <div class="cat-tabs">
+      <div class="cat-tabs" id="catTabs">
         <button class="cat-tab active" data-cat="all">すべて</button>
-        <button class="cat-tab" data-cat="physical">
-          <span style="display:inline-flex;align-items:center;gap:5px">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3.5l5-3 5 3v5l-5 3-5-3v-5z"/><path d="M1 3.5l5 3 5-3M6 11.5V6.5"/></svg>
-            完成品
-          </span>
-        </button>
-        <button class="cat-tab" data-cat="digital">
-          <span style="display:inline-flex;align-items:center;gap:5px">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 1.5v6M3.5 5.5L6 8l2.5-2.5"/><path d="M2 9.5h8"/></svg>
-            デジタルデータ
-          </span>
-        </button>
+        <!-- カテゴリはFirestoreから動的に読み込み -->
       </div>
-      <div class="item-count"><span id="visibleCount">6</span> 件</div>
+      <div class="item-count"><span id="visibleCount">0</span> 件</div>
     </div>
 
     <!-- Grid -->
@@ -522,6 +543,36 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
     </div>
   </div>
 </footer>
+
+<!-- ── Product detail modal ── -->
+<div class="pd-modal-overlay" id="pdModal">
+  <div class="pd-modal-box">
+    <div class="pd-modal-img" id="pdModalImg"></div>
+    <div class="pd-modal-body">
+      <div class="pd-modal-head">
+        <div>
+          <div class="pd-modal-sub" id="pdModalSub"></div>
+          <div class="pd-modal-name" id="pdModalName"></div>
+          <div class="pd-stock-badge" id="pdModalStock"></div>
+        </div>
+        <button class="pd-modal-close" onclick="closePdModal()">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l12 12M16 4L4 16"/></svg>
+        </button>
+      </div>
+      <div class="pd-modal-desc" id="pdModalDesc"></div>
+      <div class="pd-modal-formats" id="pdModalFormats"></div>
+    </div>
+    <div class="pd-modal-footer">
+      <div>
+        <div class="pd-modal-price" id="pdModalPrice"></div>
+      </div>
+      <button class="add-cart-btn" id="pdModalCartBtn" onclick="pdModalAddToCart()">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5h2l1.8 6.3a.75.75 0 00.75.45h5.85"/><path d="M4 4h8.25L11.25 8H6"/><circle cx="6" cy="11" r="1"/><circle cx="10.5" cy="11" r="1"/></svg>
+        カートに追加
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- ── Cart FAB ── -->
 <button class="cart-fab hidden" id="cartFab" aria-label="カートを開く">
@@ -659,6 +710,45 @@ function fsFrom(doc) {
 }
 
 /* ════════════════════════════════════
+   CATEGORIES（Firestoreから動的読み込み）
+   ════════════════════════════════════ */
+let CATEGORIES_PRODUCTS = [];
+let currentCat = 'all';
+
+async function loadCategories() {
+  try {
+    const res  = await fetch(`${FB_BASE}/categories_products?pageSize=100&key=${FB_API_KEY}`);
+    const data = await res.json();
+    CATEGORIES_PRODUCTS = (data.documents || [])
+      .map(fsFrom)
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
+  } catch(e) {
+    console.warn('カテゴリ読み込み失敗。デフォルトを使用します。', e);
+    CATEGORIES_PRODUCTS = [
+      { value: 'physical', label: '完成品' },
+      { value: 'digital',  label: 'デジタルデータ' },
+    ];
+  }
+  renderCategoryTabs();
+}
+
+function renderCategoryTabs() {
+  const tabs = document.getElementById('catTabs');
+  const extra = CATEGORIES_PRODUCTS.map(cat => `
+    <button class="cat-tab" data-cat="${cat.value}">${cat.label}</button>
+  `).join('');
+  tabs.innerHTML = `<button class="cat-tab active" data-cat="all">すべて</button>${extra}`;
+  tabs.querySelectorAll('.cat-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      renderProducts(currentCat);
+    });
+  });
+}
+
+/* ════════════════════════════════════
    PRODUCT DATA  ← Firestore で管理
    ════════════════════════════════════ */
 let PRODUCTS = [];
@@ -666,6 +756,7 @@ let PRODUCTS = [];
 async function loadProducts() {
   const grid = document.getElementById('productsGrid');
   grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--sub);font-size:.9rem">読み込み中...</div>';
+  await loadCategories();
   try {
     const res  = await fetch(`${FB_BASE}/products?pageSize=100&key=${FB_API_KEY}`);
     const data = await res.json();
@@ -733,7 +824,7 @@ function renderProducts(catFilter) {
       : `${isDigital ? iconDigital : iconPhysical}<span class="product-img-hint">商品画像を配置</span>`;
 
     return `
-    <div class="product-card" data-id="${p.id}" data-cat="${p.cat}">
+    <div class="product-card" data-id="${p.id}" data-cat="${p.cat}" onclick="openPdModal(${p.id})" style="cursor:pointer">
       <div class="product-img ${imgClass}">
         ${imgContent}
         <span class="product-badge ${isDigital ? 'badge-digital' : 'badge-physical'}">${isDigital ? 'デジタル' : '完成品'}</span>
@@ -743,12 +834,12 @@ function renderProducts(catFilter) {
         <div class="product-sub">${p.sub}</div>
         <div class="product-name">${p.name}</div>
         <div class="product-desc">${p.desc}</div>
-        ${p.formats.length ? `<div class="format-tags">${p.formats.map(f => `<span class="format-tag">${f}</span>`).join('')}</div>` : ''}
+        ${p.formats && p.formats.length ? `<div class="format-tags">${p.formats.map(f => `<span class="format-tag">${f}</span>`).join('')}</div>` : ''}
       </div>
       <div class="product-footer">
         <div class="product-price">${fmtPrice(p.price)}<small>（税込）</small></div>
         <button class="add-cart-btn ${isDigital ? 'digital-btn' : ''} ${inCart ? 'in-cart' : ''}"
-          data-id="${p.id}" onclick="addToCart(${p.id})">
+          data-id="${p.id}" onclick="event.stopPropagation();addToCart(${p.id})">
           ${inCart
             ? `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> 追加済み`
             : `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5h2l1.8 6.3a.75.75 0 00.75.45h5.85"/><path d="M4 4h8.25L11.25 8H6"/><circle cx="6" cy="11" r="1"/><circle cx="10.5" cy="11" r="1"/></svg> カートに追加`}
@@ -823,7 +914,91 @@ function updateCartUI() {
   }).join('');
 }
 
-/* ── Open / close cart ── */
+/* ════════════════════════════════════
+   PRODUCT DETAIL MODAL
+   ════════════════════════════════════ */
+let pdCurrentId = null;
+
+window.openPdModal = function(id) {
+  const p = getProduct(id);
+  if (!p) return;
+  pdCurrentId = id;
+
+  const isDigital = p.cat === 'digital';
+
+  /* 画像 */
+  const imgEl = document.getElementById('pdModalImg');
+  if (p.image) {
+    imgEl.innerHTML = `<img src="${p.image}" alt="${p.name}">`;
+  } else {
+    imgEl.innerHTML = `<div class="pd-modal-img-ph ${isDigital ? 'ph-digital' : 'ph-physical'}" style="width:100%;height:100%">
+      ${isDigital ? iconDigital : iconPhysical}
+      <span style="font-size:.8rem;color:var(--sub)">商品画像なし</span>
+    </div>`;
+  }
+
+  /* テキスト */
+  document.getElementById('pdModalSub').textContent   = p.sub || (isDigital ? 'デジタルデータ' : '完成品');
+  document.getElementById('pdModalName').textContent  = p.name;
+  document.getElementById('pdModalDesc').textContent  = p.desc || '説明なし';
+  document.getElementById('pdModalPrice').innerHTML   = `${fmtPrice(p.price)}<small>（税込）</small>`;
+
+  /* 在庫 */
+  const stockEl = document.getElementById('pdModalStock');
+  stockEl.textContent = p.stock !== false ? '在庫あり' : '在庫なし';
+  stockEl.style.color = p.stock !== false ? 'var(--green)' : 'var(--sub)';
+
+  /* フォーマット */
+  const fmtEl = document.getElementById('pdModalFormats');
+  fmtEl.innerHTML = p.formats && p.formats.length
+    ? p.formats.map(f => `<span class="format-tag">${f}</span>`).join('')
+    : '';
+
+  /* カートボタン */
+  const btn = document.getElementById('pdModalCartBtn');
+  const inCart = cart.find(c => c.id === id);
+  if (inCart) {
+    btn.classList.add('in-cart');
+    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> 追加済み`;
+  } else {
+    btn.classList.remove('in-cart');
+    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5h2l1.8 6.3a.75.75 0 00.75.45h5.85"/><path d="M4 4h8.25L11.25 8H6"/><circle cx="6" cy="11" r="1"/><circle cx="10.5" cy="11" r="1"/></svg> カートに追加`;
+  }
+  if (p.stock === false) {
+    btn.disabled = true;
+    btn.style.opacity = '.4';
+  } else {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }
+
+  document.getElementById('pdModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closePdModal = function() {
+  document.getElementById('pdModal').classList.remove('open');
+  document.body.style.overflow = '';
+  pdCurrentId = null;
+};
+
+window.pdModalAddToCart = function() {
+  if (!pdCurrentId) return;
+  addToCart(pdCurrentId);
+  /* ボタンを追加済みに更新 */
+  const btn = document.getElementById('pdModalCartBtn');
+  btn.classList.add('in-cart');
+  btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> 追加済み`;
+};
+
+/* オーバーレイクリックで閉じる */
+document.getElementById('pdModal').addEventListener('click', function(e) {
+  if (e.target === this) closePdModal();
+});
+/* ESCキーで閉じる */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closePdModal();
+});
 function openCart() {
   document.getElementById('cartDrawer').classList.add('open');
   document.getElementById('cartOverlay').classList.add('open');

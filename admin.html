@@ -417,6 +417,10 @@ tr:hover td{background:rgba(242,244,250,.5)}
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2h2l2.2 8a1 1 0 001 .7h6.6"/><path d="M4.5 5h9.5l-1.4 4.5H6"/><circle cx="6.5" cy="13.5" r="1"/><circle cx="11.5" cy="13.5" r="1"/></svg>
           ショップ商品
         </button>
+        <button class="nav-item" onclick="showPage('categories',this)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h14M1 8h9M1 12h6"/></svg>
+          カテゴリ管理
+        </button>
       </div>
     </nav>
 
@@ -575,13 +579,91 @@ tr:hover td{background:rgba(242,244,250,.5)}
         </table>
       </div>
     </div>
+    <!-- Categories page -->
+    <div class="page" id="page-categories">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+
+        <!-- Works categories -->
+        <div>
+          <div class="section-head">
+            <div class="section-title">ポートフォリオ カテゴリ</div>
+            <button class="btn btn-primary btn-sm" onclick="openCatModal('works')">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg>
+              追加
+            </button>
+          </div>
+          <div class="alert alert-success" id="cat-works-alert"></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>表示名</th><th>値（ID）</th><th>並び順</th><th style="text-align:center">操作</th></tr></thead>
+              <tbody id="catWorksBody">
+                <tr><td colspan="4" style="text-align:center;padding:30px;color:var(--sub)">読み込み中...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Products categories -->
+        <div>
+          <div class="section-head">
+            <div class="section-title">ショップ カテゴリ</div>
+            <button class="btn btn-primary btn-sm" onclick="openCatModal('products')">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg>
+              追加
+            </button>
+          </div>
+          <div class="alert alert-success" id="cat-products-alert"></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>表示名</th><th>値（ID）</th><th>並び順</th><th style="text-align:center">操作</th></tr></thead>
+              <tbody id="catProductsBody">
+                <tr><td colspan="4" style="text-align:center;padding:30px;color:var(--sub)">読み込み中...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
 </div>
 </div>
 
 <!-- ════════════════════════════════
-     WORK MODAL
+     CATEGORY MODAL
      ════════════════════════════════ -->
+<div class="modal-overlay" id="catModal">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-head">
+      <h3 id="catModalTitle">カテゴリを追加</h3>
+      <button class="modal-close" onclick="closeModal('catModal')">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l10 10M14 4L4 14"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-error" id="catErr"></div>
+      <div class="form-grid full" style="gap:12px">
+        <div class="field">
+          <label>表示名（日本語）</label>
+          <input type="text" id="cat-label" placeholder="例：完成品">
+        </div>
+        <div class="field">
+          <label>値・ID（英数字・ハイフン）</label>
+          <input type="text" id="cat-value" placeholder="例：physical">
+          <div class="field-hint">商品・作品の「カテゴリ」フィールドに入力する値と一致させてください</div>
+        </div>
+        <div class="field">
+          <label>並び順（数値）</label>
+          <input type="number" id="cat-order" placeholder="0" min="0">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('catModal')">キャンセル</button>
+      <button class="btn btn-primary" id="catSaveBtn" onclick="saveCat()">保存する</button>
+    </div>
+  </div>
+</div>
 <div class="modal-overlay" id="workModal">
   <div class="modal-box">
     <div class="modal-head">
@@ -1058,10 +1140,11 @@ window.showPage = function(name, btn) {
   else document.querySelectorAll('.nav-item').forEach(n => {
     if (n.getAttribute('onclick')?.includes(`'${name}'`)) n.classList.add('active');
   });
-  const titles = { dashboard:'ダッシュボード', works:'ポートフォリオ作品', products:'ショップ商品' };
+  const titles = { dashboard:'ダッシュボード', works:'ポートフォリオ作品', products:'ショップ商品', categories:'カテゴリ管理' };
   document.getElementById('topbarTitle').textContent = titles[name] || name;
   currentPage = name;
   document.getElementById('searchInput').value = '';
+  if (name === 'categories') loadCategories();
 };
 
 /* ── Modal helpers ── */
@@ -1297,7 +1380,112 @@ function showModalErr(id, msg) {
   const el = document.getElementById(id);
   el.textContent = msg; el.style.display = 'block';
 }
-/* ── Cloudinary Upload ── */
+
+/* ── Category management ── */
+let CAT_WORKS    = [];
+let CAT_PRODUCTS = [];
+let editingCatType = null;
+let editingCatId   = null;
+
+async function loadCategories() {
+  await Promise.all([loadCatWorks(), loadCatProducts()]);
+}
+window.loadCategories = loadCategories;
+
+async function loadCatWorks() {
+  try {
+    const snap = await getDocs(collection(db, 'categories_works'));
+    CAT_WORKS = snap.docs.map(fsFrom).sort((a,b)=>(a.order||0)-(b.order||0));
+    renderCatTable('works');
+  } catch(e) { console.error(e); }
+}
+
+async function loadCatProducts() {
+  try {
+    const snap = await getDocs(collection(db, 'categories_products'));
+    CAT_PRODUCTS = snap.docs.map(fsFrom).sort((a,b)=>(a.order||0)-(b.order||0));
+    renderCatTable('products');
+  } catch(e) { console.error(e); }
+}
+
+function renderCatTable(type) {
+  const list  = type === 'works' ? CAT_WORKS : CAT_PRODUCTS;
+  const tbody = document.getElementById(type === 'works' ? 'catWorksBody' : 'catProductsBody');
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:30px;color:var(--sub)">カテゴリがありません</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = list.map(cat => `
+    <tr>
+      <td style="font-weight:600">${escHtml(cat.label||'')}</td>
+      <td><code style="font-size:.8rem;background:var(--bg);padding:2px 6px;border-radius:4px">${escHtml(cat.value||'')}</code></td>
+      <td style="color:var(--mid)">${cat.order ?? 0}</td>
+      <td style="text-align:center">
+        <div style="display:flex;gap:6px;justify-content:center">
+          <button class="btn-icon" onclick="openCatModal('${type}','${cat._fsId}')">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12l1.5-4L10 1l2 2-7.5 7.5L1 12z"/></svg>
+          </button>
+          <button class="btn-icon" style="color:var(--red)" onclick="deleteCategory('${type}','${cat._fsId}','${escHtml(cat.label||'')}')">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5h9M4.5 3.5V2h4v1.5M5.5 6v4M7.5 6v4M3 3.5l.5 7.5h6L10 3.5"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+window.openCatModal = function(type, fsId) {
+  editingCatType = type;
+  editingCatId   = fsId || null;
+  document.getElementById('catModalTitle').textContent = fsId ? 'カテゴリを編集' : 'カテゴリを追加';
+  document.getElementById('catErr').style.display = 'none';
+  document.getElementById('cat-label').value = '';
+  document.getElementById('cat-value').value = '';
+  document.getElementById('cat-order').value = '';
+  if (fsId) {
+    const list = type === 'works' ? CAT_WORKS : CAT_PRODUCTS;
+    const cat  = list.find(c => c._fsId === fsId);
+    if (cat) {
+      document.getElementById('cat-label').value = cat.label || '';
+      document.getElementById('cat-value').value = cat.value || '';
+      document.getElementById('cat-order').value = cat.order ?? 0;
+    }
+  }
+  openModal('catModal');
+};
+
+window.saveCat = async function() {
+  const btn   = document.getElementById('catSaveBtn');
+  const label = document.getElementById('cat-label').value.trim();
+  const value = document.getElementById('cat-value').value.trim();
+  const order = parseInt(document.getElementById('cat-order').value) || 0;
+  if (!label || !value) { showModalErr('catErr', '表示名と値は必須です'); return; }
+  const colName = editingCatType === 'works' ? 'categories_works' : 'categories_products';
+  btn.disabled = true; btn.textContent = '保存中...';
+  try {
+    await fsSave(colName, editingCatId, { label, value, order });
+    closeModal('catModal');
+    const alertId = editingCatType === 'works' ? 'cat-works-alert' : 'cat-products-alert';
+    showAlert(alertId, editingCatId ? 'カテゴリを更新しました' : 'カテゴリを追加しました');
+    editingCatType === 'works' ? await loadCatWorks() : await loadCatProducts();
+  } catch(e) { showModalErr('catErr', '保存エラー: ' + e.message); }
+  finally { btn.disabled = false; btn.textContent = '保存する'; }
+};
+
+window.deleteCategory = function(type, fsId, label) {
+  document.getElementById('confirmTitle').textContent = '削除しますか？';
+  document.getElementById('confirmBody').textContent  = `カテゴリ「${label}」を削除します。この操作は元に戻せません。`;
+  document.getElementById('confirmOkBtn').onclick = async () => {
+    const colName = type === 'works' ? 'categories_works' : 'categories_products';
+    try {
+      await fsDelete(colName, fsId);
+      closeModal('confirmModal');
+      const alertId = type === 'works' ? 'cat-works-alert' : 'cat-products-alert';
+      showAlert(alertId, '削除しました');
+      type === 'works' ? await loadCatWorks() : await loadCatProducts();
+    } catch(e) { alert('削除エラー: ' + e.message); }
+  };
+  openModal('confirmModal');
+};
 const CL_CLOUD  = 'dxpz2frmb';
 const CL_PRESET = 'crystalize_upload';
 const MAX_SIZE  = 2 * 1024 * 1024;
