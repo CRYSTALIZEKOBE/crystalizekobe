@@ -74,9 +74,9 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 
 @media(max-width:768px){
   .nav-toggle{display:flex}
-  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;gap:4px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;gap:8px;padding:16px 16px 20px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
   .nav-links.open{display:flex}
-  .nav-links a,.nav-links .btn-nav{border-radius:6px;padding:11px 14px;width:100%}
+  .nav-links a,.nav-links .btn-nav{border-radius:6px;padding:13px 16px;width:100%;font-size:.95rem}
   .tokusho-table th{width:40%}
   .tokusho-table th,.tokusho-table td{padding:12px 14px;font-size:.82rem}
 }
@@ -195,7 +195,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 
 <script>
 const toggle=document.getElementById('navToggle'),links=document.getElementById('navLinks');
-toggle.addEventListener('click',()=>{const o=links.classList.toggle('open');toggle.classList.toggle('open',o)});
+toggle.addEventListener('click',e=>{e.stopPropagation();const o=links.classList.toggle('open');toggle.classList.toggle('open',o)});
 links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');toggle.classList.remove('open')}));
 document.addEventListener('click',e=>{const path=e.composedPath?e.composedPath():[e.target];if(!path.some(el=>el===toggle||el===links)){links.classList.remove('open');toggle.classList.remove('open')}});
 </script>
