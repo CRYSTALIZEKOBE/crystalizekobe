@@ -821,6 +821,11 @@ tr:hover td{background:rgba(242,244,250,.5)}
             <div class="upload-progress" id="w-thumb-progress"><div class="upload-progress-bar" id="w-thumb-bar"></div></div>
             <div class="upload-err" id="w-thumb-err"></div>
             <input type="hidden" id="w-thumb">
+            <!-- サムネイルをギャラリー1枚目に使うチェック -->
+            <label style="display:flex;align-items:center;gap:8px;margin-top:10px;cursor:pointer;font-size:.82rem;color:var(--mid)">
+              <input type="checkbox" id="w-thumb-as-first" style="width:15px;height:15px;accent-color:var(--accent);cursor:pointer;flex-shrink:0">
+              サムネイル画像をギャラリーの1枚目にも使用する
+            </label>
           </div>
           <div class="field">
             <label>3D モデル (.glb) URL</label>
@@ -1312,6 +1317,7 @@ window.openWorkModal = function(fsId) {
   clearUpload('w-thumb');
   clearGallery();
   initTags('w-tags', 'w-tags-wrap', 'w-tags-input');
+  document.getElementById('w-thumb-as-first').checked = false;
 
   if (fsId) {
     const w = WORKS.find(x => x._fsId === fsId);
@@ -1327,6 +1333,7 @@ window.openWorkModal = function(fsId) {
       if (w.images && w.images.length) setGalleryImages(w.images);
       setTags('w-tags', 'w-tags-wrap', w.tags||[]);
       window.setSpecs('w-specs-rows', w.specs||{});
+      document.getElementById('w-thumb-as-first').checked = !!w.thumbAsFirst;
     }
   } else {
     window.addSpecRow('w-specs-rows');
@@ -1352,6 +1359,7 @@ window.saveWork = async function() {
     thumb:   document.getElementById('w-thumb').value.trim(),
     glb:     document.getElementById('w-glb').value.trim(),
     images,
+    thumbAsFirst: document.getElementById('w-thumb-as-first').checked,
   };
   btn.disabled = true; btn.textContent = '保存中...';
   try {
