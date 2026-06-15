@@ -579,7 +579,7 @@ function selectInquiryType(type) {
   const t = params.get('type');
   if (t && ['original','memory','other'].includes(t)) selectInquiryType(t);
 })();
-toggle.addEventListener('click',()=>{const o=links.classList.toggle('open');toggle.classList.toggle('open',o)});
+toggle.addEventListener('click',e=>{e.stopPropagation();const o=links.classList.toggle('open');toggle.classList.toggle('open',o)});
 links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');toggle.classList.remove('open')}));
 document.addEventListener('click',e=>{const path=e.composedPath?e.composedPath():[e.target];if(!path.some(el=>el===toggle||el===links)){links.classList.remove('open');toggle.classList.remove('open')}});
 
@@ -624,13 +624,25 @@ document.getElementById('contactForm').addEventListener('submit',function(e){
   if(!priv.checked){alert('プライバシーポリシーへの同意をご確認ください。');ok=false;}
   if(!ok){const f=document.querySelector('.has-error input,.has-error textarea,.has-error select');if(f)f.scrollIntoView({behavior:'smooth',block:'center'});return;}
   const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='送信中...';
-  /* ▼ 本番: fetch('https://formspree.io/f/YOUR_ID',{method:'POST',body:new FormData(this)}) */
-  setTimeout(()=>{
-    document.getElementById('contactForm').style.display='none';
-    document.getElementById('successState').classList.add('show');
-    document.querySelector('#formCard h2').textContent='ありがとうございます';
-    document.querySelector('#formCard>p').style.display='none';
-  },800);
+
+  /* ── Googleフォームに送信（フォームA：オリジナル造形） ── */
+  const FORM_ACTION='https://docs.google.com/forms/d/e/1FAIpQLSeuqlNZSqJnmwws2WuilSR0P8n85NXumIzuwooi4lHpJGk7fg/formResponse';
+  const fd=new FormData();
+  fd.append('entry.1181025064', n.value.trim());
+  fd.append('entry.1363496943', em.value.trim());
+  fd.append('entry.1093127873', document.getElementById('f-company').value.trim());
+  fd.append('entry.269682322',  document.getElementById('f-phone').value.trim());
+  fd.append('entry.361701915',  tp.value);
+  fd.append('entry.1675796536', msg.value.trim());
+
+  fetch(FORM_ACTION,{method:'POST',body:fd,mode:'no-cors'})
+    .finally(()=>{
+      document.getElementById('contactForm').style.display='none';
+      document.getElementById('successState').classList.add('show');
+      document.querySelector('#formCard h2').textContent='ありがとうございます';
+      document.querySelector('#formCard>p').style.display='none';
+      btn.disabled=false;
+    });
 });
 
 document.getElementById('faqList').addEventListener('click',function(e){
