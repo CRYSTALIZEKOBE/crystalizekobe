@@ -71,19 +71,7 @@ input,button,select,textarea{font-family:var(--font)}
 .field-error{font-size:.74rem;color:var(--accent);margin-top:3px;display:none}
 .field.has-error input,.field.has-error textarea,.field.has-error select{border-color:var(--accent)}
 .field.has-error .field-error{display:block}
-.file-input-custom{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--bg);border:1.5px dashed var(--border);border-radius:var(--r);cursor:pointer;transition:border-color .15s;position:relative}
-.file-input-custom:hover{border-color:#8BA3D8}
-.file-input-custom.dragover{border-color:var(--accent);background:var(--accent-bg)}
-.file-input-custom input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.file-meta{display:flex;flex-direction:column;gap:2px}
-.file-main{font-size:.85rem;font-weight:500}
-.file-sub{font-size:.74rem;color:var(--sub)}
-.file-list{margin-top:8px;display:flex;flex-direction:column;gap:4px}
-.file-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 10px;background:var(--accent-bg);border-radius:6px;font-size:.78rem}
-.file-item-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-.file-item-size{color:var(--mid);flex-shrink:0}
-.file-remove{background:none;border:none;color:var(--sub);cursor:pointer;font-size:1rem;line-height:1;padding:0 2px;transition:color .15s}
-.file-remove:hover{color:var(--accent)}
+
 .checkbox-row{display:flex;align-items:flex-start;gap:10px;margin-top:6px}
 .checkbox-row input[type=checkbox]{width:16px;height:16px;margin-top:3px;flex-shrink:0;cursor:pointer;accent-color:var(--accent)}
 .checkbox-row label{font-size:.82rem;color:var(--mid);cursor:pointer;line-height:1.55}
@@ -304,19 +292,9 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
               <div class="field-hint" style="text-align:right"><span id="charCount">0</span> / 2,000 文字</div>
             </div>
             <div class="field">
-              <label>添付ファイル（任意）</label>
-              <div class="file-input-custom" id="fileDropArea">
-                <span style="color:var(--accent);flex-shrink:0">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.5l-7 7a4.5 4.5 0 01-6.4-6.4l8-8a3 3 0 014.2 4.2L7 14.5a1.5 1.5 0 01-2.1-2.1L11 6"/></svg>
-                </span>
-                <div class="file-meta">
-                  <span class="file-main">クリックまたはドラッグ＆ドロップでファイルを追加</span>
-                  <span class="file-sub">.glb / .stl / .fbx / .obj / .3mf / .zip 対応</span>
-                </div>
-                <input type="file" id="f-file" name="attachment" accept=".glb,.stl,.fbx,.obj,.3mf,.zip,.pdf,.png,.jpg,.jpeg" multiple>
-              </div>
-              <div class="file-list" id="fileList"></div>
-              <span class="field-hint">⚠️ 1ファイルあたり上限 50MB。50MB を超える場合は WeTransfer 等の共有リンクをメッセージ欄にご記入ください。</span>
+              <label for="f-url">参考データ・画像のURL（任意）</label>
+              <input type="url" id="f-url" name="url" placeholder="WeTransfer・Googleドライブ・Dropbox などの共有リンクを貼り付けてください">
+              <span class="field-hint">3DデータやイメージはWeTransfer・Googleドライブ等で共有し、URLをこちらに貼り付けてください。</span>
             </div>
             <div class="checkbox-row">
               <input type="checkbox" id="f-privacy" name="privacy" required>
@@ -587,30 +565,6 @@ document.getElementById('f-message').addEventListener('input',function(){
   document.getElementById('charDisplay').textContent=this.value.length;
 });
 
-(function(){
-  const input=document.getElementById('f-file'),dropArea=document.getElementById('fileDropArea'),listEl=document.getElementById('fileList');
-  let files=[];
-  function fmt(b){return b<1024*1024?(b/1024).toFixed(0)+'KB':(b/1024/1024).toFixed(1)+'MB'}
-  function renderList(){
-    listEl.innerHTML='';
-    files.forEach((f,i)=>{
-      const el=document.createElement('div');el.className='file-item';
-      el.innerHTML=`<span class="file-item-name" title="${f.name}">&#128196; ${f.name}</span><span class="file-item-size">${fmt(f.size)}</span><button class="file-remove" type="button" data-i="${i}" aria-label="削除">&#215;</button>`;
-      listEl.appendChild(el);
-    });
-    listEl.querySelectorAll('.file-remove').forEach(btn=>btn.addEventListener('click',()=>{files.splice(+btn.dataset.i,1);renderList()}));
-  }
-  function addFiles(nf){
-    Array.from(nf).forEach(f=>{
-      if(f.size>50*1024*1024){alert(`「${f.name}」は50MBを超えています。`);return;}
-      if(!files.find(ex=>ex.name===f.name&&ex.size===f.size))files.push(f);
-    });renderList();
-  }
-  input.addEventListener('change',()=>addFiles(input.files));
-  ['dragover','dragenter'].forEach(ev=>dropArea.addEventListener(ev,e=>{e.preventDefault();dropArea.classList.add('dragover')}));
-  ['dragleave','drop'].forEach(ev=>dropArea.addEventListener(ev,e=>{e.preventDefault();dropArea.classList.remove('dragover')}));
-  dropArea.addEventListener('drop',e=>addFiles(e.dataTransfer.files));
-})();
 
 document.getElementById('contactForm').addEventListener('submit',function(e){
   e.preventDefault();
@@ -634,6 +588,7 @@ document.getElementById('contactForm').addEventListener('submit',function(e){
   fd.append('entry.269682322',  document.getElementById('f-phone').value.trim());
   fd.append('entry.361701915',  tp.value);
   fd.append('entry.1675796536', msg.value.trim());
+  fd.append('entry.163382544',  document.getElementById('f-url').value.trim());
 
   fetch(FORM_ACTION,{method:'POST',body:fd,mode:'no-cors'})
     .finally(()=>{
