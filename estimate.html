@@ -830,7 +830,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 /* ── Nav ── */
 (function(){
   const t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
-  t.addEventListener('click',()=>{const o=l.classList.toggle('open');t.classList.toggle('open',o)});
+  t.addEventListener('click',e=>{e.stopPropagation();const o=l.classList.toggle('open');t.classList.toggle('open',o)});
   l.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{l.classList.remove('open');t.classList.remove('open')}));
   document.addEventListener('click',e=>{const path=e.composedPath?e.composedPath():[e.target];if(!path.some(el=>el===t||el===l)){l.classList.remove('open');t.classList.remove('open')}});
 })();
@@ -1147,27 +1147,28 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
   const btn = document.getElementById('submitBtn');
   btn.disabled=true; btn.textContent='送信中...';
 
-  fetch('https://api.web3forms.com/submit',{
-    method:'POST',
-    headers:{'Accept':'application/json'},
-    body:new FormData(this)
-  }).then(function(res){
-    if(res.ok){
+  /* ── Googleフォームに送信（見積もりフォーム） ── */
+  const FORM_ACTION='https://docs.google.com/forms/d/e/1FAIpQLSdS394Siyj-ZWCiwJiNvirJhiY92XAgrb5So910UwMjsTGTIA/formResponse';
+  const fd = new FormData();
+  fd.append('entry.1181025064', n.value.trim());
+  fd.append('entry.1363496943', em.value.trim());
+  fd.append('entry.1093127873', document.getElementById('f-company').value.trim());
+  fd.append('entry.269682322',  document.getElementById('f-phone').value.trim());
+  fd.append('entry.1675796536', document.getElementById('f-sim-mode').value.trim());
+  fd.append('entry.163382544',  document.getElementById('f-sim-param1').value.trim());
+  fd.append('entry.1689452560', document.getElementById('f-sim-param2').value.trim());
+  fd.append('entry.1462071630', document.getElementById('f-sim-price').value.trim());
+  fd.append('entry.627260423',  msg.value.trim());
+
+  fetch(FORM_ACTION, {method:'POST', body:fd, mode:'no-cors'})
+    .finally(function(){
       document.getElementById('contactForm').style.display='none';
       document.getElementById('successMsg').classList.add('show');
       document.getElementById('autofillBanner').style.display='none';
       document.querySelector('#formCard h2').textContent='ありがとうございます';
       document.querySelector('#formCard>p').style.display='none';
-    } else {
-      res.json().then(function(data){
-        alert(data.message || '送信に失敗しました。時間をおいて再度お試しください。');
-        btn.disabled=false; btn.textContent='送信する';
-      });
-    }
-  }).catch(function(){
-    alert('通信エラーが発生しました。時間をおいて再度お試しください。');
-    btn.disabled=false; btn.textContent='送信する';
-  });
+      btn.disabled=false;
+    });
 });
 
 /* ── Initial calc ── */
