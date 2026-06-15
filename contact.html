@@ -206,6 +206,63 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
   </div>
 </section>
 
+<!-- ── 問い合わせ種別選択 ── -->
+<section style="padding:36px 0 0;border-bottom:1px solid var(--border)">
+  <div class="container">
+    <p style="font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin-bottom:14px">まずご依頼の種類をお選びください</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding-bottom:36px" id="inquiryTypeCards">
+      <button type="button" onclick="selectInquiryType('original')" class="inq-card" id="inq-original">
+        <span class="inq-icon" style="background:#EEF2FF;color:var(--accent)">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2L2 8v11h18V8L11 2z"/><path d="M8 21V13h6v8"/></svg>
+        </span>
+        <span class="inq-label">オリジナル造形の方は<br>こちら</span>
+        <span class="inq-desc">フィギュア・試作・カスタム造形など</span>
+        <span class="inq-check" id="inq-check-original">✓</span>
+      </button>
+      <button type="button" onclick="selectInquiryType('memory')" class="inq-card" id="inq-memory">
+        <span class="inq-icon" style="background:#F5F3FF;color:#6366F1">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L11 6.67l-2.06-2.06a5.5 5.5 0 00-7.78 7.78l2.06 2.06L11 21l7.78-7.78 2.06-2.06a5.5 5.5 0 000-7.55z"/></svg>
+        </span>
+        <span class="inq-label">思い出グッズの方は<br>こちら</span>
+        <span class="inq-desc">記念品・ペット・大切な物の立体化など</span>
+        <span class="inq-check" id="inq-check-memory">✓</span>
+      </button>
+      <button type="button" onclick="selectInquiryType('other')" class="inq-card" id="inq-other">
+        <span class="inq-icon" style="background:#ECFDF5;color:#059669">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        </span>
+        <span class="inq-label">その他お問い合わせは<br>こちら</span>
+        <span class="inq-desc">素材・仕様・3DCG・その他のご質問</span>
+        <span class="inq-check" id="inq-check-other">✓</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+.inq-card{
+  display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+  background:var(--surface);border:2px solid var(--border);border-radius:12px;
+  padding:20px 20px 18px;cursor:pointer;transition:.18s;text-align:left;
+  position:relative;font-family:var(--font);
+}
+.inq-card:hover{border-color:#8BA3D8;box-shadow:0 4px 16px rgba(30,64,175,.08)}
+.inq-card.selected{border-color:var(--accent);background:var(--accent-bg)}
+.inq-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:2px}
+.inq-label{font-size:.9rem;font-weight:700;color:var(--ink);line-height:1.4}
+.inq-desc{font-size:.74rem;color:var(--mid);line-height:1.5}
+.inq-check{
+  position:absolute;top:12px;right:14px;
+  width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;
+  font-size:.75rem;display:flex;align-items:center;justify-content:center;font-weight:700;
+  opacity:0;transition:.15s;
+}
+.inq-card.selected .inq-check{opacity:1}
+@media(max-width:640px){
+  #inquiryTypeCards{grid-template-columns:1fr}
+}
+</style>
+
 <section class="contact-section">
   <div class="container">
     <div class="contact-layout">
@@ -491,9 +548,40 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 
 <script>
 const toggle=document.getElementById('navToggle'),links=document.getElementById('navLinks');
+const INQ_TYPE_MAP = {
+  original: { value: 'estimate',  label: 'オリジナル造形のご依頼' },
+  memory:   { value: 'other',     label: '思い出グッズのご依頼' },
+  other:    { value: 'other',     label: 'その他お問い合わせ' },
+};
+function selectInquiryType(type) {
+  document.querySelectorAll('.inq-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('inq-' + type).classList.add('selected');
+  const map = INQ_TYPE_MAP[type];
+  const sel = document.getElementById('f-type');
+  sel.value = map.value;
+  /* ページ内スムーススクロール（フォームへ誘導） */
+  document.getElementById('formCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  /* メッセージにヒントをセット（空の場合のみ） */
+  const msgEl = document.getElementById('f-message');
+  if (!msgEl.value.trim()) {
+    const hints = {
+      original: 'ご依頼の形状・サイズ・用途・希望納期などをご記入ください。',
+      memory:   '立体化したいもの（お写真・現物など）の詳細をご記入ください。',
+      other:    '',
+    };
+    msgEl.placeholder = hints[type] || msgEl.placeholder;
+  }
+}
+
+/* ── URLパラメータから問い合わせ種別を自動選択 ── */
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('type');
+  if (t && ['original','memory','other'].includes(t)) selectInquiryType(t);
+})();
 toggle.addEventListener('click',()=>{const o=links.classList.toggle('open');toggle.classList.toggle('open',o)});
 links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');toggle.classList.remove('open')}));
-document.addEventListener('click',e=>{if(!toggle.contains(e.target)&&!links.contains(e.target)){links.classList.remove('open');toggle.classList.remove('open')}});
+document.addEventListener('click',e=>{const path=e.composedPath?e.composedPath():[e.target];if(!path.some(el=>el===toggle||el===links)){links.classList.remove('open');toggle.classList.remove('open')}});
 
 document.getElementById('f-message').addEventListener('input',function(){
   document.getElementById('charDisplay').textContent=this.value.length;

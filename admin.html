@@ -421,6 +421,10 @@ tr:hover td{background:rgba(242,244,250,.5)}
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4h14M1 8h9M1 12h6"/></svg>
           カテゴリ管理
         </button>
+        <button class="nav-item" onclick="showPage('settings',this)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.5"/><path d="M8 1.5v1M8 13.5v1M1.5 8h1M13.5 8h1M3.2 3.2l.7.7M12.1 12.1l.7.7M3.2 12.8l.7-.7M12.1 3.9l.7-.7"/></svg>
+          サイト設定
+        </button>
       </div>
     </nav>
 
@@ -623,6 +627,78 @@ tr:hover td{background:rgba(242,244,250,.5)}
           </div>
         </div>
 
+      </div>
+    </div>
+    <!-- Settings page -->
+    <div class="page" id="page-settings">
+      <div style="max-width:680px">
+        <div class="section-head" style="margin-bottom:20px">
+          <div class="section-title" style="font-size:1rem">問い合わせ導線 — ボタンラベル設定</div>
+        </div>
+        <div class="alert alert-success" id="settings-alert"></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 28px 24px">
+          <p style="font-size:.82rem;color:var(--mid);margin-bottom:24px;line-height:1.65">contact.html・estimate.html・shop.html の問い合わせ3ボタンのラベルを変更できます。<br>変更後「保存する」を押すとFirestoreに保存され、次回ページ読み込み時に反映されます。</p>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="field">
+              <label style="font-size:.8rem;font-weight:600">ボタン 1 ラベル</label>
+              <input type="text" id="s-btn1" value="オリジナル造形の方はこちら" placeholder="オリジナル造形の方はこちら">
+              <div class="field-hint">フィギュア・試作・カスタム造形など向け</div>
+            </div>
+            <div class="field">
+              <label style="font-size:.8rem;font-weight:600">ボタン 2 ラベル</label>
+              <input type="text" id="s-btn2" value="思い出グッズの方はこちら" placeholder="思い出グッズの方はこちら">
+              <div class="field-hint">記念品・ペット・大切な物の立体化など向け</div>
+            </div>
+            <div class="field">
+              <label style="font-size:.8rem;font-weight:600">ボタン 3 ラベル</label>
+              <input type="text" id="s-btn3" value="その他お問い合わせはこちら" placeholder="その他お問い合わせはこちら">
+              <div class="field-hint">素材・仕様・3DCG・その他のご質問向け</div>
+            </div>
+          </div>
+          <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:12px">
+            <button class="btn btn-primary" id="settingsSaveBtn" onclick="saveSettings()">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3L4.5 9 2 6.5"/></svg>
+              保存する
+            </button>
+            <button class="btn btn-secondary" onclick="loadSettings()">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 6A4 4 0 112 6M2 3v3H5"/></svg>
+              再読み込み
+            </button>
+          </div>
+        </div>
+
+        <div style="margin-top:28px">
+          <div class="section-head" style="margin-bottom:16px">
+            <div class="section-title" style="font-size:1rem">サイト基本情報</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px">
+            <p style="font-size:.82rem;color:var(--mid);margin-bottom:20px;line-height:1.65">フッター・ヘッダーに表示されるサイト情報を管理します。</p>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div class="field">
+                <label style="font-size:.8rem;font-weight:600">営業メールアドレス</label>
+                <input type="email" id="s-email" placeholder="crystallizekobe@gmail.com">
+              </div>
+              <div class="field">
+                <label style="font-size:.8rem;font-weight:600">電話番号</label>
+                <input type="tel" id="s-tel" placeholder="078-962-7801">
+              </div>
+              <div class="field">
+                <label style="font-size:.8rem;font-weight:600">営業時間（表示テキスト）</label>
+                <input type="text" id="s-hours" placeholder="平日 10:00 〜 18:00">
+              </div>
+              <div class="field">
+                <label style="font-size:.8rem;font-weight:600">住所</label>
+                <input type="text" id="s-address" placeholder="〒673-0891 兵庫県明石市...">
+              </div>
+            </div>
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+              <button class="btn btn-primary" id="siteInfoSaveBtn" onclick="saveSiteInfo()">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3L4.5 9 2 6.5"/></svg>
+                保存する
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1140,11 +1216,12 @@ window.showPage = function(name, btn) {
   else document.querySelectorAll('.nav-item').forEach(n => {
     if (n.getAttribute('onclick')?.includes(`'${name}'`)) n.classList.add('active');
   });
-  const titles = { dashboard:'ダッシュボード', works:'ポートフォリオ作品', products:'ショップ商品', categories:'カテゴリ管理' };
+  const titles = { dashboard:'ダッシュボード', works:'ポートフォリオ作品', products:'ショップ商品', categories:'カテゴリ管理', settings:'サイト設定' };
   document.getElementById('topbarTitle').textContent = titles[name] || name;
   currentPage = name;
   document.getElementById('searchInput').value = '';
   if (name === 'categories') loadCategories();
+  if (name === 'settings')   loadSettings();
 };
 
 /* ── Modal helpers ── */
@@ -1639,7 +1716,67 @@ window.removeGalleryItem = function(btn, url) {
   btn.parentElement.remove();
 };
 
-window.onGallerySelect = async function(e) {
+/* ── Site Settings ── */
+async function loadSettings() {
+  try {
+    const snap = await getDocs(collection(db, 'site_settings'));
+    const docs = {};
+    snap.docs.forEach(d => { docs[d.id] = d.data(); });
+
+    /* 問い合わせボタンラベル */
+    const btns = docs['inquiry_buttons'] || {};
+    document.getElementById('s-btn1').value = btns.btn1 || 'オリジナル造形の方はこちら';
+    document.getElementById('s-btn2').value = btns.btn2 || '思い出グッズの方はこちら';
+    document.getElementById('s-btn3').value = btns.btn3 || 'その他お問い合わせはこちら';
+
+    /* サイト基本情報 */
+    const info = docs['site_info'] || {};
+    document.getElementById('s-email').value   = info.email   || 'crystallizekobe@gmail.com';
+    document.getElementById('s-tel').value     = info.tel     || '078-962-7801';
+    document.getElementById('s-hours').value   = info.hours   || '平日 10:00 〜 18:00';
+    document.getElementById('s-address').value = info.address || '〒673-0891 兵庫県明石市大明石町1丁目2-1 明石商工会議所ビル1階 METAGAME明石';
+  } catch(e) {
+    console.warn('設定読み込みエラー:', e);
+  }
+}
+window.loadSettings = loadSettings;
+
+window.saveSettings = async function() {
+  const btn = document.getElementById('settingsSaveBtn');
+  btn.disabled = true; btn.textContent = '保存中...';
+  try {
+    await setDoc(doc(db, 'site_settings', 'inquiry_buttons'), {
+      btn1: document.getElementById('s-btn1').value.trim() || 'オリジナル造形の方はこちら',
+      btn2: document.getElementById('s-btn2').value.trim() || '思い出グッズの方はこちら',
+      btn3: document.getElementById('s-btn3').value.trim() || 'その他お問い合わせはこちら',
+    });
+    showAlert('settings-alert', '問い合わせボタンラベルを保存しました');
+  } catch(e) { alert('保存エラー: ' + e.message); }
+  finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3L4.5 9 2 6.5"/></svg> 保存する';
+  }
+};
+
+window.saveSiteInfo = async function() {
+  const btn = document.getElementById('siteInfoSaveBtn');
+  btn.disabled = true; btn.textContent = '保存中...';
+  try {
+    await setDoc(doc(db, 'site_settings', 'site_info'), {
+      email:   document.getElementById('s-email').value.trim(),
+      tel:     document.getElementById('s-tel').value.trim(),
+      hours:   document.getElementById('s-hours').value.trim(),
+      address: document.getElementById('s-address').value.trim(),
+    });
+    showAlert('settings-alert', 'サイト基本情報を保存しました');
+  } catch(e) { alert('保存エラー: ' + e.message); }
+  finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3L4.5 9 2 6.5"/></svg> 保存する';
+  }
+};
+
+
   const files = Array.from(e.target.files); e.target.value = '';
   const errEl = document.getElementById('w-gallery-err');
   errEl.style.display = 'none';

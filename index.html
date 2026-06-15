@@ -547,7 +547,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 const t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
 t.addEventListener('click',()=>{const o=l.classList.toggle('open');t.classList.toggle('open',o)});
 l.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{l.classList.remove('open');t.classList.remove('open')}));
-document.addEventListener('click',e=>{if(!t.contains(e.target)&&!l.contains(e.target)){l.classList.remove('open');t.classList.remove('open')}});
+document.addEventListener('click',e=>{const path=e.composedPath?e.composedPath():[e.target];if(!path.some(el=>el===t||el===l)){l.classList.remove('open');t.classList.remove('open')}});
 </script>
 </body>
 </html>

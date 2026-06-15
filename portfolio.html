@@ -510,9 +510,20 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 /* ── Nav ── */
 (function(){
   const t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
-  t.addEventListener('click',()=>{const o=l.classList.toggle('open');t.classList.toggle('open',o)});
-  l.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{l.classList.remove('open');t.classList.remove('open')}));
-  document.addEventListener('click',e=>{if(!t.contains(e.target)&&!l.contains(e.target)){l.classList.remove('open');t.classList.remove('open')}});
+  t.addEventListener('click', e => {
+    e.stopPropagation(); // 外側クリック検知に伝播させない
+    const o = l.classList.toggle('open');
+    t.classList.toggle('open', o);
+  });
+  l.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    l.classList.remove('open'); t.classList.remove('open');
+  }));
+  document.addEventListener('click', e => {
+    // composedPath()でshadow DOMを含むクリック経路を確認
+    const path = e.composedPath ? e.composedPath() : [e.target];
+    const insideNav = path.some(el => el === t || el === l);
+    if (!insideNav) { l.classList.remove('open'); t.classList.remove('open'); }
+  });
 })();
 
 /* ══════════════════════════════════════
@@ -784,7 +795,21 @@ function closeDetail() {
 function renderDetail(id) {
   const w = WORKS.find(x => x.id === id);
   if (!w) return;
-  const c = CAT[w.cat];
+
+  // CAT に存在しないカテゴリのフォールバック
+  const c = CAT[w.cat] || {
+    label: w.cat || '作品',
+    badgeClass: 'wb-print',
+    thumbClass: 'wt-print',
+    icon: `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l11-6.5L24 8v10L13 24.5 2 18V8z"/><path d="M2 8l11 6.5L24 8M13 24.5V14.5"/></svg>`
+  };
+
+  // 配列・オブジェクトのフォールバック
+  const tags  = Array.isArray(w.tags)  ? w.tags  : [];
+  const specs = (w.specs && typeof w.specs === 'object') ? w.specs : {};
+  // images: 空文字を除去
+  const images = Array.isArray(w.images) ? w.images.filter(s => typeof s === 'string' && s.trim() !== '') : [];
+
   const fw = filteredWorks();
   const idx = fw.findIndex(x => x.id === id);
 
@@ -792,13 +817,13 @@ function renderDetail(id) {
   const badge = document.getElementById('dBarBadge');
   badge.textContent = c.label;
   badge.className = `detail-bar-badge ${c.badgeClass}`;
-  document.getElementById('dBarTitle').textContent = w.title;
+  document.getElementById('dBarTitle').textContent = w.title || '';
 
-  /* Media: model-viewer or placeholder */
+  /* Media: model-viewer → images[0] → placeholder の優先順位 */
   const viewerWrap = document.getElementById('dViewerWrap');
-  if (w.glb) {
+  if (w.glb && w.glb.trim()) {
     viewerWrap.innerHTML = `
-      <model-viewer src="${w.glb}" alt="${w.title}"
+      <model-viewer src="${w.glb}" alt="${w.title || ''}"
         camera-controls touch-action="pan-y" auto-rotate
         auto-rotate-delay="1500" rotation-per-second="20deg"
         shadow-intensity="0.6" environment-image="neutral"
@@ -807,20 +832,19 @@ function renderDetail(id) {
           ${c.icon}<span>読み込み中...</span>
         </div>
       </model-viewer>`;
-  } else if (w.images && w.images[0]) {
-    viewerWrap.innerHTML = `<img src="${w.images[0]}" alt="${w.title}" style="width:100%;height:100%;object-fit:cover">`;
+  } else if (images.length > 0) {
+    viewerWrap.innerHTML = `<img src="${images[0]}" alt="${w.title || ''}" style="width:100%;height:100%;object-fit:cover">`;
   } else {
-    viewerWrap.innerHTML = `<div class="detail-viewer-placeholder">${c.icon}<span>画像・モデルを配置</span></div>`;
-    viewerWrap.querySelector('.detail-viewer-placeholder').style.cssText='display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;width:100%;height:100%;color:#3A4060;font-size:.78rem;letter-spacing:.04em';
+    // 画像もモデルもない場合はプレースホルダーのみ（src属性なし）
+    viewerWrap.innerHTML = `<div class="detail-viewer-placeholder" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;width:100%;height:100%;color:#3A4060;font-size:.78rem;letter-spacing:.04em">${c.icon}<span>画像・モデルを配置</span></div>`;
   }
 
   /* Gallery thumbnails */
   const gallery = document.getElementById('dGallery');
-  const thumbSrcs = w.images && w.images.length ? w.images : [];
-  if (w.glb || thumbSrcs.length > 0) {
+  if (w.glb && w.glb.trim() || images.length > 0) {
     const items = [];
-    if (w.glb)  items.push({ type: 'glb' });
-    thumbSrcs.forEach(src => items.push({ type: 'img', src }));
+    if (w.glb && w.glb.trim()) items.push({ type: 'glb' });
+    images.forEach(src => items.push({ type: 'img', src }));
 
     gallery.innerHTML = items.map((item, i) => `
       <div class="gallery-thumb ${i===0?'active':''}" data-idx="${i}" data-type="${item.type}" ${item.src?`data-src="${item.src}"`:''}
@@ -835,32 +859,33 @@ function renderDetail(id) {
         gallery.querySelectorAll('.gallery-thumb').forEach(x => { x.classList.remove('active'); x.style.background='var(--bg)'; });
         th.classList.add('active'); th.style.background='var(--accent-bg)';
         if (th.dataset.type === 'glb' && w.glb) {
-          viewerWrap.innerHTML = `<model-viewer src="${w.glb}" alt="${w.title}" camera-controls touch-action="pan-y" auto-rotate style="width:100%;height:100%"></model-viewer>`;
+          viewerWrap.innerHTML = `<model-viewer src="${w.glb}" alt="${w.title || ''}" camera-controls touch-action="pan-y" auto-rotate style="width:100%;height:100%"></model-viewer>`;
         } else if (th.dataset.src) {
-          viewerWrap.innerHTML = `<img src="${th.dataset.src}" alt="${w.title}" style="width:100%;height:100%;object-fit:cover">`;
+          viewerWrap.innerHTML = `<img src="${th.dataset.src}" alt="${w.title || ''}" style="width:100%;height:100%;object-fit:cover">`;
         }
       });
     });
   } else {
-    /* No images: show 3 placeholder thumbs */
+    // 画像なし：クリックできないプレースホルダーを表示（data-src・href なし）
     gallery.innerHTML = ['アングル1','アングル2','アングル3'].map((label, i) => `
-      <div class="gallery-thumb ${i===0?'active':''}" style="background:var(--bg)">
-        <div class="gallery-thumb-ph ${c.thumbClass}">${label}</div>
+      <div class="gallery-thumb ${i===0?'active':''}" style="background:${i===0?'var(--accent-bg)':'var(--bg)'}">
+        <div class="gallery-thumb-ph ${c.thumbClass}" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:.6rem;color:var(--sub)">${label}</div>
       </div>`).join('');
+    // クリックイベントは付与しない（遷移を起こさない）
   }
 
   /* Info panel */
-  document.getElementById('dTitle').textContent = w.title;
-  document.getElementById('dSummary').textContent = w.summary;
-  document.getElementById('dDesc').textContent = w.desc;
+  document.getElementById('dTitle').textContent   = w.title   || '';
+  document.getElementById('dSummary').textContent = w.summary || '';
+  document.getElementById('dDesc').textContent    = w.desc    || '';
 
   document.getElementById('dTags').innerHTML =
-    w.tags.map(t => `<span class="detail-tag">${t}</span>`).join('');
+    tags.map(t => `<span class="detail-tag">${t}</span>`).join('');
 
   document.getElementById('dSpecs').innerHTML =
-    Object.entries(w.specs).map(([k, v]) =>
+    Object.entries(specs).map(([k, v]) =>
       `<div class="spec-row"><span class="spec-key">${k}</span><span class="spec-val">${v}</span></div>`
-    ).join('');
+    ).join('') || '<div style="color:var(--sub);font-size:.82rem">仕様情報なし</div>';
 
   /* Prev / Next */
   const prevBtn = document.getElementById('dPrev');
