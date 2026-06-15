@@ -1785,6 +1785,7 @@ window.saveSiteInfo = async function() {
 };
 
 
+window.onGallerySelect = async function(e) {
   const files = Array.from(e.target.files); e.target.value = '';
   const errEl = document.getElementById('w-gallery-err');
   errEl.style.display = 'none';
