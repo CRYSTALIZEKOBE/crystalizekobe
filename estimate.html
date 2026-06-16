@@ -343,6 +343,10 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
         <svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5L8.5 1.5L15.5 5v7L8.5 15.5 1.5 12V5z"/><path d="M1.5 5l7 4 7-4M8.5 15.5V9"/></svg>
         3Dプリント
       </button>
+      <button class="est-tab" id="tab-novelty-btn" data-tab="novelty">
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 1.5l1.8 3.7 4 .6-2.9 2.8.7 4-3.6-1.9-3.6 1.9.7-4L3 5.8l4-.6z"/></svg>
+        ノベルティ
+      </button>
       <button class="est-tab" id="tab-cg-btn" data-tab="cg">
         <svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="1.5" y="3" width="14" height="9" rx="1.5"/><path d="M6 14h5M8.5 12v2"/></svg>
         リアルタイム3DCG
@@ -519,6 +523,119 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
           </div>
         </div><!-- /panel-print -->
 
+        <!-- ══ NOVELTY PANEL ══ -->
+        <div class="sim-panel" id="panel-novelty">
+
+          <!-- Step 1: Size -->
+          <div>
+            <div class="sim-group-title"><span class="sim-group-num num-print">1</span>サイズを選ぶ</div>
+            <div class="radio-grid radio-grid-3">
+              <div>
+                <input class="radio-card-input" type="radio" name="nv-size" id="nv-xs" value="xs" checked>
+                <label class="radio-card-label print-card" for="nv-xs">
+                  <div class="rc-icon rc-icon-print"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8.5" cy="8.5" r="2.5"/></svg></div>
+                  <div class="radio-card-name">極小</div>
+                  <div class="radio-card-sub">〜 3cm<br>キーホルダー・バッジ</div>
+                  <div class="radio-card-price">¥200 <span class="price-unit">〜 / 個</span></div>
+                </label>
+              </div>
+              <div>
+                <input class="radio-card-input" type="radio" name="nv-size" id="nv-sm" value="sm">
+                <label class="radio-card-label print-card" for="nv-sm">
+                  <div class="rc-icon rc-icon-print"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8.5" cy="8.5" r="4"/></svg></div>
+                  <div class="radio-card-name">小型</div>
+                  <div class="radio-card-sub">〜 5cm<br>ストラップ・ピンズ</div>
+                  <div class="radio-card-price">¥400 <span class="price-unit">〜 / 個</span></div>
+                </label>
+              </div>
+              <div>
+                <input class="radio-card-input" type="radio" name="nv-size" id="nv-md" value="md">
+                <label class="radio-card-label print-card" for="nv-md">
+                  <div class="rc-icon rc-icon-print"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8.5" cy="8.5" r="6.5"/></svg></div>
+                  <div class="radio-card-name">中型</div>
+                  <div class="radio-card-sub">〜 8cm<br>フィギュアスタンドなど</div>
+                  <div class="radio-card-price">¥800 <span class="price-unit">〜 / 個</span></div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Quantity -->
+          <div>
+            <div class="sim-group-title"><span class="sim-group-num num-print">2</span>個数を選ぶ</div>
+            <div class="radio-grid" style="grid-template-columns:repeat(4,1fr)">
+              <div>
+                <input class="radio-card-input" type="radio" name="nv-qty" id="nv-q1" value="1" checked>
+                <label class="radio-card-label print-card" for="nv-q1" style="padding:12px 10px 10px">
+                  <div class="radio-card-name" style="font-size:.84rem">1〜4個</div>
+                  <div class="radio-card-sub" style="font-size:.7rem">定価</div>
+                </label>
+              </div>
+              <div>
+                <input class="radio-card-input" type="radio" name="nv-qty" id="nv-q5" value="5">
+                <label class="radio-card-label print-card" for="nv-q5" style="padding:12px 10px 10px">
+                  <div class="radio-card-name" style="font-size:.84rem">5〜9個</div>
+                  <div class="radio-card-sub" style="font-size:.7rem">5%引き</div>
+                </label>
+              </div>
+              <div>
+                <input class="radio-card-input" type="radio" name="nv-qty" id="nv-q10" value="10">
+                <label class="radio-card-label print-card" for="nv-q10" style="padding:12px 10px 10px">
+                  <div class="radio-card-name" style="font-size:.84rem">10〜29個</div>
+                  <div class="radio-card-sub" style="font-size:.7rem">10%引き</div>
+                </label>
+              </div>
+              <div>
+                <input class="radio-card-input" type="radio" name="nv-qty" id="nv-q30" value="30">
+                <label class="radio-card-label print-card" for="nv-q30" style="padding:12px 10px 10px">
+                  <div class="radio-card-name" style="font-size:.84rem">30個以上</div>
+                  <div class="radio-card-sub" style="font-size:.7rem">15%引き</div>
+                </label>
+              </div>
+            </div>
+            <!-- 実数入力 -->
+            <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
+              <label style="font-size:.82rem;color:var(--mid);white-space:nowrap">正確な個数（任意）</label>
+              <input type="number" id="nv-qty-exact" min="1" max="9999" placeholder="例：15"
+                style="width:100px;padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--r);font-size:.9rem;font-family:var(--font)">
+              <span style="font-size:.82rem;color:var(--mid)">個</span>
+            </div>
+          </div>
+
+          <!-- Step 3: Options -->
+          <div>
+            <div class="sim-group-title"><span class="sim-group-num num-print">3</span>オプション</div>
+            <div class="check-options">
+              <label class="check-item">
+                <input type="checkbox" id="nv-data-check">
+                <div class="check-item-body">
+                  <div class="check-item-label">データ作成を依頼する<span class="check-item-price">+¥5,000〜</span></div>
+                  <div class="check-item-sub">3Dデータをお持ちでない場合、データ作成から承ります</div>
+                </div>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" id="nv-paint-check">
+                <div class="check-item-body">
+                  <div class="check-item-label">塗装（アクリルガッシュ手塗り）<span class="check-item-price">要相談</span></div>
+                  <div class="check-item-sub">金額はご依頼内容により異なります。チェックを入れてお問い合わせください</div>
+                </div>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" id="nv-pack-check">
+                <div class="check-item-body">
+                  <div class="check-item-label">個別梱包<span class="check-item-price">+¥50 / 個</span></div>
+                  <div class="check-item-sub">1個ずつ袋・箱に梱包してお届けします</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="sim-note">
+            <strong>計算ロジック：</strong>単価 × 個数 × 数量割引 ＋ オプション費 ＝ 概算金額（1個あたりの金額も表示）<br>
+            ※ 表示金額は概算です。形状の複雑さ・仕上げ等により変動します。
+          </div>
+        </div><!-- /panel-novelty -->
+
         <!-- ══ 3DCG PANEL ══ -->
         <div class="sim-panel" id="panel-cg">
 
@@ -674,7 +791,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 <div style="padding:8px 0 40px">
   <div class="container">
     <p style="font-size:.8rem;color:var(--mid);text-align:center;margin-bottom:16px;font-weight:500">▼ ご依頼の種類を選択してフォームへ進む</p>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px" id="estimateInqCards">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px" id="estimateInqCards">
       <button type="button" class="est-inq-btn" onclick="goToEstimateForm('original')">
         <svg width="18" height="18" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2L2 8v11h18V8L11 2z"/><path d="M8 21V13h6v8"/></svg>
         オリジナル造形の方はこちら
@@ -682,6 +799,10 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
       <button type="button" class="est-inq-btn" onclick="goToEstimateForm('memory')">
         <svg width="18" height="18" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L11 6.67l-2.06-2.06a5.5 5.5 0 00-7.78 7.78l2.06 2.06L11 21l7.78-7.78 2.06-2.06a5.5 5.5 0 000-7.55z"/></svg>
         思い出グッズの方はこちら
+      </button>
+      <button type="button" class="est-inq-btn" onclick="goToEstimateForm('novelty')">
+        <svg width="18" height="18" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2l2.4 4.8 5.3.8-3.8 3.7.9 5.3L11 14l-4.8 2.6.9-5.3L3.3 7.6l5.3-.8z"/></svg>
+        ノベルティの方はこちら
       </button>
       <button type="button" class="est-inq-btn" onclick="goToEstimateForm('other')">
         <svg width="18" height="18" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
@@ -700,7 +821,7 @@ footer{background:var(--dark);padding:0;color:#9CA3AF}
 }
 .est-inq-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);box-shadow:0 4px 16px rgba(30,64,175,.1)}
 @media(max-width:640px){
-  #estimateInqCards{grid-template-columns:1fr}
+  #estimateInqCards{grid-template-columns:1fr 1fr}
 }
 </style>
 
@@ -840,6 +961,10 @@ const SIZES={small:{label:'小型（〜5cm四方）',price:2000},medium:{label:'
 const MATS ={resin:{label:'光造形レジン（ELEGOO）',rate:2.5},pla:{label:'PLA（FDM）',rate:1.0},petg:{label:'PETG（FDM）',rate:1.5}};
 const DATA_COST={simple:{label:'シンプル',price:5000},standard:{label:'標準',price:10000},complex:{label:'複雑',price:20000}};
 
+/* ── ノベルティデータ ── */
+const NV_SIZES={xs:{label:'極小（〜3cm）',price:200},sm:{label:'小型（〜5cm）',price:400},md:{label:'中型（〜8cm）',price:800}};
+const NV_QTY={1:{label:'1〜4個',disc:0},5:{label:'5〜9個',disc:0.05},10:{label:'10〜29個',disc:0.10},30:{label:'30個以上',disc:0.15}};
+
 const CG_TYPES={
   prop:    {label:'プロップ・小物',               price:5000},
   char:    {label:'キャラクター（リグなし）',     price:50000},
@@ -861,44 +986,98 @@ let currentMode = 'print'; // 'print' | 'cg'
 
 /* ══ MODE TAB SWITCHING ══ */
 document.getElementById('tab-print-btn').addEventListener('click', () => switchMode('print'));
+document.getElementById('tab-novelty-btn').addEventListener('click', () => switchMode('novelty'));
 document.getElementById('tab-cg-btn').addEventListener('click',   () => switchMode('cg'));
 
 function switchMode(mode) {
   currentMode = mode;
-  const isPrint = mode === 'print';
+  const isPrint   = mode === 'print';
+  const isNovelty = mode === 'novelty';
+  const isCG      = mode === 'cg';
 
-  /* Tab active states */
-  document.getElementById('tab-print-btn').className = 'est-tab ' + (isPrint ? 'active-print' : '');
-  document.getElementById('tab-cg-btn').className    = 'est-tab ' + (!isPrint ? 'active-cg' : '');
+  document.getElementById('tab-print-btn').className   = 'est-tab ' + (isPrint   ? 'active-print' : '');
+  document.getElementById('tab-novelty-btn').className = 'est-tab ' + (isNovelty ? 'active-print' : '');
+  document.getElementById('tab-cg-btn').className      = 'est-tab ' + (isCG      ? 'active-cg'    : '');
 
-  /* Panels */
-  document.getElementById('panel-print').classList.toggle('active', isPrint);
-  document.getElementById('panel-cg').classList.toggle('active', !isPrint);
+  document.getElementById('panel-print').classList.toggle('active',   isPrint);
+  document.getElementById('panel-novelty').classList.toggle('active', isNovelty);
+  document.getElementById('panel-cg').classList.toggle('active',      isCG);
 
-  /* Price panel head color */
   const head = document.getElementById('pp-head');
-  head.className = 'price-panel-head ' + (isPrint ? 'head-print' : 'head-cg');
-  document.getElementById('pp-mode').textContent = isPrint ? '3Dプリント見積もり' : 'リアルタイム3DCG見積もり';
+  head.className = 'price-panel-head ' + (isCG ? 'head-cg' : 'head-print');
+  document.getElementById('pp-mode').textContent = isPrint ? '3Dプリント見積もり' : isNovelty ? 'ノベルティ見積もり' : 'リアルタイム3DCG見積もり';
 
-  /* Go button */
   const btn = document.getElementById('goFormBtn');
-  btn.className = 'go-form-btn ' + (isPrint ? 'print-btn' : 'cg-btn');
+  btn.className = 'go-form-btn ' + (isCG ? 'cg-btn' : 'print-btn');
 
-  /* Rows */
-  document.getElementById('pp-rows').style.display    = isPrint  ? '' : 'none';
-  document.getElementById('pp-rows-cg').style.display = !isPrint ? '' : 'none';
+  document.getElementById('pp-rows').style.display    = (isPrint || isNovelty) ? '' : 'none';
+  document.getElementById('pp-rows-cg').style.display = isCG ? '' : 'none';
 
-  /* Form autofill banner */
   const banner = document.getElementById('autofillBanner');
-  banner.className = 'autofill-banner ' + (isPrint ? 'print-banner' : 'cg-banner');
-  document.getElementById('af-title').className = isPrint ? 'af-title-print' : 'af-title-cg';
+  banner.className = 'autofill-banner ' + (isCG ? 'cg-banner' : 'print-banner');
+  document.getElementById('af-title').className = isCG ? 'af-title-cg' : 'af-title-print';
 
-  /* Form labels */
-  document.getElementById('f-sim-label2').textContent = isPrint ? '素材（自動入力）'       : '制作タイプ（自動入力）';
-  document.getElementById('f-sim-label3').textContent = isPrint ? 'サイズ（自動入力）'      : 'クオリティ（自動入力）';
+  document.getElementById('f-sim-label2').textContent = isPrint ? '素材（自動入力）' : isNovelty ? 'サイズ（自動入力）' : '制作タイプ（自動入力）';
+  document.getElementById('f-sim-label3').textContent = isPrint ? 'サイズ（自動入力）' : isNovelty ? '個数・オプション（自動入力）' : 'クオリティ（自動入力）';
 
-  isPrint ? calcPrint() : calcCG();
+  if (isPrint)   calcPrint();
+  if (isNovelty) calcNovelty();
+  if (isCG)      calcCG();
 }
+
+/* ══ NOVELTY CALCULATOR ══ */
+function calcNovelty() {
+  const sKey   = (document.querySelector('input[name=nv-size]:checked') || {}).value || 'xs';
+  const qKey   = (document.querySelector('input[name=nv-qty]:checked')  || {}).value || '1';
+  const exact  = parseInt(document.getElementById('nv-qty-exact').value) || parseInt(qKey);
+  const dataOn  = document.getElementById('nv-data-check').checked;
+  const paintOn = document.getElementById('nv-paint-check').checked;
+  const packOn  = document.getElementById('nv-pack-check').checked;
+
+  const unitPrice = NV_SIZES[sKey].price;
+  const disc      = NV_QTY[qKey].disc;
+  const qty       = Math.max(1, exact);
+
+  const paintTotal  = Math.round(unitPrice * qty * (1 - disc));
+  const dataCost    = dataOn  ? 5000 : 0;
+  const packCost    = packOn  ? 50  * qty : 0;
+  const total       = paintTotal + dataCost + packCost;
+  const perUnit     = Math.round(total / qty);
+
+  document.getElementById('pp-num').textContent  = total.toLocaleString('ja-JP');
+  document.getElementById('pp-note').textContent = NV_SIZES[sKey].label + ' × ' + qty + '個';
+  document.getElementById('pp-mat').textContent  = NV_SIZES[sKey].label;
+  document.getElementById('pp-size').textContent = qty + '個' + (disc > 0 ? '（' + (disc*100) + '%引き）' : '');
+  document.getElementById('pp-rate').textContent  = '¥' + perUnit.toLocaleString('ja-JP') + ' / 個';
+  document.getElementById('pp-base').textContent  = fmt(unitPrice) + ' / 個';
+
+  let formula = fmt(unitPrice) + ' × ' + qty + '個';
+  if (disc > 0) formula += ' × ' + (1-disc) + '（' + (disc*100) + '%引き）= ' + fmt(printTotal);
+  else formula += ' = ' + fmt(printTotal);
+  if (dataOn)  formula += ' ＋ ' + fmt(dataCost) + '（データ作成）';
+  if (paintOn) formula += ' ＋ 塗装（要相談）';
+  if (packOn)  formula += ' ＋ ' + fmt(packCost)  + '（個別梱包 ¥50×' + qty + '個）';
+  formula += ' = <strong>' + fmt(total) + '〜</strong>（¥' + perUnit.toLocaleString('ja-JP') + ' / 個）';
+  document.getElementById('pp-formula').innerHTML = formula;
+  document.getElementById('pp-ai-flag').classList.remove('show');
+
+  /* Autofill */
+  const opts = [NV_SIZES[sKey].label, qty + '個', disc > 0 ? NV_QTY[qKey].label : ''];
+  if (dataOn)  opts.push('データ作成（+¥5,000）');
+  if (paintOn) opts.push('塗装（要相談）');
+  if (packOn)  opts.push('個別梱包（+¥50×' + qty + '個）');
+  document.getElementById('af-detail').textContent = opts.filter(Boolean).join(' ／ ') + ' ／ 合計 ' + fmt(total) + '〜';
+
+  document.getElementById('hf-mode').value   = 'ノベルティ';
+  document.getElementById('hf-param1').value = NV_SIZES[sKey].label;
+  document.getElementById('hf-param2').value = qty + '個' + (disc > 0 ? '（' + NV_QTY[qKey].label + '）' : '');
+  document.getElementById('hf-price').value  = fmt(total) + '〜（¥' + perUnit.toLocaleString('ja-JP') + ' / 個）';
+}
+
+/* ノベルティのイベントリスナー */
+document.querySelectorAll('input[name=nv-size], input[name=nv-qty]').forEach(el => el.addEventListener('change', calcNovelty));
+['nv-data-check','nv-paint-check','nv-pack-check'].forEach(id => document.getElementById(id).addEventListener('change', calcNovelty));
+document.getElementById('nv-qty-exact').addEventListener('input', calcNovelty);
 
 /* ══ 3DPRINT CALCULATOR ══ */
 function calcPrint() {
@@ -1119,8 +1298,9 @@ document.getElementById('goFormBtn').addEventListener('click', () => document.ge
 /* ── 見積もりページの3種ボタン ── */
 function goToEstimateForm(type) {
   const hints = {
-    original: 'オリジナル造形のご依頼について',
-    memory:   '思い出グッズのご依頼について',
+    original: 'オリジナル造形のご依頼についてご記入ください。',
+    memory:   '思い出グッズのご依頼についてご記入ください。',
+    novelty:  'ノベルティのサイズ・個数・用途・納期などをご記入ください。',
     other:    '',
   };
   /* 問い合わせ内容フィールドにヒント追加（空の場合のみ） */
