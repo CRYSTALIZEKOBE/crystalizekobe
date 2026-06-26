@@ -6,7 +6,7 @@
 <title>Moflia | モフリア — 3Dプリンターで作るペットグッズ</title>
 <meta name="description" content="Mofliaは、3Dプリンターでペットとの暮らしに寄り添う小物をつくるブランドです。犬・猫・うさぎ・鳥・小動物まで。クリスタライズ神戸が運営。">
 <meta property="og:title" content="Moflia | モフリア">
-<meta property="og:description" content="うちの子を、もっとそばに。3Dプリンターで作る、ペットモチーフのグッズブランド。">
+<meta property="og:description" content="うちのこを、もっとそばに。3Dプリンターで作る、ペットモチーフのグッズブランド。">
 <meta property="og:type" content="website">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -217,11 +217,16 @@
   .hero h1 {
     font-family: var(--serif);
     font-weight: 300;
-    font-size: clamp(48px, 8vw, 96px);
-    line-height: 1.02;
-    letter-spacing: -0.02em;
+    font-size: clamp(40px, 7vw, 80px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
     color: var(--ink);
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .hero h1 .line {
+    display: block;
   }
   .hero h1 em {
     font-style: italic;
@@ -636,7 +641,7 @@
   /* ============ Small screen tweaks ============ */
   @media (max-width: 480px) {
     body { line-height: 1.85; }
-    .hero h1 { font-size: 40px; line-height: 1.1; }
+    .hero h1 { font-size: 36px; line-height: 1.15; }
     .hero-lead { font-size: 14px; line-height: 2; }
     .hero-sub { font-size: 13px; letter-spacing: 0.2em; }
     .hero-cta {
@@ -705,13 +710,16 @@
 <section class="hero">
   <div>
     <div class="hero-eyebrow">A BRAND BY CRYSTALLIZE KOBE</div>
-    <h1>うちの子を、<br>もっと<em>そばに</em>。</h1>
+    <h1>
+      <span class="line">うちのこを、</span>
+      <span class="line">もっと<em>そばに</em>。</span>
+    </h1>
     <div class="hero-sub" style="margin-bottom: 6px;">M O F L I A &nbsp; / &nbsp; モフリア</div>
     <div style="font-family: var(--serif); font-style: italic; font-size: 13px; color: var(--ink-soft); letter-spacing: 0.05em; margin-bottom: 36px;">
       &mdash; mofu &times; familia
     </div>
     <p class="hero-lead">
-      3Dプリンターでひとつずつ削り出す、ペットとの毎日のための小物。
+      3Dプリンターでひとつずつ削り出す、"うちのこ"の小物。
       犬、猫、うさぎ、鳥、小動物、爬虫類 ── どの子にも似合うかたちを。
     </p>
     <a href="#contact" class="hero-cta">ブランドをのぞく</a>
@@ -768,7 +776,7 @@
       <p>
         3Dプリンターは、ひとつのモデルを一層ずつ積み重ねて
         ゆっくりかたちにしていく機械です。
-        その手間と時間を、量産ではなく "うちの子のためのもの" に向けたい。
+        その手間と時間を、量産ではなく "うちのこのためのもの" に向けたい。
         小ロット、オーダー対応、相談しながらつくれること ──
         それがMofliaの強みです。
       </p>
@@ -795,7 +803,7 @@
       <div class="cat-num">— 01</div>
       <div class="cat-title">ネームプレート</div>
       <p class="cat-desc">
-        ケージや飼育スペースに飾る、うちの子の名札。
+        ケージや飼育スペースに飾る、うちのこの名札。
         お名前と、ちょっとした絵柄を一緒に。素材・色・かたちを選べます。
       </p>
     </div>
@@ -803,7 +811,7 @@
       <div class="cat-num">— 02</div>
       <div class="cat-title">フィギュア</div>
       <p class="cat-desc">
-        うちの子をかたちにした置きもの。
+        うちのこをかたちにした置きもの。
         写真からモデリングして、お部屋に飾れるサイズで仕上げます。
       </p>
     </div>
@@ -899,7 +907,7 @@
 <!-- ============ Contact ============ -->
 <section class="contact" id="contact">
   <div class="section-label">05 &nbsp; CONTACT</div>
-  <h2 class="contact-title">うちの子の <em>かたち</em>、<br>ご相談ください。</h2>
+  <h2 class="contact-title">うちのこの <em>かたち</em>、<br>ご相談ください。</h2>
   <p class="contact-lead">
     オーダーのご相談、お取り扱いのお問い合わせ、その他ご質問など、
     お気軽にお寄せください。SNSのDMでもメールでも、お返事いたします。
