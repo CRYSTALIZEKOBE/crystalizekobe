@@ -533,7 +533,7 @@
     .shop-map { width: 100% !important; height: 240px; }
   }
   .shop-info {
-    flex: 0 0 auto;
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -589,8 +589,7 @@
     border-color: rgba(247,243,234,0.6);
   }
   .shop-map {
-    flex: 0 0 auto;
-    width: 300px;
+    flex: 0 0 300px;
     height: 220px;
   }
   .shop-map iframe {
@@ -783,29 +782,7 @@
   </div>
 
   <div class="hero-visual">
-    <!-- Layered hairlines background (3D print striations) -->
-    <svg class="hero-layers" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <radialGradient id="glow" cx="50%" cy="45%" r="55%">
-          <stop offset="0%" stop-color="#F7F3EA"/>
-          <stop offset="100%" stop-color="#EFEAE0"/>
-        </radialGradient>
-      </defs>
-      <circle cx="200" cy="200" r="180" fill="url(#glow)"/>
-      <g stroke="#C9BFAE" stroke-width="0.8" opacity="0.5">
-        <line x1="80" y1="150" x2="320" y2="150"/>
-        <line x1="72" y1="162" x2="328" y2="162"/>
-        <line x1="66" y1="174" x2="334" y2="174"/>
-        <line x1="62" y1="186" x2="338" y2="186"/>
-        <line x1="60" y1="200" x2="340" y2="200"/>
-        <line x1="62" y1="214" x2="338" y2="214"/>
-        <line x1="66" y1="226" x2="334" y2="226"/>
-        <line x1="72" y1="238" x2="328" y2="238"/>
-        <line x1="80" y1="250" x2="320" y2="250"/>
-      </g>
-    </svg>
-    <!-- Rabbit silhouette in brand accent color (via CSS mask) -->
-    <div class="hero-rabbit" role="img" aria-label="うさぎのシルエット"></div>
+    <img src="mofla.png" alt="MofYla ロゴ" style="width: 100%; height: 100%; object-fit: contain; object-position: center;">
   </div>
 </section>
 
@@ -959,7 +936,7 @@
       <!-- 右：埋め込み地図 -->
       <div class="shop-map">
         <iframe
-          src="https://maps.google.com/maps?q=%E5%85%B5%E5%BA%AB%E7%9C%8C%E6%98%8E%E7%9F%B3%E5%B8%82%E5%A4%A7%E4%B9%85%E4%BF%9D%E7%94%BA%E9%A7%85%E5%89%8D1%E4%B8%81%E7%9B%AE3-12&output=embed&hl=ja&z=16"
+          src="https://maps.google.com/maps?q=%E5%85%B5%E5%BA%AB%E7%9C%8C%E6%98%8E%E7%9F%B3%E5%B8%82%E5%A4%A7%E4%B9%85%E4%BF%9D%E7%94%BA%E9%A7%85%E5%89%8D1%E4%B8%81%E7%9B%AE3-12&output=embed&hl=ja&z=14"
           allowfullscreen=""
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
