@@ -65,7 +65,7 @@
   .nav {
     position: fixed;
     top: 0; left: 0; right: 0;
-    z-index: 100;
+    z-index: 300;
     padding: 18px var(--gutter);
     display: flex;
     justify-content: space-between;
@@ -96,6 +96,11 @@
     list-style: none;
     font-size: 13px;
     letter-spacing: 0.08em;
+    margin: 0;
+    padding: 0;
+  }
+  @media (min-width: 721px) {
+    .nav-links { display: flex !important; }
   }
   .nav-links a {
     color: var(--ink);
@@ -137,31 +142,55 @@
   @media (max-width: 720px) {
     .nav-toggle { display: block; }
     .nav-links {
+      display: none;
       position: fixed;
       top: 0;
       right: 0;
       bottom: 0;
-      width: 100%;
-      max-width: 320px;
+      left: auto;
+      height: 100%;
+      width: 280px;
       background: var(--paper);
       flex-direction: column;
       justify-content: center;
       align-items: center;
       gap: 32px;
-      font-size: 18px;
       letter-spacing: 0.1em;
-      transform: translateX(100%);
-      transition: transform 0.4s cubic-bezier(.5, 0, .2, 1);
-      box-shadow: -20px 0 60px rgba(58, 46, 38, 0.08);
-      padding: 40px;
+      box-shadow: -20px 0 60px rgba(58, 46, 38, 0.15);
+      z-index: 200;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
     .nav-links.open {
+      display: flex;
+      opacity: 1;
       transform: translateX(0);
     }
     .nav-links a {
       font-family: var(--serif);
       font-size: 22px;
       letter-spacing: 0.05em;
+    }
+    .nav-overlay {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(58, 46, 38, 0.4);
+      z-index: 150;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
+    .nav-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
     }
   }
 
@@ -624,7 +653,6 @@
     font-size: 14px;
     color: var(--ink-soft);
     margin-bottom: 48px;
-    max-width: 520px;
     margin-left: auto;
     margin-right: auto;
     line-height: 2.1;
@@ -752,18 +780,19 @@
 <!-- ============ Nav ============ -->
 <nav class="nav" id="nav">
   <div class="nav-logo">MofYla <span>モフィラ</span></div>
-  <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
     <li><a href="#products">Products</a></li>
     <li><a href="#shops">Shops</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+<div class="nav-overlay" id="navOverlay"></div>
 
 <!-- ============ Hero ============ -->
 <section class="hero">
@@ -992,20 +1021,61 @@
   // Mobile nav toggle
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => {
-    const isOpen = navLinks.classList.toggle('open');
-    navToggle.classList.toggle('open', isOpen);
-    navToggle.setAttribute('aria-expanded', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
-  // Close on link tap
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      navToggle.classList.remove('open');
-      navToggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
+  const navOverlay = document.getElementById('navOverlay');
+
+  // モバイルの時だけnav-linksをbodyに移動してfixedが効くようにする
+  function handleNavPlacement() {
+    if (window.innerWidth <= 720) {
+      if (navLinks.parentElement !== document.body) {
+        document.body.appendChild(navLinks);
+      }
+    } else {
+      if (navLinks.parentElement !== nav) {
+        nav.appendChild(navLinks);
+      }
+    }
+  }
+  handleNavPlacement();
+  window.addEventListener('resize', handleNavPlacement);
+
+  function openMenu() {
+    navLinks.style.display = 'flex';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        navLinks.classList.add('open');
+        navOverlay.classList.add('open');
+      });
     });
+    navToggle.classList.add('open');
+    navToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    navOverlay.classList.remove('open');
+    navToggle.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      if (!navLinks.classList.contains('open')) {
+        navLinks.style.display = 'none';
+      }
+    }, 320);
+  }
+
+  navToggle.addEventListener('click', () => {
+    if (navLinks.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  navOverlay.addEventListener('click', closeMenu);
+
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
   });
 
   // Reveal on scroll
