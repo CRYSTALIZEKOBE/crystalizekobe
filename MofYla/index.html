@@ -3,17 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MofYla | モフィラ — 3Dプリンターで作るペット雑貨</title>
-<link rel="icon" type="image/png" href="fabcon.png">
-<link rel="apple-touch-icon" href="fabcon.png">
-<meta name="description" content="MofYlaは、3Dプリンターでペットとの暮らしを彩る雑貨をつくるブランドです。犬・猫・うさぎ・鳥・小動物まで。クリスタライズ神戸が運営。">
+<title>MofYla | モフィラ — 3Dプリンターで作るペットグッズ</title>
+<meta name="description" content="MofYlaは、3Dプリンターでペットとの暮らしに寄り添う小物をつくるブランドです。犬・猫・うさぎ・鳥・小動物まで。クリスタライズ神戸が運営。">
 <meta property="og:title" content="MofYla | モフィラ">
 <meta property="og:description" content="うちのこを、もっとそばに。3Dプリンターで作る、ペットモチーフのグッズブランド。">
 <meta property="og:type" content="website">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&family=M+PLUS+Rounded+1c:wght@300;400;500;700&family=Zen+Maru+Gothic:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <style>
   /* ============ Design Tokens ============ */
@@ -28,14 +26,21 @@
     --line: #C9BFAE;          /* hairline */
     --moss: #7E8B6E;          /* secondary accent: soft moss */
 
-    --serif: "Fraunces", "Hiragino Mincho ProN", "游明朝", serif;
-    --sans: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
+    --serif: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", sans-serif;
+    --sans: "Zen Maru Gothic", "Hiragino Sans", sans-serif;
+    --brand: "Comfortaa", sans-serif;
+    --y-color: #8B6F52;
 
     --max-w: 1180px;
     --gutter: clamp(20px, 4vw, 48px);
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .brand-y {
+    color: var(--y-color);
+  }
+  footer .brand-y {
+    color: var(--y-color);
+  }
   html { scroll-behavior: smooth; }
   body {
     font-family: var(--sans);
@@ -79,13 +84,13 @@
   }
   .nav.scrolled { border-bottom-color: var(--line); }
   .nav-logo {
-    font-family: var(--serif);
+    font-family: var(--brand);
     font-weight: 400;
     font-size: 22px;
     letter-spacing: 0.02em;
-    font-style: italic;
+    font-style: normal;
   }
-  .nav-logo span {
+  .nav-logo .nav-logo-sub {
     font-style: normal;
     font-size: 11px;
     letter-spacing: 0.3em;
@@ -265,7 +270,7 @@
     color: var(--accent-deep);
   }
   .hero-sub {
-    font-family: var(--serif);
+    font-family: var(--brand);
     font-size: clamp(15px, 1.4vw, 18px);
     letter-spacing: 0.25em;
     color: var(--ink-soft);
@@ -700,8 +705,8 @@
     line-height: 2;
   }
   footer .footer-brand {
-    font-family: var(--serif);
-    font-style: italic;
+    font-family: var(--brand);
+    font-style: normal;
     color: var(--ink);
   }
   footer a {
@@ -781,7 +786,7 @@
 
 <!-- ============ Nav ============ -->
 <nav class="nav" id="nav">
-  <div class="nav-logo">MofYla <span>モフィラ</span></div>
+  <div class="nav-logo">Mof<span class="brand-y">Y</span>la <span class="nav-logo-sub">モフィラ</span></div>
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
     <li><a href="#products">Products</a></li>
@@ -802,11 +807,11 @@
     <div class="hero-eyebrow">A BRAND BY CRYSTALLIZE KOBE</div>
     <h1>
       <span class="line">うちのこを、</span>
-      <span class="line">もっと<em>そば</em>に。</span>
+      <span class="line">もっと<em> そば </em>に。</span>
     </h1>
-    <div class="hero-sub" style="margin-bottom: 42px;">M O F Y L A &nbsp; / &nbsp; モフィラ</div>
+    <div class="hero-sub" style="margin-bottom: 42px;">M O F <span class="brand-y">Y</span> L A &nbsp; / &nbsp; モフィラ</div>
     <p class="hero-lead">
-      3Dプリンターでひとつずつ削り出す、"うちのこ"の雑貨。<br>
+      3Dプリンターでひとつずつ削り出す、"うちのこ"の小物。<br>
       犬、猫、うさぎ、鳥、小動物、爬虫類<br>──どの子にも似合うかたちを。
     </p>
     <a href="#contact" class="hero-cta">ブランドをのぞく</a>
@@ -829,14 +834,14 @@
     <div class="about-text">
       <p>
         MofYla(モフィラ)は、3Dプリンターを使って
-        日常を彩るを作るブランドです。
+        ペットとの暮らしのための小物を作るブランドです。
       </p>
       <p>
-        ブランド名は、ふわふわを表す「もふ（mofu）」と、
+        ブランド名は、ペットの愛らしさを表す「もふ（mofu）」と、
         3Dプリンターが一層ずつ積み重ねてかたちを作る「layer（レイヤー）」の頭文字、
         そしてうさぎの鼻先に見える「Y」の字を重ねた名前です。
         ひとつひとつ丁寧に層を積み上げるように、
-        その子だけのかたちを作りたいという気持ちが出発点にあります。
+        その子だけのかたちを作りたい ── という気持ちが出発点にあります。
       </p>
       <p>
         3Dプリンターは、ひとつのモデルを一層ずつ積み重ねて
@@ -846,8 +851,8 @@
         それがMofYlaの強みです。
       </p>
       <p>
-        うさぎはもちろん、鳥類、爬虫類、犬や猫まで。
-        <br>ペットの種類によらず、その子に似合うかたちを一緒に考えます。
+        犬や猫はもちろん、うさぎ、鳥、ハリネズミ、爬虫類まで。
+        ペットの種類によらず、その子に似合うかたちを一緒に考えます。
       </p>
       <p style="font-size: 13px; padding-top: 16px; border-top: 1px solid var(--line); margin-top: 24px;">
         ※ MofYlaの商品は、ペットが直接口にしたり噛んだりしない場所で
@@ -1009,7 +1014,7 @@
 </section>
 
 <footer>
-  <p><span class="footer-brand">MofYla</span> &nbsp; / &nbsp; モフィラ</p>
+  <p><span class="footer-brand">Mof<span class="brand-y">Y</span>la</span> &nbsp; / &nbsp; モフィラ</p>
   <p>A brand by <a href="https://crystalizekobe.jp/" target="_blank" rel="noopener">Crystallize Kobe</a> &nbsp;·&nbsp; © 2026 Crystallize Kobe. All rights reserved.</p>
 </footer>
 
