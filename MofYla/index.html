@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MofYla | モフィラ — 3Dプリンターで作るペットグッズ</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
+<link rel="icon" type="image/png" href="fabcon.png">
+<link rel="apple-touch-icon" href="fabcon.png">
 <meta name="description" content="MofYlaは、3Dプリンターでペットとの暮らしに寄り添う小物をつくるブランドです。犬・猫・うさぎ・鳥・小動物まで。クリスタライズ神戸が運営。">
 <meta property="og:title" content="MofYla | モフィラ">
 <meta property="og:description" content="うちのこを、もっとそばに。3Dプリンターで作る、ペットモチーフのグッズブランド。">
@@ -43,7 +43,9 @@
   footer .brand-y {
     color: var(--y-color);
   }
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     font-family: var(--sans);
     background: var(--bg);
@@ -52,6 +54,17 @@
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  img, video, iframe, table {
+    max-width: 100%;
+  }
+  p, h1, h2, h3, h4, h5, h6, li, span, a {
+    word-break: auto-phrase;
+    overflow-wrap: break-word;
   }
 
   ::selection { background: var(--accent); color: var(--paper); }
@@ -171,7 +184,7 @@
       margin: 0;
       padding: 0;
       opacity: 0;
-      transform: translateX(40px);
+      transform: translateX(100%);
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
     .nav-links.open {
@@ -808,9 +821,11 @@
       justify-content: center;
     }
     .section-title { font-size: 32px; }
-    .contact-title { font-size: 36px; }
+    .contact-title { font-size: 36px; line-height: 1.2; }
+    .contact { padding: clamp(60px, 10vw, 100px) var(--gutter); }
+    .contact-lead { text-align: center; font-size: 13px; }
     .nav-logo { font-size: 18px; }
-    .nav-logo span { font-size: 10px; }
+    .nav-logo .nav-logo-sub { font-size: 10px; }
 
     /* Drop cap a bit smaller on phones */
     .about-text p:first-of-type::first-letter {
